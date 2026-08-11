@@ -107,6 +107,10 @@ async def SilentXBotz_start():
     bot_info = await SilentX.get_me()
     SilentX.username = bot_info.username
     await initialize_clients()
+    
+    from plugins.gfilter import load_gfilters
+    await load_gfilters()
+    
     loaded_plugins = silentx_plugins_handler(SilentX)
     if loaded_plugins:
         LOGGER.info("✅ Plugins Loaded: %d", len(loaded_plugins))

@@ -39,6 +39,8 @@ async def group_setting_buttons(grp_id):
                 InlineKeyboardButton('ꜱᴇᴛ ᴄᴀᴘᴛɪᴏɴ', callback_data=f'caption_setgs#{grp_id}',),
             ],[
                 InlineKeyboardButton('ᴄᴜꜱᴛᴏᴍ ꜰꜱᴜʙ', callback_data=f'fsub_setgs#{grp_id}',),
+            ],[
+                InlineKeyboardButton('🚫 ꜰɪʟᴛᴇʀ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ', callback_data='gfm_menu_open')
             ]]
 
     # Only add group-specific buttons if grp_id is not 0 (0 means PM)

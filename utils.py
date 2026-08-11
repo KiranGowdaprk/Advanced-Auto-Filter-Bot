@@ -56,8 +56,8 @@ class temp(object):
 
     
 async def is_check_admin(bot, chat_id, user_id):
-    if chat_id == 0 and (user_id in ADMINS or str(user_id) in ADMINS):
-        return True
+    if chat_id == 0:
+        return user_id in ADMINS or str(user_id) in ADMINS
     try:
         member = await bot.get_chat_member(chat_id, user_id)
         return member.status in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER]

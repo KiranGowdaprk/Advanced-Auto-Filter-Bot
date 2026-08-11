@@ -53,6 +53,9 @@ async def give_filter(client, message):
                 if curr_count < req_count:
                     return # Kill the spellchecker entirely, let p_ttishow handle the mute
     # ---------------------------
+    if not message.from_user:
+        return
+        
     bot_id = client.me.id
     if EMOJI_MODE:
         try:
@@ -868,6 +871,20 @@ async def auto_filter(client, msg, spoll=False):
             search = search.replace(":", "")
             search = search.replace("'", "")
             search = re.sub(r'\s+', ' ', search).strip()
+            
+            from plugins import gfilter
+            from utils import gfilterparser
+            
+            if gfilter.IS_GFILTER_ENABLED and search in gfilter.GLOBAL_FILTERS_CACHE:
+                text, buttons, alerts = gfilterparser(gfilter.GLOBAL_FILTERS_CACHE[search], search)
+                await message.reply_text(
+                    text=text,
+                    reply_markup=InlineKeyboardMarkup(buttons) if buttons else None,
+                    quote=True,
+                    disable_web_page_preview=True
+                )
+                return
+
             m=await message.reply_text(f'<b>Wait {message.from_user.mention} Searching Your Query: <i>{search}...</i></b>', reply_to_message_id=message.id)
             files, offset, total_results = await get_search_results(message.chat.id ,search, offset=0, filter=True)
             settings = await get_settings(message.chat.id)

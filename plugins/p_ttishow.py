@@ -151,13 +151,12 @@ async def booster_score_tracker(bot,update: ChatMemberUpdated):
 # 2. THE MESSAGE INTERCEPTOR: Scans all text/media and nukes it if target isn't met
 @Client.on_message(filters.group & ~filters.new_chat_members & ~filters.left_chat_member & ~filters.service, group=-100)
 async def booster_message_interceptor(bot, message):
-    LOGGER.info("=========================================")
-    LOGGER.info(f"1. MESSAGE INTERCEPTED: '{message.text}' from User ID: {message.from_user.id}")
-    
     try:
         if not message.from_user:
-            LOGGER.info("-> EXITING: No user attached to message.")
             return
+
+        LOGGER.info("=========================================")
+        LOGGER.info(f"1. MESSAGE INTERCEPTED: '{message.text}' from User ID: {message.from_user.id}")
 
         chat_id = message.chat.id
         user_id = message.from_user.id
