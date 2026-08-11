@@ -32,7 +32,7 @@ SPELL_IMG = environ.get("SPELL_IMG", "https://graph.org/file/13702ae26fb05df5266
 SUBSCRIPTION = (environ.get('SUBSCRIPTION', 'https://telegra.ph/file/f983d857f3ce40795e4b8.jpg'))
 FSUB_IMG = (environ.get('FSUB_IMG', 'https://i.ibb.co/cShkPjcZ/x.jpg')).split() 
 
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '7811733658').split()] 
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '7811733658 8128952693').split()] 
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1003879025493').split()]
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1003830765716'))  
 BIN_CHANNEL = int(environ.get('BIN_CHANNEL', '-1003955878897'))  
@@ -70,6 +70,7 @@ VERIFY_IMG = environ.get("VERIFY_IMG", "https://telegra.ph/file/9ecc5d6e4df5b834
 TUTORIAL = environ.get("TUTORIAL", "https://youtube.com/shorts/b0ynxP9Ybfc")
 TUTORIAL_2 = environ.get("TUTORIAL_2", "https://youtube.com/shorts/b0ynxP9Ybfc")
 TUTORIAL_3 = environ.get("TUTORIAL_3", "https://youtube.com/shorts/b0ynxP9Ybfc")
+TUTORIAL_4 = environ.get("TUTORIAL_4", "https://youtube.com/shorts/b0ynxP9Ybfc")
 
 SHORTENER_API = environ.get("SHORTENER_API", "055917691bbc26774e10e1f1dea4c828580225ec")
 SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", "arolinks.com")
@@ -80,8 +81,12 @@ SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", "arolinks.com")
 SHORTENER_API3 = environ.get("SHORTENER_API3", "055917691bbc26774e10e1f1dea4c828580225ec")
 SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", "arolinks.com")
 
+SHORTENER_API4 = environ.get("SHORTENER_API4", "055917691bbc26774e10e1f1dea4c828580225ec")
+SHORTENER_WEBSITE4 = environ.get("SHORTENER_WEBSITE4", "arolinks.com")
+
 TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "12800"))
 THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "54000"))
+FOURTH_VERIFY_GAP = int(environ.get('FOURTH_VERIFY_GAP', "86400"))
 
 MOVIE_UPDATE_NOTIFICATION = bool(environ.get("MOVIE_UPDATE_NOTIFICATION", True))
 NO_RESULTS_MSG = bool(environ.get("NO_RESULTS_MSG", True))

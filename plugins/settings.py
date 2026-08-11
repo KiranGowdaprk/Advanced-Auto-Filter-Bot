@@ -74,15 +74,21 @@ async def get_main_settings_text(grp_id, title):
 async def open_settings_group(client, query):
     ident, grp_id = query.data.split("#")
     userid = query.from_user.id if query.from_user else None
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        await query.answer("ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ʀɪɢʜᴛꜱ ᴛᴏ ᴅᴏ ᴛʜɪꜱ !", show_alert=True)
-        return
-    title = query.message.chat.title
+    if str(grp_id) == "0":
+        if str(userid) not in ADMINS and userid not in ADMINS:
+            await query.answer("ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ʀɪɢʜᴛꜱ ᴛᴏ ᴅᴏ ᴛʜɪꜱ !", show_alert=True)
+            return
+        title = "PM Verification Settings"
+    else:
+        st = await client.get_chat_member(grp_id, userid)
+        if (
+                st.status != enums.ChatMemberStatus.ADMINISTRATOR
+                and st.status != enums.ChatMemberStatus.OWNER
+                and str(userid) not in ADMINS
+        ):
+            await query.answer("ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ʀɪɢʜᴛꜱ ᴛᴏ ᴅᴏ ᴛʜɪꜱ !", show_alert=True)
+            return
+        title = query.message.chat.title
     btn = await group_setting_buttons(int(grp_id))
     text = await get_main_settings_text(int(grp_id), title)
     try:
@@ -152,8 +158,15 @@ async def group_pm_settings(client, query):
     if not await is_check_admin(client, int(grp_id), user_id):
         return await query.answer("ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.", show_alert=True)
     btn = await group_setting_buttons(int(grp_id))
-    silentx = await client.get_chat(int(grp_id))
-    text = await get_main_settings_text(int(grp_id), silentx.title)
+    if str(grp_id) == "0":
+        title = "PM Verification Settings"
+    else:
+        try:
+            silentx = await client.get_chat(int(grp_id))
+            title = silentx.title
+        except Exception:
+            title = "Group"
+    text = await get_main_settings_text(int(grp_id), title)
     try:
         await query.message.edit(text=text, reply_markup=InlineKeyboardMarkup(btn))
     except FloodWait as e:
@@ -182,6 +195,8 @@ async def verification_settings(client, query):
     ],[
         InlineKeyboardButton('ᴛᴜᴛᴏʀɪᴀʟ', callback_data=f'changetutorial#{grp_id}')
     ],[
+        InlineKeyboardButton('🔄 ɢʟᴏʙᴀʟ ᴠᴇʀɪꜰɪᴄᴀᴛɪᴏɴ ʀᴇꜱᴇᴛ', callback_data=f'global_reset_verify#{grp_id}')
+    ],[
         InlineKeyboardButton('⇋ ʙᴀᴄᴋ ⇋', callback_data=f'grp_pm#{grp_id}')
     ]]
 
@@ -199,6 +214,16 @@ async def verification_settings(client, query):
         await query.message.edit(text, reply_markup=InlineKeyboardMarkup(btn))
     except MessageNotModified:
         pass
+
+@Client.on_callback_query(filters.regex(r'^global_reset_verify'))
+async def global_reset_verify(client, query):
+    _, grp_id = query.data.split("#")
+    user_id = query.from_user.id if query.from_user else None
+    if not await is_check_admin(client, int(grp_id), user_id):
+        return await query.answer("ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.", show_alert=True)
+    
+    await db.misc.delete_many({})
+    await query.answer("✅ ɢʟᴏʙᴀʟ ᴠᴇʀɪꜰɪᴄᴀᴛɪᴏɴ ʀᴇꜱᴇᴛ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟ! ᴀʟʟ ᴜꜱᴇʀꜱ ᴍᴜꜱᴛ ᴠᴇʀɪꜰʏ ᴀɢᴀɪɴ.", show_alert=True)
 
 @Client.on_callback_query(filters.regex(r'^log_setgs'))
 async def log_settings(client, query):
@@ -509,6 +534,7 @@ async def change_shortener(client, query):
         [InlineKeyboardButton('ꜱʜᴏʀᴛɴᴇʀ 1', callback_data=f'shortner_menu#1#{grp_id}')],
         [InlineKeyboardButton('ꜱʜᴏʀᴛɴᴇʀ 2', callback_data=f'shortner_menu#2#{grp_id}')],
         [InlineKeyboardButton('ꜱʜᴏʀᴛɴᴇʀ 3', callback_data=f'shortner_menu#3#{grp_id}')],
+        [InlineKeyboardButton('ꜱʜᴏʀᴛɴᴇʀ 4', callback_data=f'shortner_menu#4#{grp_id}')],
         [InlineKeyboardButton('⇋ ʙᴀᴄᴋ ⇋', callback_data=f'verification_setgs#{grp_id}')]
     ]
     try:
@@ -527,7 +553,7 @@ async def shortener_menu_handler(client, query):
         return await query.answer("<b>ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.</b>", show_alert=True)
 
     settings = await get_settings(int(grp_id))
-    suffix = "" if num == "1" else f"_{'two' if num == '2' else 'three'}"
+    suffix = "" if num == "1" else f"_{'two' if num == '2' else 'three' if num == '3' else 'four'}"
     current_url = settings.get(f'shortner{suffix}')
     current_api = settings.get(f'api{suffix}')
 
@@ -555,7 +581,7 @@ async def remove_shortener(client, query):
     user_id = query.from_user.id if query.from_user else None
     if not await is_check_admin(client, int(grp_id), user_id):
         return await query.answer("ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.", show_alert=True)
-    suffix = "" if shortner_num == "1" else f"_{'two' if shortner_num == '2' else 'three'}"
+    suffix = "" if shortner_num == "1" else f"_{'two' if shortner_num == '2' else 'three' if shortner_num == '3' else 'four'}"
     await delete_group_setting(int(grp_id), f'shortner{suffix}')
     await delete_group_setting(int(grp_id), f'api{suffix}')
     await query.answer(f"ꜱʜᴏʀᴛᴇɴᴇʀ {shortner_num} ʀᴇᴍᴏᴠᴇᴅ!", show_alert=True)
@@ -572,7 +598,7 @@ async def set_shortener(client, query):
     if not await is_check_admin(client, int(grp_id), user_id):
         return await query.answer("<b>ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.</b>", show_alert=True)
     settings = await get_settings(int(grp_id))
-    suffix = "" if shortner_num == "1" else f"_{'two' if shortner_num == '2' else 'three'}"
+    suffix = "" if shortner_num == "1" else f"_{'two' if shortner_num == '2' else 'three' if shortner_num == '3' else 'four'}"
     current_url = settings.get(f'shortner{suffix}', "ʏᴏᴜ ᴅɪᴅɴ'ᴛ ꜱᴇᴛ ᴀɴᴅ ᴠᴀʟᴜᴇ ꜱᴏ ᴜꜱɪɴɢ ᴅᴇꜰᴀᴜʟᴛ ᴠᴀʟᴜᴇꜱ")
     current_api = settings.get(f'api{suffix}', "ʏᴏᴜ ᴅɪᴅɴ'ᴛ ꜱᴇᴛ ᴀɴᴅ ᴠᴀʟᴜᴇ ꜱᴏ ᴜꜱɪɴɢ ᴅᴇꜰᴀᴜʟᴛ ᴠᴀʟᴜᴇꜱ")
 
@@ -628,6 +654,7 @@ async def change_time(client, query):
     btn = [
         [InlineKeyboardButton('ᴛɪᴍᴇ 1', callback_data=f'time_menu#1#{grp_id}')],
         [InlineKeyboardButton('ᴛɪᴍᴇ 2', callback_data=f'time_menu#2#{grp_id}')],
+        [InlineKeyboardButton('ᴛɪᴍᴇ 3', callback_data=f'time_menu#3#{grp_id}')],
         [InlineKeyboardButton('⇋ ʙᴀᴄᴋ ⇋', callback_data=f'verification_setgs#{grp_id}')]
     ]
     try:
@@ -651,6 +678,8 @@ async def time_menu_handler(client, query):
         key = "verify_time"
     elif num == "2":
         key = "third_verify_time"
+    elif num == "3":
+        key = "fourth_verify_time"
     else:
         return await query.answer("Invalid Time Selection")
 
@@ -760,6 +789,7 @@ async def change_tutorial(client, query):
         [InlineKeyboardButton('ᴛᴜᴛᴏʀɪᴀʟ 1', callback_data=f'tutorial_menu#1#{grp_id}')],
         [InlineKeyboardButton('ᴛᴜᴛᴏʀɪᴀʟ 2', callback_data=f'tutorial_menu#2#{grp_id}')],
         [InlineKeyboardButton('ᴛᴜᴛᴏʀɪᴀʟ 3', callback_data=f'tutorial_menu#3#{grp_id}')],
+        [InlineKeyboardButton('ᴛᴜᴛᴏʀɪᴀʟ 4', callback_data=f'tutorial_menu#4#{grp_id}')],
         [InlineKeyboardButton('⇋ ʙᴀᴄᴋ ⇋', callback_data=f'verification_setgs#{grp_id}')]
     ]
     try:
@@ -778,7 +808,7 @@ async def tutorial_menu_handler(client, query):
         return await query.answer("<b>ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.</b>", show_alert=True)
 
     settings = await get_settings(int(grp_id))
-    suffix = "" if num == "1" else f"_{'2' if num == '2' else '3'}"
+    suffix = "" if num == "1" else f"_{'2' if num == '2' else '3' if num == '3' else '4'}"
     val = settings.get(f'tutorial{suffix}')
     set_text = "ꜱᴇᴛ"
 
@@ -803,7 +833,7 @@ async def remove_tutorial(client, query):
     if not await is_check_admin(client, int(grp_id), user_id):
         return await query.answer("ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.", show_alert=True)
 
-    suffix = "" if tutorial_num == "1" else f"_{'2' if tutorial_num == '2' else '3'}"
+    suffix = "" if tutorial_num == "1" else f"_{'2' if tutorial_num == '2' else '3' if tutorial_num == '3' else '4'}"
 
     await delete_group_setting(int(grp_id), f'tutorial{suffix}')
     await query.answer(f"ᴛᴜᴛᴏʀɪᴀʟ {tutorial_num} ʀᴇᴍᴏᴠᴇᴅ!", show_alert=True)
@@ -821,7 +851,7 @@ async def set_tutorial(client, query):
     if not await is_check_admin(client, int(grp_id), user_id):
         return await query.answer("<b>ɴᴇᴇᴅ ᴛᴏ ʙᴇ ᴀᴅᴍɪɴ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ✅.</b>", show_alert=True)
     settings = await get_settings(int(grp_id))
-    suffix = "" if tutorial_num == "1" else f"_{'2' if tutorial_num == '2' else '3'}"
+    suffix = "" if tutorial_num == "1" else f"_{'2' if tutorial_num == '2' else '3' if tutorial_num == '3' else '4'}"
     tutorial_url = settings.get(f'tutorial{suffix}', "ʏᴏᴜ ᴅɪᴅɴ'ᴛ ꜱᴇᴛ ᴀɴᴅ ᴠᴀʟᴜᴇ ꜱᴏ ᴜꜱɪɴɢ ᴅᴇꜰᴀᴜʟᴛ ᴠᴀʟᴜᴇꜱ")
 
     # Set query.data for back handling

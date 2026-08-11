@@ -142,15 +142,19 @@ class Database:
             'tutorial': TUTORIAL,
             'tutorial_2': TUTORIAL_2,
             'tutorial_3': TUTORIAL_3,
+            'tutorial_4': TUTORIAL_4,
             'shortner': SHORTENER_WEBSITE,
             'api': SHORTENER_API,
             'shortner_two': SHORTENER_WEBSITE2,
             'api_two': SHORTENER_API2,
             'shortner_three': SHORTENER_WEBSITE3,
             'api_three': SHORTENER_API3,
+            'shortner_four': SHORTENER_WEBSITE4,
+            'api_four': SHORTENER_API4,
             'is_verify': IS_VERIFY,
             'verify_time': TWO_VERIFY_GAP,
             'third_verify_time': THREE_VERIFY_GAP,
+            'fourth_verify_time': FOURTH_VERIFY_GAP,
             'caption': CUSTOM_FILE_CAPTION,
             'fsub_id': AUTH_CHANNEL
         }
@@ -207,6 +211,8 @@ class Database:
                 "user_id": user_id,
                 "last_verified": datetime.datetime(2020, 5, 17, 0, 0, 0, tzinfo=ist_timezone),
                 "second_time_verified": datetime.datetime(2019, 5, 17, 0, 0, 0, tzinfo=ist_timezone),
+                "third_time_verified": datetime.datetime(2018, 5, 17, 0, 0, 0, tzinfo=ist_timezone),
+                "fourth_time_verified": datetime.datetime(2017, 5, 17, 0, 0, 0, tzinfo=ist_timezone),
             }
             user = await self.misc.insert_one(res)
         return user
@@ -225,6 +231,8 @@ class Database:
             user = await self.get_notcopy_user(user_id)
             pastDate = user["last_verified"]
         ist_timezone = pytz.timezone('Asia/Kolkata')
+        if pastDate.tzinfo is None:
+            pastDate = pytz.utc.localize(pastDate)
         pastDate = pastDate.astimezone(ist_timezone)
         current_time = datetime.datetime.now(tz=ist_timezone)
         seconds_since_midnight = (current_time - datetime.datetime(current_time.year, current_time.month, current_time.day, 0, 0, 0, tzinfo=ist_timezone)).total_seconds()
@@ -240,6 +248,8 @@ class Database:
             user = await self.get_notcopy_user(user_id)
             pastDate = user["second_time_verified"]
         ist_timezone = pytz.timezone('Asia/Kolkata')
+        if pastDate.tzinfo is None:
+            pastDate = pytz.utc.localize(pastDate)
         pastDate = pastDate.astimezone(ist_timezone)
         current_time = datetime.datetime.now(tz=ist_timezone)
         seconds_since_midnight = (current_time - datetime.datetime(current_time.year, current_time.month, current_time.day, 0, 0, 0, tzinfo=ist_timezone)).total_seconds()
@@ -260,12 +270,22 @@ class Database:
                 user = await self.get_notcopy_user(user_id)
                 pastDate = user["last_verified"]
             ist_timezone = pytz.timezone('Asia/Kolkata')
+            if pastDate.tzinfo is None:
+                pastDate = pytz.utc.localize(pastDate)
             pastDate = pastDate.astimezone(ist_timezone)
             current_time = datetime.datetime.now(tz=ist_timezone)
             time_difference = current_time - pastDate
             if time_difference > datetime.timedelta(seconds=time):
-                pastDate = user["last_verified"].astimezone(ist_timezone)
-                second_time = user["second_time_verified"].astimezone(ist_timezone)
+                past_date_raw = user["last_verified"]
+                if past_date_raw.tzinfo is None:
+                    past_date_raw = pytz.utc.localize(past_date_raw)
+                pastDate = past_date_raw.astimezone(ist_timezone)
+                
+                second_time_raw = user["second_time_verified"]
+                if second_time_raw.tzinfo is None:
+                    second_time_raw = pytz.utc.localize(second_time_raw)
+                second_time = second_time_raw.astimezone(ist_timezone)
+                
                 return second_time < pastDate
         return False
 
@@ -282,13 +302,72 @@ class Database:
                 user = await self.get_notcopy_user(user_id)
                 pastDate = user["second_time_verified"]
             ist_timezone = pytz.timezone('Asia/Kolkata')
+            if pastDate.tzinfo is None:
+                pastDate = pytz.utc.localize(pastDate)
             pastDate = pastDate.astimezone(ist_timezone)
             current_time = datetime.datetime.now(tz=ist_timezone)
             time_difference = current_time - pastDate
             if time_difference > datetime.timedelta(seconds=time):
-                pastDate = user["second_time_verified"].astimezone(ist_timezone)
-                second_time = user["third_time_verified"].astimezone(ist_timezone)
+                past_date_raw = user["second_time_verified"]
+                if past_date_raw.tzinfo is None:
+                    past_date_raw = pytz.utc.localize(past_date_raw)
+                pastDate = past_date_raw.astimezone(ist_timezone)
+                
+                second_time_raw = user["third_time_verified"]
+                if second_time_raw.tzinfo is None:
+                    second_time_raw = pytz.utc.localize(second_time_raw)
+                second_time = second_time_raw.astimezone(ist_timezone)
+                
                 return second_time < pastDate
+        return False
+
+    async def third_user_verified(self, user_id):
+        user = await self.get_notcopy_user(user_id)
+        try:
+            pastDate = user["third_time_verified"]
+        except Exception:
+            user = await self.get_notcopy_user(user_id)
+            pastDate = user["third_time_verified"]
+        ist_timezone = pytz.timezone('Asia/Kolkata')
+        if pastDate.tzinfo is None:
+            pastDate = pytz.utc.localize(pastDate)
+        pastDate = pastDate.astimezone(ist_timezone)
+        current_time = datetime.datetime.now(tz=ist_timezone)
+        seconds_since_midnight = (current_time - datetime.datetime(current_time.year, current_time.month, current_time.day, 0, 0, 0, tzinfo=ist_timezone)).total_seconds()
+        time_diff = current_time - pastDate
+        total_seconds = time_diff.total_seconds()
+        return total_seconds <= seconds_since_midnight
+
+    async def use_fourth_shortener(self, user_id, time):
+        user = await self.get_notcopy_user(user_id)
+        if not user.get("fourth_time_verified"):
+            ist_timezone = pytz.timezone('Asia/Kolkata')
+            await self.update_notcopy_user(user_id, {"fourth_time_verified":datetime.datetime(2017, 5, 17, 0, 0, 0, tzinfo=ist_timezone)})
+            user = await self.get_notcopy_user(user_id)
+        if await self.third_user_verified(user_id):
+            try:
+                pastDate = user["third_time_verified"]
+            except Exception:
+                user = await self.get_notcopy_user(user_id)
+                pastDate = user["third_time_verified"]
+            ist_timezone = pytz.timezone('Asia/Kolkata')
+            if pastDate.tzinfo is None:
+                pastDate = pytz.utc.localize(pastDate)
+            pastDate = pastDate.astimezone(ist_timezone)
+            current_time = datetime.datetime.now(tz=ist_timezone)
+            time_difference = current_time - pastDate
+            if time_difference > datetime.timedelta(seconds=time):
+                past_date_raw = user["third_time_verified"]
+                if past_date_raw.tzinfo is None:
+                    past_date_raw = pytz.utc.localize(past_date_raw)
+                pastDate = past_date_raw.astimezone(ist_timezone)
+                
+                third_time_raw = user["fourth_time_verified"]
+                if third_time_raw.tzinfo is None:
+                    third_time_raw = pytz.utc.localize(third_time_raw)
+                third_time = third_time_raw.astimezone(ist_timezone)
+                
+                return third_time < pastDate
         return False
    
     async def create_verify_id(self, user_id: int, hash):

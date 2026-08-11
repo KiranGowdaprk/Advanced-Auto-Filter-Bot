@@ -450,13 +450,19 @@ async def cb_handler(client: Client, query: CallbackQuery):
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
-        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")          
+        grp_id = query.message.chat.id
+        if query.message.chat.type == enums.ChatType.PRIVATE:
+            grp_id = 0
+        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{grp_id}_{file_id}")          
                             
     elif query.data.startswith("sendfiles"):
         clicked = query.from_user.id
         ident, key = query.data.split("#") 
         try:
-            await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=allfiles_{query.message.chat.id}_{key}")
+            grp_id = query.message.chat.id
+            if query.message.chat.type == enums.ChatType.PRIVATE:
+                grp_id = 0
+            await query.answer(url=f"https://telegram.me/{temp.U_NAME}?start=allfiles_{grp_id}_{key}")
             return
         except UserIsBlocked:
             await query.answer('Uɴʙʟᴏᴄᴋ ᴛʜᴇ ʙᴏᴛ ᴍᴀʜɴ !', show_alert=True)
@@ -1036,11 +1042,14 @@ async def auto_filter(client, msg, spoll=False):
 async def ai_spell_check(chat_id, wrong_name):
     async def search_movie(wrong_name):
         try:
-            search_results = await asyncio.to_thread(imdb.search_movie, wrong_name)
+            search_results = await asyncio.wait_for(asyncio.to_thread(imdb.search_movie, wrong_name), timeout=5.0)
             if not search_results or not getattr(search_results, 'titles', None):
                 return []
             movie_list = [movie.title for movie in search_results.titles]
             return movie_list
+        except asyncio.TimeoutError:
+            LOGGER.error("ai_spell_check: imdb.search_movie timed out.")
+            return []
         except Exception as e:
             LOGGER.error(f"Error in ai_spell_check: {e}")
             return []

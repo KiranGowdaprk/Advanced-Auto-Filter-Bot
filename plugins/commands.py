@@ -183,21 +183,30 @@ async def start(client, message):
             await message.reply("<b>ʟɪɴᴋ ᴇxᴘɪʀᴇᴅ ᴛʀʏ ᴀɢᴀɪɴ...</b>")
             return  
         ist_timezone = pytz.timezone('Asia/Kolkata')
-        if await db.user_verified(user_id):
+        if await db.third_user_verified(user_id):
+            key = "fourth_time_verified"
+        elif await db.user_verified(user_id):
             key = "third_time_verified"
+        elif await db.is_user_verified(user_id):
+            key = "second_time_verified"
         else:
-            key = "second_time_verified" if await db.is_user_verified(user_id) else "last_verified"
+            key = "last_verified"
         current_time = datetime.now(tz=ist_timezone)
         result = await db.update_notcopy_user(user_id, {key:current_time})
         await db.update_verify_id_info(user_id, verify_id, {"verified":True})
-        if key == "third_time_verified": 
+        
+        if key == "fourth_time_verified":
+            num = 4
+            msg = script.FOURTH_VERIFY_COMPLETE_TEXT
+        elif key == "third_time_verified": 
             num = 3 
-        else: 
-            num =  2 if key == "second_time_verified" else 1 
-        if key == "third_time_verified": 
             msg = script.THIRDT_VERIFY_COMPLETE_TEXT
+        elif key == "second_time_verified":
+            num = 2
+            msg = script.SECOND_VERIFY_COMPLETE_TEXT
         else:
-            msg = script.SECOND_VERIFY_COMPLETE_TEXT if key == "second_time_verified" else script.VERIFY_COMPLETE_TEXT
+            num = 1
+            msg = script.VERIFY_COMPLETE_TEXT
         if message.command[1].startswith('sendall'):
             verifiedfiles = f"https://telegram.me/{temp.U_NAME}?start=allfiles_{grp_id}_{file_id}"
         else:
@@ -305,6 +314,55 @@ async def start(client, message):
     except Exception:
         pre, grp_id, file_id = "", 0, data
 
+    user_id = m.from_user.id
+    if not await db.has_premium_access(user_id):
+        try:
+            grp_id = int(grp_id)
+            user_verified = await db.is_user_verified(user_id)
+            settings = await get_settings(grp_id)
+            is_second_shortener = await db.use_second_shortener(user_id, settings.get('verify_time', TWO_VERIFY_GAP)) 
+            is_third_shortener = await db.use_third_shortener(user_id, settings.get('third_verify_time', THREE_VERIFY_GAP))
+            is_fourth_shortener = await db.use_fourth_shortener(user_id, settings.get('fourth_verify_time', FOURTH_VERIFY_GAP))
+            if settings.get("is_verify", IS_VERIFY) and (not user_verified or is_second_shortener or is_third_shortener or is_fourth_shortener):                
+                verify_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
+                await db.create_verify_id(user_id, verify_id)
+                temp.VERIFICATIONS[user_id] = grp_id
+                if message.command[1].startswith('allfiles'):
+                    verify = await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=sendall_{user_id}_{verify_id}_{file_id}", grp_id, is_second_shortener, is_third_shortener, is_fourth_shortener)
+                else:
+                    verify = await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=notcopy_{user_id}_{verify_id}_{file_id}", grp_id, is_second_shortener, is_third_shortener, is_fourth_shortener)
+                if is_fourth_shortener:
+                    howtodownload = settings.get('tutorial_4', TUTORIAL_4)
+                elif is_third_shortener:
+                    howtodownload = settings.get('tutorial_3', TUTORIAL_3)
+                else:
+                    howtodownload = settings.get('tutorial_2', TUTORIAL_2) if is_second_shortener else settings.get('tutorial', TUTORIAL)
+                buttons = [[
+                    InlineKeyboardButton(text="♻️ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴠᴇʀɪꜰʏ ♻️", url=verify)
+                ],[
+                    InlineKeyboardButton(text="⁉️ ʜᴏᴡ ᴛᴏ ᴠᴇʀɪꜰʏ ⁉️", url=howtodownload)
+                ]]
+                reply_markup=InlineKeyboardMarkup(buttons)
+                if await db.third_user_verified(user_id):
+                    msg = script.FOURTH_VERIFICATION_TEXT
+                elif await db.user_verified(user_id): 
+                    msg = script.THIRDT_VERIFICATION_TEXT
+                else:            
+                    msg = script.SECOND_VERIFICATION_TEXT if is_second_shortener else script.VERIFICATION_TEXT
+                n=await m.reply_text(
+                    text=msg.format(message.from_user.mention),
+                    protect_content = True,
+                    reply_markup=reply_markup,
+                    parse_mode=enums.ParseMode.HTML
+                )
+                asyncio.create_task(delete_after_delay(n, 300))
+                asyncio.create_task(delete_after_delay(m, 300))
+                return
+        except Exception as e:
+            await log_error(client, f"Got Error In Verification Funtion.\n\n Error - {e}")
+            LOGGER.error(f"Error In Verification - {e}")
+            pass
+
     try:
         settings = await get_settings(int(data.split("_", 2)[1]))
         fsub_id_list = settings.get('fsub_id', [])
@@ -353,50 +411,6 @@ async def start(client, message):
     except Exception as e:
         await log_error(client, f"Got Error In Force Subscription Function.\n\n Error - {e}")
         LOGGER.error(f"Error In Fsub :- {e}")
-        
-    user_id = m.from_user.id
-    if not await db.has_premium_access(user_id):
-        try:
-            grp_id = int(grp_id)
-            user_verified = await db.is_user_verified(user_id)
-            settings = await get_settings(grp_id)
-            is_second_shortener = await db.use_second_shortener(user_id, settings.get('verify_time', TWO_VERIFY_GAP)) 
-            is_third_shortener = await db.use_third_shortener(user_id, settings.get('third_verify_time', THREE_VERIFY_GAP))
-            if settings.get("is_verify", IS_VERIFY) and (not user_verified or is_second_shortener or is_third_shortener):                
-                verify_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
-                await db.create_verify_id(user_id, verify_id)
-                temp.VERIFICATIONS[user_id] = grp_id
-                if message.command[1].startswith('allfiles'):
-                    verify = await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=sendall_{user_id}_{verify_id}_{file_id}", grp_id, is_second_shortener, is_third_shortener)
-                else:
-                    verify = await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=notcopy_{user_id}_{verify_id}_{file_id}", grp_id, is_second_shortener, is_third_shortener)
-                if is_third_shortener:
-                    howtodownload = settings.get('tutorial_3', TUTORIAL_3)
-                else:
-                    howtodownload = settings.get('tutorial_2', TUTORIAL_2) if is_second_shortener else settings.get('tutorial', TUTORIAL)
-                buttons = [[
-                    InlineKeyboardButton(text="♻️ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴠᴇʀɪꜰʏ ♻️", url=verify)
-                ],[
-                    InlineKeyboardButton(text="⁉️ ʜᴏᴡ ᴛᴏ ᴠᴇʀɪꜰʏ ⁉️", url=howtodownload)
-                ]]
-                reply_markup=InlineKeyboardMarkup(buttons)
-                if await db.user_verified(user_id): 
-                    msg = script.THIRDT_VERIFICATION_TEXT
-                else:            
-                    msg = script.SECOND_VERIFICATION_TEXT if is_second_shortener else script.VERIFICATION_TEXT
-                n=await m.reply_text(
-                    text=msg.format(message.from_user.mention),
-                    protect_content = True,
-                    reply_markup=reply_markup,
-                    parse_mode=enums.ParseMode.HTML
-                )
-                asyncio.create_task(delete_after_delay(n, 300))
-                asyncio.create_task(delete_after_delay(m, 300))
-                return
-        except Exception as e:
-            await log_error(client, f"Got Error In Verification Funtion.\n\n Error - {e}")
-            LOGGER.error(f"Error In Verification - {e}")
-            pass
     
     if data.startswith("allfiles"):
         files = temp.GETALL.get(file_id)
@@ -681,19 +695,24 @@ async def settings(client, message):
         )
     elif chat_type == enums.ChatType.PRIVATE:
         connected_groups = await db.get_connected_grps(user_id)
-        if not connected_groups:
-            return await message.reply_text("No Connected Groups Found .")
         group_list = []
-        for group in connected_groups:
-            try:
-                silentx = await client.get_chat(group)
-                group_list.append([
-                    InlineKeyboardButton(text=silentx.title, callback_data=f"grp_pm#{silentx.id}")
-                ])
-            except Exception as e:
-                LOGGER.error(f"Error In PM Settings Button - {e}")
-                pass
-        await message.reply_text('Here Is Your Connected Groups.', reply_markup=InlineKeyboardMarkup(group_list))
+        if user_id in ADMINS or str(user_id) in ADMINS:
+            group_list.append([
+                InlineKeyboardButton("🤖 PM Verification Settings", callback_data="opnsetgrp#0")
+            ])
+        if connected_groups:
+            for group in connected_groups:
+                try:
+                    silentx = await client.get_chat(group)
+                    group_list.append([
+                        InlineKeyboardButton(text=silentx.title, callback_data=f"grp_pm#{silentx.id}")
+                    ])
+                except Exception as e:
+                    LOGGER.error(f"Error In PM Settings Button - {e}")
+                    pass
+        if not group_list:
+            return await message.reply_text("No Connected Groups Found .")
+        await message.reply_text('Here Is Your Connected Groups.' if connected_groups else 'Here Are Your Admin Settings.', reply_markup=InlineKeyboardMarkup(group_list))
                                                                                                             
 
 @Client.on_message(filters.command('reload'))

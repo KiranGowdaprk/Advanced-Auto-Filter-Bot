@@ -56,6 +56,8 @@ class temp(object):
 
     
 async def is_check_admin(bot, chat_id, user_id):
+    if chat_id == 0 and (user_id in ADMINS or str(user_id) in ADMINS):
+        return True
     try:
         member = await bot.get_chat_member(chat_id, user_id)
         return member.status in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER]
@@ -339,9 +341,11 @@ async def get_best_visual(tmdb_data: Dict) -> Optional[str]:
         return backdrops["all"][0]["url"]
     return None
     
-async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shortener=False):
+async def get_shortlink(link, grp_id, is_second_shortener=False, is_third_shortener=False, is_fourth_shortener=False):
     settings = await get_settings(grp_id)
-    if is_third_shortener:             
+    if is_fourth_shortener:             
+        api, site = settings['api_four'], settings['shortner_four']
+    elif is_third_shortener:             
         api, site = settings['api_three'], settings['shortner_three']
     else:
         if is_second_shortener:
