@@ -11,6 +11,13 @@ from info import ADMINS
 from utils import users_broadcast, groups_broadcast, temp, get_readable_time, clear_junk, junk_group
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 
+def make_progress_bar(current, total, length=12):
+    if total == 0:
+        return "▱" * length
+    percentage = current / total
+    filled = int(length * percentage)
+    return "▰" * filled + "▱" * (length - filled)
+
 lock = asyncio.Lock()
 
 @Client.on_callback_query(filters.regex(r'^broadcast_cancel'))
@@ -59,31 +66,34 @@ async def broadcast_users(bot, message):
             return "Error"
 
     async with lock:
-        batch = []
-        BATCH_SIZE = 100
-
+        last_update_time = time.time()
         async for user in cursor:
             if temp.B_USERS_CANCEL:
                 cancelled = True
                 temp.B_USERS_CANCEL = False
                 break
 
-            batch.append(user)
-            if len(batch) >= BATCH_SIZE:
-                results = await asyncio.gather(*[send(u) for u in batch])
-                for res in results:
-                    if res == "Success": success += 1
-                    elif res == "Blocked": blocked += 1
-                    elif res == "Deleted": deleted += 1
-                    elif res == "Error": failed += 1
+            res = await send(user)
+            if res == "Success": success += 1
+            elif res == "Blocked": blocked += 1
+            elif res == "Deleted": deleted += 1
+            elif res == "Error": failed += 1
 
-                done += len(batch)
-                batch = []
+            done += 1
+            
+            if done % 20 == 0:
+                await asyncio.sleep(0.1)
 
+            if time.time() - last_update_time > 10:
+                last_update_time = time.time()
                 elapsed = get_readable_time(time.time() - start_time)
+                progress = make_progress_bar(done, total_users)
+                pct = round((done / total_users) * 100, 2) if total_users > 0 else 0
+                
                 try:
                     await silentxbotz_status_msg.edit(
-                        f"📣 <b>Broadcast Progress....:</b>\n\n"
+                        f"📣 <b>Broadcast Progress:</b>\n\n"
+                        f"[{progress}] {pct}%\n\n"
                         f"👥 Total: <code>{total_users}</code>\n"
                         f"✅ Done: <code>{done}</code>\n"
                         f"📬 Success: <code>{success}</code>\n"
@@ -95,24 +105,20 @@ async def broadcast_users(bot, message):
                         ])
                     )
                 except FloodWait as e:
-                    await asyncio.sleep(e.value)
+                    await asyncio.sleep(getattr(e, 'value', getattr(e, 'x', 5)))
                 except Exception:
                     pass
-                    
-        if batch and not cancelled:
-             results = await asyncio.gather(*[send(u) for u in batch])
-             for res in results:
-                if res == "Success": success += 1
-                elif res == "Blocked": blocked += 1
-                elif res == "Deleted": deleted += 1
-                elif res == "Error": failed += 1
-             done += len(batch)
 
     elapsed = get_readable_time(time.time() - start_time)
+    progress = make_progress_bar(done, total_users)
+    pct = round((done / total_users) * 100, 2) if total_users > 0 else 0
+    
     final_status = (
         f"{'❌ <b>Broadcast Cancelled.</b>' if cancelled else '✅ <b>Broadcast Completed.</b>'}\n\n"
+        f"[{progress}] {pct}%\n\n"
         f"🕒 Time: {elapsed}\n"
         f"👥 Total: <code>{total_users}</code>\n"
+        f"✅ Done: <code>{done}</code>\n"
         f"📬 Success: <code>{success}</code>\n"
         f"⛔ Blocked: <code>{blocked}</code>\n"
         f"🗑️ Deleted: <code>{deleted}</code>\n"
@@ -151,6 +157,7 @@ async def broadcast_group(bot, message):
     cancelled = False
 
     async with lock:
+        last_update_time = time.time()
         async for chat in cursor:
             if temp.B_GROUPS_CANCEL:
                 temp.B_GROUPS_CANCEL = False
@@ -166,24 +173,38 @@ async def broadcast_group(bot, message):
                 success += 1
             else:
                 failed += 1
+                
             done += 1
-            if done % 10 == 0:
+            
+            if done % 20 == 0:
+                await asyncio.sleep(0.1)
+
+            if time.time() - last_update_time > 10:
+                last_update_time = time.time()
+                progress = make_progress_bar(done, total_chats)
+                pct = round((done / total_chats) * 100, 2) if total_chats > 0 else 0
                 btn = [[InlineKeyboardButton("❌ CANCEL", callback_data="broadcast_cancel#groups")]]
                 try:
                     await silentxbotz_status_msg.edit(
-                        f"📣 <b>Group broadcast progress:</b>\n\n"
+                        f"📣 <b>Group Broadcast Progress:</b>\n\n"
+                        f"[{progress}] {pct}%\n\n"
                         f"👥 Total Groups: <code>{total_chats}</code>\n"
                         f"✅ Completed: <code>{done} / {total_chats}</code>\n"
                         f"📬 Success: <code>{success}</code>\n"
                         f"❌ Failed: <code>{failed}</code>",
                         reply_markup=InlineKeyboardMarkup(btn)
                     )
+                except FloodWait as e:
+                    await asyncio.sleep(getattr(e, 'value', getattr(e, 'x', 5)))
                 except Exception:
                     pass
 
     time_taken = get_readable_time(time.time() - start_time)
+    progress = make_progress_bar(done, total_chats)
+    pct = round((done / total_chats) * 100, 2) if total_chats > 0 else 0
     silentxbotz_text = (
-        f"{'❌ <b>Groups broadcast cancelled!</b>' if cancelled else '✅ <b>Group broadcast completed.</b>'}\n"
+        f"{'❌ <b>Groups broadcast cancelled!</b>' if cancelled else '✅ <b>Group broadcast completed.</b>'}\n\n"
+        f"[{progress}] {pct}%\n\n"
         f"⏱️ Completed in {time_taken}\n\n"
         f"👥 Total Groups: <code>{total_chats}</code>\n"
         f"✅ Completed: <code>{done} / {total_chats}</code>\n"

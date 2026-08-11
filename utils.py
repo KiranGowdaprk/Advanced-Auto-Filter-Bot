@@ -71,7 +71,7 @@ async def users_broadcast(user_id, message, is_pin):
             await m.pin(both_sides=True)
         return True, "Success"
     except FloodWait as e:
-        await asyncio.sleep(e.x)
+        await asyncio.sleep(getattr(e, 'value', getattr(e, 'x', 5)))
         return await users_broadcast(user_id, message, is_pin)
     except InputUserDeactivated:
         await db.delete_user(int(user_id))
@@ -98,7 +98,7 @@ async def groups_broadcast(chat_id, message, is_pin):
                 pass
         return "Success"
     except FloodWait as e:
-        await asyncio.sleep(e.x)
+        await asyncio.sleep(getattr(e, 'value', getattr(e, 'x', 5)))
         return await groups_broadcast(chat_id, message, is_pin)
     except Exception as e:
         await db.delete_chat(chat_id)

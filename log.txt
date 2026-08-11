@@ -801,3 +801,298 @@ pymongo.errors.AutoReconnect: ac-shai9jz-shard-00-02.ubtq55d.mongodb.net:27017: 
 </body>
 </html>
 
+[11-Aug-26 09:35:06 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 09:35:08 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 09:35:08 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 09:35:08 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 09:35:09 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 09:35:09 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 09:36:49 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\pm_filter.py", line 854, in cb_handler
+    await query.answer(MSG_ALRT)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:04 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\pm_filter.py", line 854, in cb_handler
+    await query.answer(MSG_ALRT)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:21 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\pm_filter.py", line 854, in cb_handler
+    await query.answer(MSG_ALRT)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:21 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\settings.py", line 226, in global_reset_verify
+    pass
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:27 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\pm_filter.py", line 854, in cb_handler
+    await query.answer(MSG_ALRT)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:37 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\pm_filter.py", line 854, in cb_handler
+    await query.answer(MSG_ALRT)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:37 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\settings.py", line 226, in global_reset_verify
+    pass
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 09:38:42 PM] [ERROR] - Unhandled exception: SSL handshake failed: ac-shai9jz-shard-00-02.ubtq55d.mongodb.net:27017: [WinError 10054] An existing connection was forcibly closed by the remote host (configured timeouts: connectTimeoutMS: 20000.0ms)
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\pool.py", line 875, in _configured_socket
+    ssl_sock = ssl_context.wrap_socket(sock, server_hostname=host)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\ssl.py", line 1042, in _create
+    self.do_handshake()
+  File "C:\Python312\Lib\ssl.py", line 1320, in do_handshake
+    self._sslobj.do_handshake()
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\settings.py", line 225, in global_reset_verify
+    except MessageNotModified:
+  File "C:\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\collection.py", line 1711, in delete_many
+    self._delete_retryable(
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\collection.py", line 1587, in _delete_retryable
+    return self._database.client._retryable_write(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\mongo_client.py", line 1896, in _retryable_write
+    return self._retry_with_session(retryable, func, s, bulk, operation, operation_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\mongo_client.py", line 1782, in _retry_with_session
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\_csot.py", line 119, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\mongo_client.py", line 1828, in _retry_internal
+    ).run()
+      ^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\mongo_client.py", line 2565, in run
+    return self._read() if self._is_read else self._write()
+                                              ^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\mongo_client.py", line 2674, in _write
+    with self._client._checkout(self._server, self._session) as conn:
+  File "C:\Python312\Lib\contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\mongo_client.py", line 1591, in _checkout
+    with server.checkout(handler=err_handler) as conn:
+  File "C:\Python312\Lib\contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\pool.py", line 1346, in checkout
+    conn = self._get_conn(checkout_started_time, handler=handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\pool.py", line 1507, in _get_conn
+    conn = self.connect(handler=handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\pool.py", line 1265, in connect
+    sock = _configured_socket(self.address, self.opts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\pool.py", line 905, in _configured_socket
+    _raise_connection_failure(address, exc, "SSL handshake failed: ", timeout_details=details)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pymongo\synchronous\pool.py", line 211, in _raise_connection_failure
+    raise AutoReconnect(msg) from error
+pymongo.errors.AutoReconnect: SSL handshake failed: ac-shai9jz-shard-00-02.ubtq55d.mongodb.net:27017: [WinError 10054] An existing connection was forcibly closed by the remote host (configured timeouts: connectTimeoutMS: 20000.0ms)
+[11-Aug-26 09:38:45 PM] [ERROR] - Unhandled exception: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\settings.py", line 226, in global_reset_verify
+    pass
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\types\bots_and_keyboards\callback_query.py", line 171, in answer
+    return await self._client.answer_callback_query(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\bots\answer_callback_query.py", line 74, in answer_callback_query
+    return await self.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\methods\advanced\invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\session\session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\errors\rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 QUERY_ID_INVALID] (caused by "messages.SetBotCallbackAnswer") Pyrogram 2.3.69 thinks: The callback query id is invalid
+[11-Aug-26 10:05:50 PM] [INFO] - Stop signal received (SIGINT). Exiting...
