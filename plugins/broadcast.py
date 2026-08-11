@@ -57,12 +57,12 @@ async def broadcast_users(bot, message):
     done = 0
     start_time = time.time()
     cancelled = False
-    async def send(user):
+    async def send(user_id):
         try:
-            _, result = await users_broadcast(int(user["id"]), b_msg, is_pin)
+            _, result = await users_broadcast(int(user_id), b_msg, is_pin)
             return result
         except Exception as e:
-            LOGGER.error(f"Error sending broadcast to {user['id']}")
+            LOGGER.error(f"Error sending broadcast to {user_id}")
             return "Error"
 
     async with lock:
@@ -73,7 +73,10 @@ async def broadcast_users(bot, message):
                 temp.B_USERS_CANCEL = False
                 break
 
-            res = await send(user)
+            user_id = user.get("id")
+            if not user_id:
+                continue
+            res = await send(user_id)
             if res == "Success": success += 1
             elif res == "Blocked": blocked += 1
             elif res == "Deleted": deleted += 1
