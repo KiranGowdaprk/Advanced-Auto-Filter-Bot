@@ -13,6 +13,7 @@ import datetime
 async def group_setting_buttons(grp_id):
     settings = await get_settings(grp_id)
     join_hider_status = "✅" if settings.get("join_hider", False) else "❌"
+    
     buttons = [[
                 InlineKeyboardButton('ʀᴇꜱᴜʟᴛ ᴘᴀɢᴇ', callback_data=f'setgs#button#{settings.get("button")}#{grp_id}',),
                 InlineKeyboardButton('ʙᴜᴛᴛᴏɴ' if settings.get("button") else 'ᴛᴇxᴛ', callback_data=f'setgs#button#{settings.get("button")}#{grp_id}',),
@@ -36,16 +37,25 @@ async def group_setting_buttons(grp_id):
             ],[
                 InlineKeyboardButton('ʟᴏɢ ᴄʜᴀɴɴᴇʟ', callback_data=f'log_setgs#{grp_id}',),
                 InlineKeyboardButton('ꜱᴇᴛ ᴄᴀᴘᴛɪᴏɴ', callback_data=f'caption_setgs#{grp_id}',),
-            ],[
+            ]]
+
+    # Only add group-specific buttons if grp_id is not 0 (0 means PM)
+    if str(grp_id) != "0":
+        buttons.extend([
+            [
                 InlineKeyboardButton('ᴄᴜꜱᴛᴏᴍ ꜰꜱᴜʙ', callback_data=f'fsub_setgs#{grp_id}',),
                 InlineKeyboardButton('ᴅᴇʟᴇᴛᴇ ɢʀᴏᴜᴘ', callback_data=f'delete_group_check#{grp_id}')
             ],[
                 InlineKeyboardButton(f"Join/Left Hider {join_hider_status}", callback_data=f"set_join_hider#{grp_id}")
             ],[
-            InlineKeyboardButton('🚀 ᴍᴇᴍʙᴇʀ ʙᴏᴏꜱᴛᴇʀ', callback_data=f'booster_setgs#{grp_id}'),
-            ],[
-                InlineKeyboardButton('⇋ ᴄʟᴏꜱᴇ ꜱᴇᴛᴛɪɴɢꜱ ᴍᴇɴᴜ ⇋', callback_data='close_data')
-    ]]
+                InlineKeyboardButton('🚀 ᴍᴇᴍʙᴇʀ ʙᴏᴏꜱᴛᴇʀ', callback_data=f'booster_setgs#{grp_id}'),
+            ]
+        ])
+
+    buttons.append([
+        InlineKeyboardButton('⇋ ᴄʟᴏꜱᴇ ꜱᴇᴛᴛɪɴɢꜱ ᴍᴇɴᴜ ⇋', callback_data='close_data')
+    ])
+    
     return buttons
 
 async def get_main_settings_text(grp_id, title):
