@@ -1418,3 +1418,64 @@ pyrogram.errors.exceptions.bad_request_400.QueryIdInvalid: Telegram says: [400 Q
 [11-Aug-26 11:42:34 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
 [11-Aug-26 11:42:34 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
 [11-Aug-26 11:42:39 PM] [INFO] - Stop signal received (SIGINT). Exiting...
+[11-Aug-26 11:47:53 PM] [INFO] - Initializing Your Bot!
+[11-Aug-26 11:48:06 PM] [INFO] - No additional clients found, using default client
+[11-Aug-26 11:48:10 PM] [INFO] - Single DB Mode On! Files Will Be Saved In First Database
+[11-Aug-26 11:48:10 PM] [INFO] - Spark X | Filter File Sharing Bot with Pyrofork v2.3.69 (Layer 220) started on @SparkXMoviesBot.
+[11-Aug-26 11:48:44 PM] [ERROR] - Unhandled exception: 'id'
+Traceback (most recent call last):
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\broadcast.py", line 62, in send
+    _, result = await users_broadcast(int(user["id"]), b_msg, is_pin)
+                                          ~~~~^^^^^^
+KeyError: 'id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 383, in _dispatch_to_handlers
+    await self._execute_handler(handler, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\dispatcher.py", line 410, in _execute_handler
+    await handler.callback(self.client, *args)
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\pyrogram\handlers\message_handler.py", line 154, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\broadcast.py", line 76, in broadcast_users
+    res = await send(user)
+          ^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\Downloads\Advanced-Auto-Filter-Bot-With-Features-main\Advanced-Auto-Filter-Bot-With-Features-main\plugins\broadcast.py", line 65, in send
+    LOGGER.error(f"Error sending broadcast to {user['id']}")
+                                               ~~~~^^^^^^
+KeyError: 'id'
+[11-Aug-26 11:48:44 PM] [INFO] - Searching for title 'https//t.me/toxicnewmovies' [Type: All] via GraphQL
+[11-Aug-26 11:48:49 PM] [ERROR] - ai_spell_check: imdb.search_movie timed out.
+[11-Aug-26 11:48:50 PM] [INFO] - Searching for title 'https://t.me/toxicnewmovies' [Type: All] via GraphQL
+[11-Aug-26 11:48:50 PM] [ERROR] - GraphQL request failed: 403
+[11-Aug-26 11:48:50 PM] [WARNING] - Search request failed: GraphQL request failed for https//t.me/toxicnewmovies: HTTP 403 - <html>
+<head><title>403 Forbidden</title></head>
+<body>
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+[11-Aug-26 11:48:52 PM] [ERROR] - GraphQL request failed: 403
+[11-Aug-26 11:48:52 PM] [WARNING] - Search request failed: GraphQL request failed for https://t.me/toxicnewmovies: HTTP 403 - <html>
+<head><title>403 Forbidden</title></head>
+<body>
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+[11-Aug-26 11:49:11 PM] [INFO] - Searching for title 'kgf' [Type: All] via GraphQL
+[11-Aug-26 11:49:14 PM] [ERROR] - GraphQL request failed: 403
+[11-Aug-26 11:49:14 PM] [WARNING] - Search request failed: GraphQL request failed for kgf: HTTP 403 - <html>
+<head><title>403 Forbidden</title></head>
+<body>
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+[11-Aug-26 11:49:42 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 11:49:43 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 11:49:43 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 11:49:44 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 11:49:44 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid
+[11-Aug-26 11:49:44 PM] [ERROR] - Error In PM Settings Button - Telegram says: [400 CHANNEL_INVALID] (caused by "channels.GetChannels") Pyrogram 2.3.69 thinks: The channel parameter is invalid

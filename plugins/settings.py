@@ -37,15 +37,15 @@ async def group_setting_buttons(grp_id):
             ],[
                 InlineKeyboardButton('ʟᴏɢ ᴄʜᴀɴɴᴇʟ', callback_data=f'log_setgs#{grp_id}',),
                 InlineKeyboardButton('ꜱᴇᴛ ᴄᴀᴘᴛɪᴏɴ', callback_data=f'caption_setgs#{grp_id}',),
+            ],[
+                InlineKeyboardButton('ᴄᴜꜱᴛᴏᴍ ꜰꜱᴜʙ', callback_data=f'fsub_setgs#{grp_id}',),
             ]]
 
     # Only add group-specific buttons if grp_id is not 0 (0 means PM)
     if str(grp_id) != "0":
+        buttons[-1].append(InlineKeyboardButton('ᴅᴇʟᴇᴛᴇ ɢʀᴏᴜᴘ', callback_data=f'delete_group_check#{grp_id}'))
         buttons.extend([
             [
-                InlineKeyboardButton('ᴄᴜꜱᴛᴏᴍ ꜰꜱᴜʙ', callback_data=f'fsub_setgs#{grp_id}',),
-                InlineKeyboardButton('ᴅᴇʟᴇᴛᴇ ɢʀᴏᴜᴘ', callback_data=f'delete_group_check#{grp_id}')
-            ],[
                 InlineKeyboardButton(f"Join/Left Hider {join_hider_status}", callback_data=f"set_join_hider#{grp_id}")
             ],[
                 InlineKeyboardButton('🚀 ᴍᴇᴍʙᴇʀ ʙᴏᴏꜱᴛᴇʀ', callback_data=f'booster_setgs#{grp_id}'),
