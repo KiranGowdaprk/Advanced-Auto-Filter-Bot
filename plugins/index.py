@@ -173,6 +173,8 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                     errors += len(message_ids)
                     current += len(message_ids)
                     continue
+                from database.users_chats_db import db
+                pending_reqs = await db.get_all_pending_requests()
                 save_tasks = []
                 for message in messages:
                     current += 1
@@ -192,7 +194,15 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                             continue
                         media.file_type = message.media.value
                         media.caption = message.caption
-                        save_tasks.append(save_file(media))
+                        
+                        async def save_and_fulfill(m, b, reqs):
+                            res = await save_file(m)
+                            if res[0]: # If ok
+                                from plugins.requests import check_and_fulfill_requests
+                                await check_and_fulfill_requests(b, m.file_name, m.file_id, reqs)
+                            return res
+                            
+                        save_tasks.append(save_and_fulfill(media, bot, pending_reqs))
 
                     except Exception:
                         errors += 1

@@ -267,6 +267,14 @@ class script(object):
 
 ᴍᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     
+    REQUEST_TXT = """ 
+#Requested
+
+ɪᴅ : <code>{}</code>
+ɴᴀᴍᴇ : {}
+
+ʀᴇǫᴜᴇꜱᴛᴇᴅ : <b>{}</b>"""
+    
     CAPTION = """<b>‣ ɴᴀᴍᴇ : </b><i>{file_name}</i>
 
 <b>‣ ꜱɪᴢᴇ : </b>{file_size}

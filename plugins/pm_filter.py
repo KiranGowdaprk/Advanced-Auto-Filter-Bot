@@ -437,7 +437,46 @@ async def advantage_spoll_choker(bot, query):
         k = await query.message.edit(script.MVE_NT_FND,reply_markup=contact_admin_button)
         await asyncio.sleep(10)
         await k.delete()
-                
+@Client.on_callback_query(filters.regex(r"^reqm#"))
+async def request_movie(bot, query):
+    _, keyword = query.data.split("#", 1)
+    user_id = query.from_user.id
+    chat_id = temp.SHORT.get(user_id, query.message.chat.id)
+    if chat_id > 0:
+        chat_id = 0
+    
+    # Check if user has too many pending requests (e.g. max 5)
+    pending_count = await db.get_user_pending_requests(user_id)
+    if pending_count >= 5:
+        return await query.answer("You already have 5 pending requests! Please wait for them to be fulfilled.", show_alert=True)
+    
+    added = await db.add_request(user_id, chat_id, keyword)
+    if not added:
+        return await query.answer("⚠️ You have already requested this exact movie! Please wait for it to be uploaded.", show_alert=True)
+        
+    await query.answer("✅ Your request has been logged! I will DM you as soon as it is uploaded.", show_alert=True)
+    
+    # Log to BIN_CHANNEL
+    if NO_RESULTS_MSG:
+        try:
+            reqstr = await bot.get_users(user_id)
+            await bot.send_message(chat_id=BIN_CHANNEL, text=script.REQUEST_TXT.format(reqstr.id, reqstr.mention, keyword))
+            print(f"[DEBUG] Successfully sent #Requested to BIN_CHANNEL: {BIN_CHANNEL}")
+        except Exception as e:
+            print(f"[DEBUG] ERROR sending #Requested to BIN_CHANNEL ({BIN_CHANNEL}): {e}")
+    # Optionally, remove the request button so they don't spam it
+    try:
+        markup = query.message.reply_markup
+        new_keyboard = []
+        for row in markup.inline_keyboard:
+            new_row = [btn for btn in row if "reqm#" not in (btn.callback_data or "")]
+            if new_row:
+                new_keyboard.append(new_row)
+        await query.message.edit_reply_markup(InlineKeyboardMarkup(new_keyboard))
+    except Exception:
+        pass
+        
+
 @Client.on_callback_query()
 async def cb_handler(client: Client, query: CallbackQuery):
     lazyData = query.data
@@ -450,7 +489,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         
     if query.data.startswith("file"):
         ident, file_id = query.data.split("#")
-        user = query.message.reply_to_message.from_user.id
+        user = query.message.reply_to_message.from_user.id if query.message.reply_to_message else query.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
         grp_id = query.message.chat.id
@@ -458,6 +497,58 @@ async def cb_handler(client: Client, query: CallbackQuery):
             grp_id = 0
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{grp_id}_{file_id}")          
                             
+    elif query.data.startswith("reqdl#"):
+        ident, chat_id, encoded_kw = query.data.split("#")
+        import base64
+        import random
+        from database.ia_filterdb import get_search_results
+        
+        keyword = base64.urlsafe_b64decode(encoded_kw + "=" * (-len(encoded_kw) % 4)).decode('utf-8')
+        chat_id = int(chat_id)
+        
+        try:
+            files, offset, total_results = await get_search_results(chat_id, keyword, offset=0, filter=True)
+            if files:
+                key = f"{query.from_user.id}-{random.randint(10000, 99999)}"
+                FRESH[key] = keyword
+                temp.GETALL[key] = files
+                
+                settings = await get_settings(chat_id)
+                btn = []
+                
+                if settings.get('button', True):
+                    for file in files:
+                        btn.append([InlineKeyboardButton(
+                            text=f"{silent_size(file.file_size)} | {extract_tag(file.file_name)} {clean_filename(file.file_name)}",
+                            callback_data=f'file#{file.file_id}'
+                        )])
+                
+                btn.insert(0, [
+                    InlineKeyboardButton("ᴘɪxᴇʟ", callback_data=f"qualities#{key}#0"),
+                    InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇ", callback_data=f"languages#{key}#0"),
+                    InlineKeyboardButton("ꜱᴇᴀꜱᴏɴ",  callback_data=f"seasons#{key}#0")
+                ])
+                btn.insert(1, [InlineKeyboardButton("📥 Sᴇɴᴅ Aʟʟ 📥", callback_data=f"sendfiles#{key}")])
+                
+                await build_pagination_buttons(btn, total_results, 0, offset, query.from_user.id, key, settings)
+                
+                msg = await query.message.edit_text(
+                    text=f"📁 **Here I Found For Your Search** {keyword}",
+                    reply_markup=InlineKeyboardMarkup(btn)
+                )
+                
+                if settings.get('auto_delete'):
+                    from utils import remove_buttons_after_delay
+                    from info import AUTO_DELETE_TIME
+                    delete_time = settings.get('auto_del_time', AUTO_DELETE_TIME)
+                    asyncio.create_task(remove_buttons_after_delay(msg, delete_time))
+            else:
+                await query.answer("No files found! They might have been deleted.", show_alert=True)
+        except Exception as e:
+            import logging
+            logging.error(f"Error in reqdl callback: {e}")
+            await query.answer("An error occurred.", show_alert=True)
+
     elif query.data.startswith("sendfiles"):
         clicked = query.from_user.id
         ident, key = query.data.split("#") 
@@ -899,7 +990,9 @@ async def auto_filter(client, msg, spoll=False):
                         await ai_sts.delete()
                         return await auto_filter(client, message)
                     await ai_sts.delete()
-                    return await advantage_spell_chok(client, message)
+                
+                # Call advantage_spell_chok if spell_check is disabled, or if AI found no misspelling
+                return await advantage_spell_chok(client, message)
         else:
             return
     else:
@@ -1094,19 +1187,25 @@ async def advantage_spell_chok(client, message):
     query = query.strip() + " movie"
     try:
         movies = await get_poster(search, bulk=True)
-    except Exception:
-        k = await message.reply(script.I_CUDNT.format(message.from_user.mention))
-        await asyncio.sleep(60)
-        await k.delete()
-        try:
-            await message.delete()
-        except Exception:
-            pass
-        return
+    except Exception as e:
+        import logging
+        logging.error(f"get_poster failed: {e}")
+        movies = None
+        
     if not movies:
+        reqstr1 = message.from_user.id if message.from_user else 0
+        reqstr = await client.get_users(reqstr1)
+        if NO_RESULTS_MSG:
+            try:
+                await client.send_message(chat_id=BIN_CHANNEL, text=script.NORSLTS.format(reqstr.id, reqstr.mention, search))
+                print(f"[DEBUG] Successfully sent #NoResults to BIN_CHANNEL: {BIN_CHANNEL}")
+            except Exception as e:
+                print(f"[DEBUG] ERROR sending to BIN_CHANNEL ({BIN_CHANNEL}): {e}")
         google = search.replace(" ", "+")
         button = [[
             InlineKeyboardButton("🔍 ᴄʜᴇᴄᴋ sᴘᴇʟʟɪɴɢ ᴏɴ ɢᴏᴏɢʟᴇ 🔍", url=f"https://www.google.com/search?q={google}")
+        ], [
+            InlineKeyboardButton("🛎️ Rᴇǫᴜᴇsᴛ Tʜɪs Mᴏᴠɪᴇ", callback_data=f"reqm#{search[:45]}")
         ]]
         k = await message.reply_text(text=script.I_CUDNT.format(search), reply_markup=InlineKeyboardMarkup(button))
         await asyncio.sleep(60)
@@ -1122,6 +1221,9 @@ async def advantage_spell_chok(client, message):
     ]
         for movie in movies
     ]
+    buttons.append(
+        [InlineKeyboardButton(text="🛎️ Rᴇǫᴜᴇsᴛ Tʜɪs Mᴏᴠɪᴇ", callback_data=f"reqm#{search[:45]}")]
+    )
     buttons.append(
         [InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data='close_data')]
     )

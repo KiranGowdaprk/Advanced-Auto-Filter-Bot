@@ -147,6 +147,14 @@ async def delete_after_delay(message, delay):
     except Exception:
         pass
 
+async def remove_buttons_after_delay(message, delay):
+    """Wait for delay and then remove the inline keyboard, keeping the text."""
+    await asyncio.sleep(delay)
+    try:
+        await message.edit_reply_markup(reply_markup=None)
+    except Exception:
+        pass
+
 async def get_status(bot_id):
     try:
         return await db.movie_update_status(bot_id) or False  

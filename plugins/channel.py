@@ -62,6 +62,9 @@ async def media(bot, message):
             success, silentxbotz = await save_file(media)
             if success and silentxbotz == 1 and await get_status(bot.me.id):            
                 await send_movie_update(bot, file_name=media.file_name, caption=media.caption)
+            if success:
+                from plugins.requests import check_and_fulfill_requests
+                await check_and_fulfill_requests(bot, media.file_name, media.file_id)
                 
         except Exception as e:
             LOGGER.error(f"Error while saving media or sending update: {e}")

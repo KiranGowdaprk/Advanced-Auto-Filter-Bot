@@ -19,6 +19,7 @@ class Database:
         self.codes = self.db.codes
         self.connection = self.db.connections
         self.file_store = self.db.file_store
+        self.requests = self.db.requests
 
     async def find_join_req(self, id, chnl):
         chnl = str(chnl)
@@ -542,7 +543,45 @@ class Database:
         return hashes
 
     async def delete_store_hash(self, hash_id):
-        await self.file_store.delete_one({"hash": hash_id})
+        await self.file_store.delete_one({"_id": hash_id})
+
+    # --- AUTO-FULFILLING REQUEST SYSTEM ---
+    
+    async def add_request(self, user_id, chat_id, keyword):
+        """Add a new movie request to the database"""
+        keyword_clean = keyword.lower().strip()
+        
+        # Check if this exact request already exists for this user
+        existing = await self.requests.find_one({"user_id": user_id, "keyword": keyword_clean, "status": "pending"})
+        if existing:
+            return False # Duplicate request
+            
+        request_data = {
+            "user_id": user_id,
+            "chat_id": chat_id,
+            "keyword": keyword_clean,
+            "status": "pending",
+            "requested_at": datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+        }
+        await self.requests.insert_one(request_data)
+        return True
+
+    async def get_user_pending_requests(self, user_id):
+        """Get the number of pending requests for a user"""
+        return await self.requests.count_documents({"user_id": user_id, "status": "pending"})
+
+    async def get_all_pending_requests(self):
+        """Fetch all pending requests"""
+        cursor = self.requests.find({"status": "pending"})
+        return await cursor.to_list(length=None)
+
+    async def mark_request_fulfilled(self, request_id):
+        """Mark a request as fulfilled"""
+        from bson.objectid import ObjectId
+        await self.requests.update_one(
+            {"_id": ObjectId(request_id)},
+            {"$set": {"status": "fulfilled"}}
+        )
         
 db = Database(DATABASE_URI, DATABASE_NAME)    
 db2 = Database(DATABASE_URI2, DATABASE_NAME)

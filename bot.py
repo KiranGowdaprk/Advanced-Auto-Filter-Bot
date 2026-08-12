@@ -73,7 +73,7 @@ def silentx_plugins_handler(app, plugins_dir: str | Path = "plugins", package_na
             loaded_plugins.append(import_path)
 
             short_name = import_path.removeprefix(f"{package_name}.")
-            LOGGER.info("🔌 Loaded plugin: %s", short_name)
+            LOGGER.info("[Plugin] Loaded plugin: %s", short_name)
 
         except Exception:
             LOGGER.exception("Failed To Import Plugin: %s", import_path)
