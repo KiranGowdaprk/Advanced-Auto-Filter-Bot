@@ -195,8 +195,14 @@ async def get_poster(query, bulk=False, id=False, file=None):
             if year_list:
                 year_val = year_list[0]
         
-        search_result = await asyncio.to_thread(imdb.search_movie, title.lower())
+        try:
+            search_result = await asyncio.to_thread(imdb.search_movie, title.lower())
+        except Exception as e:
+            LOGGER.error(f"[IMDb API ERROR] search_movie failed for '{title.lower()}': {e}")
+            return None
+
         if not search_result or not search_result.titles:
+            LOGGER.info(f"[IMDb DEBUG] No suggestions found for '{title.lower()}'. Likely gibberish or not in IMDb database.")
             return None
         
         movie_list = search_result.titles[:MAX_LIST_ELM]
@@ -225,8 +231,14 @@ async def get_poster(query, bulk=False, id=False, file=None):
     else:
         movieid_str = query
 
-    movie = await asyncio.to_thread(imdb.get_movie, movieid_str)
+    try:
+        movie = await asyncio.to_thread(imdb.get_movie, movieid_str)
+    except Exception as e:
+        LOGGER.error(f"[IMDb API ERROR] get_movie failed for ID '{movieid_str}': {e}")
+        return None
+
     if not movie:
+        LOGGER.info(f"[IMDb DEBUG] get_movie returned None for ID '{movieid_str}'")
         return None
 
     if movie.release_date:
