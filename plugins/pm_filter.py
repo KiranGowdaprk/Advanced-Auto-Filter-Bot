@@ -1163,18 +1163,41 @@ async def auto_filter(client, msg, spoll=False):
 
 async def ai_spell_check(chat_id, wrong_name):
     async def search_movie(wrong_name):
-        try:
-            search_results = await asyncio.wait_for(asyncio.to_thread(imdb.search_movie, wrong_name), timeout=5.0)
-            if not search_results or not getattr(search_results, 'titles', None):
+        LOGGER.info(f"[API CHECK] ai_spell_check called. Active API_PROVIDER: {API_PROVIDER.upper()}")
+        if API_PROVIDER.upper() == "TMDB":
+            try:
+                from utils import fetch_tmdb_search
+                results = await fetch_tmdb_search(wrong_name)
+                if not results:
+                    return []
+                # Return list of titles
+                return [m.get('title') or m.get('name') for m in results if m.get('title') or m.get('name')]
+            except Exception as e:
+                LOGGER.error(f"Error in ai_spell_check (TMDB): {e}")
                 return []
-            movie_list = [movie.title for movie in search_results.titles]
-            return movie_list
-        except asyncio.TimeoutError:
-            LOGGER.error("ai_spell_check: imdb.search_movie timed out.")
-            return []
-        except Exception as e:
-            LOGGER.error(f"Error in ai_spell_check: {e}")
-            return []
+        elif API_PROVIDER.upper() == "OMDB":
+            try:
+                from utils import fetch_omdb_search
+                results = await fetch_omdb_search(wrong_name)
+                if not results:
+                    return []
+                return [m.get('Title') for m in results if m.get('Title')]
+            except Exception as e:
+                LOGGER.error(f"Error in ai_spell_check (OMDB): {e}")
+                return []
+        else:
+            try:
+                search_results = await asyncio.wait_for(asyncio.to_thread(imdb.search_movie, wrong_name), timeout=5.0)
+                if not search_results or not getattr(search_results, 'titles', None):
+                    return []
+                movie_list = [movie.title for movie in search_results.titles]
+                return movie_list
+            except asyncio.TimeoutError:
+                LOGGER.error("ai_spell_check: imdb.search_movie timed out.")
+                return []
+            except Exception as e:
+                LOGGER.error(f"Error in ai_spell_check: {e}")
+                return []
     movie_list = await search_movie(wrong_name)
     if not movie_list:
         return

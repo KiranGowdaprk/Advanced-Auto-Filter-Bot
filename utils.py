@@ -179,8 +179,311 @@ def listx_to_str(k):
         result = result[:int(MAX_LIST_ELM)]
     
     return ', '.join(result) if result else "N/A"
-    
+
+async def fetch_tmdb_search(query):
+    if not TMDB_API_KEY:
+        LOGGER.error("[TMDB ERROR] TMDB_API_KEY is missing!")
+        return []
+    url = f"https://api.themoviedb.org/3/search/multi?api_key={TMDB_API_KEY}&query={query}"
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    return data.get("results", [])
+                else:
+                    LOGGER.error(f"[TMDB ERROR] search_multi returned status {resp.status}")
+    except Exception as e:
+        LOGGER.error(f"[TMDB ERROR] Exception in fetch_tmdb_search: {e}")
+    return []
+
+async def fetch_tmdb_details(media_type, tmdb_id):
+    if not TMDB_API_KEY:
+        return None
+    url = f"https://api.themoviedb.org/3/{media_type}/{tmdb_id}?api_key={TMDB_API_KEY}&append_to_response=external_ids,credits"
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    return await resp.json()
+                else:
+                    LOGGER.error(f"[TMDB ERROR] get_details returned status {resp.status}")
+    except Exception as e:
+        LOGGER.error(f"[TMDB ERROR] Exception in fetch_tmdb_details: {e}")
+    return None
+
+async def fetch_omdb_search(query):
+    if not OMDB_API_KEY:
+        LOGGER.error("[OMDB ERROR] OMDB_API_KEY is missing!")
+        return []
+    url = f"http://www.omdbapi.com/?apikey={OMDB_API_KEY}&s={query}"
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    return data.get("Search", [])
+                else:
+                    LOGGER.error(f"[OMDB ERROR] search returned status {resp.status}")
+    except Exception as e:
+        LOGGER.error(f"[OMDB ERROR] Exception in fetch_omdb_search: {e}")
+    return []
+
+async def fetch_omdb_details(imdb_id):
+    if not OMDB_API_KEY:
+        return None
+    url = f"http://www.omdbapi.com/?apikey={OMDB_API_KEY}&i={imdb_id}&plot=full"
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    if data.get("Response") == "True":
+                        return data
+                else:
+                    LOGGER.error(f"[OMDB ERROR] get_details returned status {resp.status}")
+    except Exception as e:
+        LOGGER.error(f"[OMDB ERROR] Exception in fetch_omdb_details: {e}")
+    return None
+
 async def get_poster(query, bulk=False, id=False, file=None):
+    LOGGER.info(f"[API CHECK] get_poster called. Active API_PROVIDER: {API_PROVIDER.upper()}")
+    if API_PROVIDER.upper() == "TMDB":
+        if not id:
+            query = (query.strip()).lower()
+            title = query
+            year_val = None
+            
+            year_list = re.findall(r'[1-2]\d{3}$', query, re.IGNORECASE)
+            if year_list:
+                year_val = year_list[0]
+                title = (query.replace(year_val, "")).strip()
+            elif file is not None:
+                year_list = re.findall(r'[1-2]\d{3}', file, re.IGNORECASE)
+                if year_list:
+                    year_val = year_list[0]
+            
+            results = await fetch_tmdb_search(title)
+            if not results:
+                LOGGER.info(f"[TMDB DEBUG] No suggestions found for '{title}'.")
+                return None
+            
+            # TMDB returns a list of dicts. Filter them.
+            movie_list = results[:MAX_LIST_ELM]
+            
+            if year_val:
+                filtered = []
+                for m in movie_list:
+                    release = m.get('release_date') or m.get('first_air_date') or ""
+                    if release.startswith(str(year_val)):
+                        filtered.append(m)
+                if not filtered:
+                    filtered = movie_list
+            else:
+                filtered = movie_list
+                
+            kind_filter = ['movie', 'tv']
+            filtered_kind = [m for m in filtered if m.get('media_type') in kind_filter]
+            if not filtered_kind:
+                filtered_kind = filtered
+                
+            if bulk:
+                # Need to return an object with 'title' and 'imdb_id' attributes for pm_filter.py
+                class DummyMovie:
+                    def __init__(self, t, i):
+                        self.title = t
+                        self.imdb_id = i
+                
+                bulk_res = []
+                for m in filtered_kind[:MAX_LIST_ELM]:
+                    # To get imdb_id we actually need to fetch details for each if it's not provided
+                    # But for bulk suggestions, TMDB id is fine if we prefix it so we know later
+                    m_title = m.get('title') or m.get('name')
+                    bulk_res.append(DummyMovie(m_title, f"tmdb_{m.get('media_type')}_{m.get('id')}"))
+                return bulk_res
+                
+            if not filtered_kind:
+                return None
+                
+            movie_brief = filtered_kind[0]
+            tmdb_id_str = f"tmdb_{movie_brief.get('media_type', 'movie')}_{movie_brief.get('id')}"
+        else:
+            tmdb_id_str = query
+            
+        # Extract media type and id from our custom format
+        if tmdb_id_str.startswith("tmdb_"):
+            parts = tmdb_id_str.split("_")
+            media_type = parts[1]
+            tmdb_id = parts[2]
+        else:
+            # Fallback if it's an imdb id (maybe user passed tt12345)
+            # Actually, TMDB has a /find endpoint, but let's assume standard flow
+            media_type = "movie"
+            tmdb_id = tmdb_id_str
+            
+        movie = await fetch_tmdb_details(media_type, tmdb_id)
+        if not movie:
+            LOGGER.info(f"[TMDB DEBUG] get_details returned None for ID '{tmdb_id}'")
+            return None
+            
+        date = movie.get('release_date') or movie.get('first_air_date') or "N/A"
+        year = date[:4] if date != "N/A" else "N/A"
+        plot = movie.get('overview', "")
+        if len(plot) > 800:
+            plot = plot[:800] + "..."
+            
+        # Get IMDB ID from external_ids
+        ext_ids = movie.get('external_ids', {})
+        imdb_id = ext_ids.get('imdb_id', f"tmdb{tmdb_id}")
+        if imdb_id and not imdb_id.startswith("tt"):
+            imdb_id = f"tt{imdb_id}"
+            
+        # Get Cast and Crew
+        credits = movie.get('credits', {})
+        cast_list = [c.get('name') for c in credits.get('cast', [])[:5]]
+        crew = credits.get('crew', [])
+        directors = [c.get('name') for c in crew if c.get('job') == 'Director']
+        writers = [c.get('name') for c in crew if c.get('job') in ['Screenplay', 'Writer']]
+        
+        genres = [g.get('name') for g in movie.get('genres', [])]
+        
+        poster_path = movie.get('poster_path')
+        poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+        
+        return {
+            'title': movie.get('title') or movie.get('name'),
+            'votes': movie.get('vote_count', "N/A"),
+            "aka": "N/A",
+            "seasons": movie.get('number_of_seasons', "N/A"),
+            "box_office": movie.get('revenue', "N/A"),
+            'localized_title': movie.get('title') or movie.get('name'),
+            'kind': "movie" if media_type == "movie" else "tv series",
+            "imdb_id": imdb_id,
+            "cast": listx_to_str(cast_list),
+            "runtime": listx_to_str([movie.get('runtime', "N/A")]),
+            "countries": listx_to_str([c.get('name') for c in movie.get('production_countries', [])]),
+            "certificates": "N/A",
+            "languages": listx_to_str(movie.get('spoken_languages', [])),
+            "director": listx_to_str(directors),
+            "writer": listx_to_str(writers),
+            "producer": "N/A",
+            "composer": "N/A",
+            "cinematographer": "N/A",
+            "music_team": "N/A",
+            "distributors": "N/A",        
+            'release_date': date,
+            'year': year,
+            'genres': listx_to_str(genres),
+            'poster': poster_url,
+            'plot': plot,
+            'rating': str(movie.get('vote_average', "N/A")),
+            "url": f"https://www.themoviedb.org/{media_type}/{tmdb_id}"
+        }
+
+    # === OMDB FALLBACK ===
+    elif API_PROVIDER.upper() == "OMDB":
+        if not id:
+            query = (query.strip()).lower()
+            title = query
+            year_val = None
+            
+            year_list = re.findall(r'[1-2]\d{3}$', query, re.IGNORECASE)
+            if year_list:
+                year_val = year_list[0]
+                title = (query.replace(year_val, "")).strip()
+            elif file is not None:
+                year_list = re.findall(r'[1-2]\d{3}', file, re.IGNORECASE)
+                if year_list:
+                    year_val = year_list[0]
+            
+            results = await fetch_omdb_search(title)
+            if not results:
+                LOGGER.info(f"[OMDB DEBUG] No suggestions found for '{title}'.")
+                return None
+            
+            movie_list = results[:MAX_LIST_ELM]
+            
+            if year_val:
+                filtered = [m for m in movie_list if str(m.get("Year", "")).startswith(str(year_val))]
+                if not filtered:
+                    filtered = movie_list
+            else:
+                filtered = movie_list
+                
+            kind_filter = ['movie', 'series']
+            filtered_kind = [m for m in filtered if m.get("Type", "movie") in kind_filter]
+            if not filtered_kind:
+                filtered_kind = filtered
+                
+            if bulk:
+                class DummyMovie:
+                    def __init__(self, t, i):
+                        self.title = t
+                        self.imdb_id = i
+                
+                bulk_res = []
+                for m in filtered_kind[:MAX_LIST_ELM]:
+                    bulk_res.append(DummyMovie(m.get("Title"), m.get("imdbID")))
+                return bulk_res
+                
+            if not filtered_kind:
+                return None
+                
+            movie_brief = filtered_kind[0]
+            imdb_id_str = movie_brief.get("imdbID")
+        else:
+            imdb_id_str = query
+            
+        movie = await fetch_omdb_details(imdb_id_str)
+        if not movie:
+            LOGGER.info(f"[OMDB DEBUG] get_details returned None for ID '{imdb_id_str}'")
+            return None
+            
+        date = movie.get("Released", "N/A")
+        year = movie.get("Year", "N/A")
+        plot = movie.get("Plot", "")
+        if len(plot) > 800:
+            plot = plot[:800] + "..."
+            
+        imdb_id = movie.get("imdbID", imdb_id_str)
+        if imdb_id and not imdb_id.startswith("tt"):
+            imdb_id = f"tt{imdb_id}"
+            
+        poster_url = movie.get("Poster")
+        if poster_url == "N/A":
+            poster_url = None
+            
+        return {
+            'title': movie.get("Title", "N/A"),
+            'votes': movie.get("imdbVotes", "N/A"),
+            "aka": "N/A",
+            "seasons": movie.get("totalSeasons", "N/A"),
+            "box_office": movie.get("BoxOffice", "N/A"),
+            'localized_title': movie.get("Title", "N/A"),
+            'kind': "tv series" if movie.get("Type") == "series" else "movie",
+            "imdb_id": imdb_id,
+            "cast": movie.get("Actors", "N/A"),
+            "runtime": movie.get("Runtime", "N/A"),
+            "countries": movie.get("Country", "N/A"),
+            "certificates": movie.get("Rated", "N/A"),
+            "languages": movie.get("Language", "N/A"),
+            "director": movie.get("Director", "N/A"),
+            "writer": movie.get("Writer", "N/A"),
+            "producer": "N/A",
+            "composer": "N/A",
+            "cinematographer": "N/A",
+            "music_team": "N/A",
+            "distributors": "N/A",        
+            'release_date': date,
+            'year': year,
+            'genres': movie.get("Genre", "N/A"),
+            'poster': poster_url,
+            'plot': plot,
+            'rating': movie.get("imdbRating", "N/A"),
+            "url": f"https://www.imdb.com/title/{imdb_id}"
+        }
+
+    # === IMDB FALLBACK ===
     if not id:
         query = (query.strip()).lower()
         title = query

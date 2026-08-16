@@ -141,6 +141,10 @@ BAD_WORDS = [
     "predvd", "dvdscr", "hdts", "camrip", "hdcam", "hdrip", "brrip", "bdrip",
 ]
 
+API_PROVIDER = environ.get('API_PROVIDER', 'TMDB') # 'IMDB', 'TMDB', or 'OMDB'
+TMDB_API_KEY = environ.get('TMDB_API_KEY', '272105c129d6cd8f0f3010e852d25c5b')
+OMDB_API_KEY = environ.get('OMDB_API_KEY', '41be542')
+
 LANGUAGES = ["malayalam", "mal", "tamil", "tam", "english", "eng", "hindi", "hin", "telugu", "tel", "kannada", "kan", "gujarati", "guj", "marathi", "mar", "punjabi", "pun"]
 QUALITIES = ["360P", "", "480P", "", "560P", "", "720P", "", "1080P", "", "1440P", "", "2160P", ""]
 SEASONS = ["Season 1", "S01", "Season 2", "S02", "Season 3", "S03", "Season 4", "S04", "Season 5", "S05", "Season 6", "S06", "Season 7", "S07", "Season 8", "S08", "Season 9", "S09", "Season 10", "S10"]
