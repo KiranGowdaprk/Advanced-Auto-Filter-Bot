@@ -431,12 +431,24 @@ async def advantage_spoll_choker(bot, query):
         reqstr1 = query.from_user.id if query.from_user else 0
         reqstr = await bot.get_users(reqstr1)
         if NO_RESULTS_MSG:
-            await bot.send_message(chat_id=BIN_CHANNEL,text=script.NORSLTS.format(reqstr.id, reqstr.mention, movie))
-        contact_admin_button = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔰 Cʟɪᴄᴋ ʜᴇʀᴇ & ʀᴇǫᴜᴇsᴛ ᴛᴏ ᴀᴅᴍɪɴ🔰", url=OWNER_LNK)]])
-        k = await query.message.edit(script.MVE_NT_FND,reply_markup=contact_admin_button)
-        await asyncio.sleep(10)
+            try:
+                await bot.send_message(chat_id=BIN_CHANNEL, text=script.NORSLTS.format(reqstr.id, reqstr.mention, movie))
+                print(f"[DEBUG] Successfully sent #NoResults to BIN_CHANNEL: {BIN_CHANNEL}")
+            except Exception as e:
+                print(f"[DEBUG] ERROR sending to BIN_CHANNEL ({BIN_CHANNEL}): {e}")
+        google = movie.replace(" ", "+")
+        button = [[
+            InlineKeyboardButton("🔍 ᴄʜᴇᴄᴋ sᴘᴇʟʟɪɴɢ ᴏɴ ɢᴏᴏɢʟᴇ 🔍", url=f"https://www.google.com/search?q={google}")
+        ], [
+            InlineKeyboardButton("🛎️ Rᴇǫᴜᴇsᴛ Tʜɪs Mᴏᴠɪᴇ", callback_data=f"reqm#{movie[:45]}")
+        ]]
+        k = await query.message.edit(script.I_CUDNT.format(movie), reply_markup=InlineKeyboardMarkup(button))
+        await asyncio.sleep(60)
         await k.delete()
+        try:
+            await query.message.delete()
+        except Exception:
+            pass
 @Client.on_callback_query(filters.regex(r"^reqm#"))
 async def request_movie(bot, query):
     _, keyword = query.data.split("#", 1)
@@ -1221,9 +1233,6 @@ async def advantage_spell_chok(client, message):
     ]
         for movie in movies
     ]
-    buttons.append(
-        [InlineKeyboardButton(text="🛎️ Rᴇǫᴜᴇsᴛ Tʜɪs Mᴏᴠɪᴇ", callback_data=f"reqm#{search[:45]}")]
-    )
     buttons.append(
         [InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data='close_data')]
     )
