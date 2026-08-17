@@ -582,6 +582,20 @@ class Database:
             {"_id": ObjectId(request_id)},
             {"$set": {"status": "fulfilled"}}
         )
+
+    async def delete_request(self, request_id):
+        """Completely delete a request from the database"""
+        from bson.objectid import ObjectId
+        await self.requests.delete_one({"_id": ObjectId(request_id)})
+
+    async def get_total_pending_requests_count(self):
+        """Get the total number of pending requests"""
+        return await self.requests.count_documents({"status": "pending"})
+
+    async def get_unique_request_users_count(self):
+        """Get the total number of unique users who have pending requests"""
+        users = await self.requests.distinct("user_id", {"status": "pending"})
+        return len(users)
         
 db = Database(DATABASE_URI, DATABASE_NAME)    
 db2 = Database(DATABASE_URI2, DATABASE_NAME)
