@@ -142,7 +142,7 @@ BAD_WORDS = [
 ]
 
 API_PROVIDER = environ.get('API_PROVIDER', 'TMDB') # 'IMDB', 'TMDB', or 'OMDB'
-TMDB_API_KEY = environ.get('TMDB_API_KEY', '')
+TMDB_API_KEY = environ.get('TMDB_API_KEY', 'e97fe9f37353352086a36be64dc77217')
 OMDB_API_KEY = environ.get('OMDB_API_KEY', '')
 
 LANGUAGES = ["malayalam", "mal", "tamil", "tam", "english", "eng", "hindi", "hin", "telugu", "tel", "kannada", "kan", "gujarati", "guj", "marathi", "mar", "punjabi", "pun"]
