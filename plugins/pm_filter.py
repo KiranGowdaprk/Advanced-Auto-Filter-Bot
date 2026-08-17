@@ -1282,12 +1282,13 @@ async def ai_spell_check(chat_id, wrong_name):
     scored_candidates = [(cand, smart_movie_scorer(wrong_name, cand)) for cand in all_candidates]
     scored_candidates.sort(key=lambda x: x[1], reverse=True)
     
-    if not scored_candidates or scored_candidates[0][1] < 70:
-        LOGGER.info(f"[SPELL DEBUG] Best candidate score {scored_candidates[0][1] if scored_candidates else 'None'} is below threshold 70. Showing suggestions/request screen.")
+    # Only auto-correct without asking if we are VERY SURE (score >= 85%)
+    if not scored_candidates or scored_candidates[0][1] < 85:
+        LOGGER.info(f"[SPELL DEBUG] Best candidate score {scored_candidates[0][1] if scored_candidates else 'None'} is below 85% certainty threshold. Showing suggestions to user.")
         return None
         
     closest_match = scored_candidates[0]
-    LOGGER.info(f"[SPELL DEBUG] Top match -> '{closest_match[0]}' with score {closest_match[1]}")
+    LOGGER.info(f"[SPELL DEBUG] High confidence match (>=85%) -> '{closest_match[0]}' with score {closest_match[1]}")
     movie = closest_match[0]
     
     # Try exact title first
@@ -1390,10 +1391,11 @@ async def advantage_spell_chok(client, message):
     ]
         for movie in movies
     ]
-    buttons.append(
-        [InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data='close_data')]
-    )
-    d = await message.reply_text(text=script.CUDNT_FND.format(message.from_user.mention), reply_markup=InlineKeyboardMarkup(buttons), reply_to_message_id=message.id)
+    buttons.append([
+        InlineKeyboardButton("🛎️ Rᴇǫᴜᴇsᴛ Tʜɪs Mᴏᴠɪᴇ", callback_data=f"reqm#{search[:45]}"),
+        InlineKeyboardButton(text="🚫 ᴄʟᴏsᴇ 🚫", callback_data='close_data')
+    ])
+    d = await message.reply_text(text=script.CUDNT_FND.format(search), reply_markup=InlineKeyboardMarkup(buttons), reply_to_message_id=message.id)
     await asyncio.sleep(60)
     await d.delete()
     try:

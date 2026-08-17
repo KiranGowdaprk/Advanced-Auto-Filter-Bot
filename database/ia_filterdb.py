@@ -426,7 +426,6 @@ async def get_fuzzy_db_candidates(query: str, limit: int = 10) -> List[str]:
                 sub_pat = query_clean[:i] + '.' + query_clean[i+1:]
                 patterns.append(re.escape(sub_pat).replace(r'\.', '.'))
             patterns.append(r'\b' + re.escape(query_clean[:2]))
-            patterns.append(r'\b' + re.escape(query_clean[0]))
         else:
             words = query_clean.split()
             for w in words:
@@ -474,11 +473,10 @@ async def get_fuzzy_db_candidates(query: str, limit: int = 10) -> List[str]:
                 fuzz.token_sort_ratio(query_clean, t_lower),
                 fuzz.token_set_ratio(query_clean, t_lower),
                 fuzz.ratio(query_clean, t_lower),
-                fuzz.partial_ratio(query_clean, t_lower) if len(query_clean) <= 5 else 0,
                 token_max,
                 acronym_score
             )
-            if score >= 50:
+            if score >= 60:
                 scored.append((t, score))
                 
         scored.sort(key=lambda x: x[1], reverse=True)
