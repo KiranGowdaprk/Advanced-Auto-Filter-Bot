@@ -1279,33 +1279,34 @@ async def ai_spell_check(chat_id, wrong_name):
         LOGGER.info(f"[SPELL DEBUG] No candidates returned from DB or TMDb, giving up.")
         return
 
-    for i in range(5):
-        scored_candidates = [(cand, smart_movie_scorer(wrong_name, cand)) for cand in all_candidates]
-        scored_candidates.sort(key=lambda x: x[1], reverse=True)
+    scored_candidates = [(cand, smart_movie_scorer(wrong_name, cand)) for cand in all_candidates]
+    scored_candidates.sort(key=lambda x: x[1], reverse=True)
+    
+    if not scored_candidates or scored_candidates[0][1] < 70:
+        LOGGER.info(f"[SPELL DEBUG] Best candidate score {scored_candidates[0][1] if scored_candidates else 'None'} is below threshold 70. Showing suggestions/request screen.")
+        return None
         
-        if not scored_candidates or scored_candidates[0][1] <= 50:
-            LOGGER.info(f"[SPELL DEBUG] Best score {scored_candidates[0][1] if scored_candidates else 'None'} is below threshold 50. Giving up.")
-            return
-            
-        closest_match = scored_candidates[0]
-        LOGGER.info(f"[SPELL DEBUG] Round {i+1}: Best match -> '{closest_match[0]}' with score {closest_match[1]}")
-        movie = closest_match[0]
+    closest_match = scored_candidates[0]
+    LOGGER.info(f"[SPELL DEBUG] Top match -> '{closest_match[0]}' with score {closest_match[1]}")
+    movie = closest_match[0]
+    
+    # Try exact title first
+    files, offset, total_results = await get_search_results(chat_id=chat_id, query=movie)
+    LOGGER.info(f"[SPELL DEBUG] DB search '{movie}' -> found {len(files)} files")
+    if not files:
+        # Try normalized version (strip special chars like : - ' etc.)
+        cleaned = re.sub(r"[:\-'()]", " ", movie)
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        if cleaned != movie:
+            files, offset, total_results = await get_search_results(chat_id=chat_id, query=cleaned)
+            LOGGER.info(f"[SPELL DEBUG] DB search normalized '{cleaned}' -> found {len(files)} files")
+    if files:
+        LOGGER.info(f"[SPELL DEBUG] [SUCCESS] Returning corrected title: '{movie}'")
+        return movie
         
-        # Try exact title first
-        files, offset, total_results = await get_search_results(chat_id=chat_id, query=movie)
-        LOGGER.info(f"[SPELL DEBUG] DB search '{movie}' -> found {len(files)} files")
-        if not files:
-            # Try normalized version (strip special chars like : - ' etc.)
-            cleaned = re.sub(r"[:\-'()]", " ", movie)
-            cleaned = re.sub(r"\s+", " ", cleaned).strip()
-            if cleaned != movie:
-                files, offset, total_results = await get_search_results(chat_id=chat_id, query=cleaned)
-                LOGGER.info(f"[SPELL DEBUG] DB search normalized '{cleaned}' -> found {len(files)} files")
-        if files:
-            LOGGER.info(f"[SPELL DEBUG] [SUCCESS] Returning corrected title: '{movie}'")
-            return movie
-        all_candidates.remove(movie)
-        LOGGER.info(f"[SPELL DEBUG] '{movie}' not in DB, removed. Trying next...")
+    # Top match is not in DB -> DO NOT degrade into random weak DB matches!
+    LOGGER.info(f"[SPELL DEBUG] Top match '{movie}' not in DB. Showing suggestions and request options to user.")
+    return None
 
 async def advantage_spell_chok(client, message):
     mv_id = message.id
