@@ -21,6 +21,7 @@ from shortzy import Shortzy
 import http.client
 import json
 from logging_helper import LOGGER
+from rapidfuzz import fuzz
 
 BTN_URL_REGEX = re.compile(
     r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))"
@@ -265,6 +266,32 @@ async def get_poster(query, bulk=False, id=False, file=None):
             
             results = await fetch_tmdb_search(title)
             if not results:
+                words = title.split()
+                if len(words) >= 2:
+                    seen_ids = set()
+                    for i in range(len(words)):
+                        partial = " ".join(words[:i] + words[i+1:]).strip()
+                        if partial:
+                            partial_res = await fetch_tmdb_search(partial)
+                            for r in (partial_res or []):
+                                r_id = r.get("id")
+                                if r_id not in seen_ids:
+                                    results.append(r)
+                                    seen_ids.add(r_id)
+                    if not results and len(words) >= 3:
+                        for i in range(1, len(words)):
+                            pair_q = f"{words[0]} {words[i]}"
+                            pair_res = await fetch_tmdb_search(pair_q)
+                            for r in (pair_res or []):
+                                r_id = r.get("id")
+                                if r_id not in seen_ids:
+                                    results.append(r)
+                                    seen_ids.add(r_id)
+                if not results and words:
+                    longest_word = max(words, key=len)
+                    if len(longest_word) >= 3:
+                        results = await fetch_tmdb_search(longest_word) or []
+            if not results:
                 LOGGER.info(f"[TMDB DEBUG] No suggestions found for '{title}'.")
                 return None
             
@@ -282,25 +309,31 @@ async def get_poster(query, bulk=False, id=False, file=None):
             else:
                 filtered = movie_list
                 
-            kind_filter = ['movie', 'tv']
-            filtered_kind = [m for m in filtered if m.get('media_type') in kind_filter]
-            if not filtered_kind:
-                filtered_kind = filtered
-                
             if bulk:
-                # Need to return an object with 'title' and 'imdb_id' attributes for pm_filter.py
+                # Return all suggestions returned by TMDB for user confirmation
                 class DummyMovie:
                     def __init__(self, t, i):
                         self.title = t
                         self.imdb_id = i
                 
                 bulk_res = []
-                for m in filtered_kind[:MAX_LIST_ELM]:
-                    # To get imdb_id we actually need to fetch details for each if it's not provided
-                    # But for bulk suggestions, TMDB id is fine if we prefix it so we know later
+                for m in movie_list[:MAX_LIST_ELM]:
                     m_title = m.get('title') or m.get('name')
-                    bulk_res.append(DummyMovie(m_title, f"tmdb_{m.get('media_type')}_{m.get('id')}"))
+                    if m_title:
+                        media_t = m.get('media_type', 'movie')
+                        bulk_res.append(DummyMovie(m_title, f"tmdb_{media_t}_{m.get('id')}"))
                 return bulk_res
+                
+            kind_filter = ['movie', 'tv']
+            filtered_kind = [m for m in filtered if m.get('media_type') in kind_filter]
+            if not filtered_kind:
+                filtered_kind = filtered
+
+            # Rank items by fuzzy match to the user's title
+            filtered_kind.sort(
+                key=lambda m: fuzz.token_sort_ratio(title, m.get('title') or m.get('name') or ''),
+                reverse=True
+            )
                 
             if not filtered_kind:
                 return None
@@ -398,6 +431,32 @@ async def get_poster(query, bulk=False, id=False, file=None):
             
             results = await fetch_omdb_search(title)
             if not results:
+                words = title.split()
+                if len(words) >= 2:
+                    seen_ids = set()
+                    for i in range(len(words)):
+                        partial = " ".join(words[:i] + words[i+1:]).strip()
+                        if partial:
+                            partial_res = await fetch_omdb_search(partial)
+                            for r in (partial_res or []):
+                                r_id = r.get("imdbID")
+                                if r_id not in seen_ids:
+                                    results.append(r)
+                                    seen_ids.add(r_id)
+                    if not results and len(words) >= 3:
+                        for i in range(1, len(words)):
+                            pair_q = f"{words[0]} {words[i]}"
+                            pair_res = await fetch_omdb_search(pair_q)
+                            for r in (pair_res or []):
+                                r_id = r.get("imdbID")
+                                if r_id not in seen_ids:
+                                    results.append(r)
+                                    seen_ids.add(r_id)
+                if not results and words:
+                    longest_word = max(words, key=len)
+                    if len(longest_word) >= 3:
+                        results = await fetch_omdb_search(longest_word) or []
+            if not results:
                 LOGGER.info(f"[OMDB DEBUG] No suggestions found for '{title}'.")
                 return None
             
@@ -414,6 +473,12 @@ async def get_poster(query, bulk=False, id=False, file=None):
             filtered_kind = [m for m in filtered if m.get("Type", "movie") in kind_filter]
             if not filtered_kind:
                 filtered_kind = filtered
+
+            # Rank items by fuzzy match to the user's title
+            filtered_kind.sort(
+                key=lambda m: fuzz.token_sort_ratio(title, m.get('Title') or ''),
+                reverse=True
+            )
                 
             if bulk:
                 class DummyMovie:
