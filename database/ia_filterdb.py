@@ -330,18 +330,31 @@ async def silentxbotz_clean_title(filename: str, is_series: bool = False) -> str
     try:
         if not filename:
             return ""
-        filename = clean_filename(filename)
-        year_match = re.search(r"^(.*?)(\b\d{4}\b)", filename, re.IGNORECASE)
+        # 1. Strip leading release tags like [MGBM], (PSA), {YTS}, etc.
+        cleaned = re.sub(r"^[\[\(\{][^\]\)\}]+[\]\)\}]\s*", "", filename)
+        # 2. Clean filename standard
+        cleaned = clean_filename(cleaned)
+        # 3. Strip common junk words and release tags
+        junk_pattern = r"(?i)\b(1080p|720p|480p|2160p|4k|hdr|hevc|x264|x265|aac|ddp|dd5|5\.1|web-?dl|bluray|hdtv|nf|amzn|dvdrip|brrip|mkv|mp4|avi|hindi|english|tamil|telugu|malayalam|kannada|dual audio|multi audio|proper|remastered|extended|uncut|sub|dub|esub)\b"
+        cleaned = re.sub(junk_pattern, "", cleaned)
+        # 4. Extract year boundary if present
+        year_match = re.search(r"^(.*?)(\b(19|20)\d{2}\b)", cleaned, re.IGNORECASE)
         if year_match:
             title = year_match.group(1).strip()
-            return title.title()
-        if is_series:
-            season_match = re.search(r"(.*?)(?:S(\d{1,2})|Season\s*(\d+))", filename, re.IGNORECASE)
+            cleaned = title
+        elif is_series:
+            season_match = re.search(r"(.*?)(?:S(\d{1,2})|Season\s*(\d+))", cleaned, re.IGNORECASE)
             if season_match:
                 title = season_match.group(1).strip()
                 season_num = season_match.group(2) or season_match.group(3)
-                return f"{title.title()} S{int(season_num):02}"
-        return filename.strip().title()
+                cleaned = f"{title.strip()} S{int(season_num):02}"
+        # 5. Normalize spacing and punctuation
+        cleaned = re.sub(r"[\._\-]+", " ", cleaned)
+        # Collapse spaced single letters e.g. "K G F" -> "KGF"
+        cleaned = re.sub(r"\b([A-Za-z])\s+([A-Za-z])\s+([A-Za-z])\b", r"\1\2\3", cleaned)
+        cleaned = re.sub(r"\b([A-Za-z])\s+([A-Za-z])\b", r"\1\2", cleaned)
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        return cleaned.title() if cleaned else filename.strip().title()
     except Exception as e:
         LOGGER.error(f"Error in silentxbotz_clean_title: {e}")
         return filename
@@ -398,3 +411,79 @@ async def siletxbotz_get_series(limit: int = 30) -> Dict[str, List[int]]:
     except Exception as e:
         LOGGER.error(f"Error in siletxbotz_get_series: {e}")
         return {}
+
+
+async def get_fuzzy_db_candidates(query: str, limit: int = 10) -> List[str]:
+    try:
+        from rapidfuzz import fuzz
+        query_clean = query.strip().lower()
+        if not query_clean:
+            return []
+            
+        patterns = []
+        if len(query_clean) <= 4:
+            for i in range(len(query_clean)):
+                sub_pat = query_clean[:i] + '.' + query_clean[i+1:]
+                patterns.append(re.escape(sub_pat).replace(r'\.', '.'))
+            patterns.append(r'\b' + re.escape(query_clean[:2]))
+            patterns.append(r'\b' + re.escape(query_clean[0]))
+        else:
+            words = query_clean.split()
+            for w in words:
+                if len(w) >= 3:
+                    patterns.append(re.escape(w))
+                    
+        if not patterns:
+            patterns.append(re.escape(query_clean[:2]))
+            
+        combined_pattern = r"(?i)(" + "|".join(patterns) + r")"
+        regex = re.compile(combined_pattern)
+        
+        filter_q = {'file_name': regex}
+        projection = {'file_name': 1, '_id': 0}
+        
+        if MULTIPLE_DB:
+            r1, r2 = await asyncio.gather(
+                Media.find(filter_q, projection).sort("$natural", -1).limit(60).to_list(length=60),
+                Media2.find(filter_q, projection).sort("$natural", -1).limit(60).to_list(length=60)
+            )
+            raw_docs = (r1 or []) + (r2 or [])
+        else:
+            raw_docs = await Media.find(filter_q, projection).sort("$natural", -1).limit(120).to_list(length=120)
+            
+        titles_set = set()
+        for doc in (raw_docs or []):
+            fname = doc.get("file_name", "") if isinstance(doc, dict) else getattr(doc, "file_name", "")
+            if fname:
+                clean_t = await silentxbotz_clean_title(fname)
+                if clean_t and len(clean_t) >= 2:
+                    titles_set.add(clean_t)
+                    
+        if not titles_set:
+            return []
+            
+        scored = []
+        for t in titles_set:
+            t_lower = t.lower()
+            tokens = re.findall(r'\b\w+\b', t_lower)
+            token_max = max([fuzz.ratio(query_clean, tok) for tok in tokens] or [0]) if len(query_clean) <= 5 else 0
+            acronym = "".join([tok[0] for tok in tokens if tok])
+            acronym_score = fuzz.ratio(query_clean, acronym) if len(acronym) >= 2 else 0
+
+            score = max(
+                fuzz.token_sort_ratio(query_clean, t_lower),
+                fuzz.token_set_ratio(query_clean, t_lower),
+                fuzz.ratio(query_clean, t_lower),
+                fuzz.partial_ratio(query_clean, t_lower) if len(query_clean) <= 5 else 0,
+                token_max,
+                acronym_score
+            )
+            if score >= 50:
+                scored.append((t, score))
+                
+        scored.sort(key=lambda x: x[1], reverse=True)
+        return [item[0] for item in scored[:limit]]
+    except Exception as e:
+        LOGGER.error(f"Error in get_fuzzy_db_candidates: {e}")
+        return []
+

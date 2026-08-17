@@ -15,9 +15,9 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQ
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import *
-from fuzzywuzzy import process
+from rapidfuzz import process, fuzz
 from database.users_chats_db import db
-from database.ia_filterdb import Media, Media2, get_file_details, get_search_results, get_bad_files
+from database.ia_filterdb import Media, Media2, get_file_details, get_search_results, get_bad_files, get_fuzzy_db_candidates
 from logging_helper import LOGGER
 from urllib.parse import quote_plus
 from Lucia.util.file_properties import get_name, get_hash, get_media_file_size
@@ -418,8 +418,13 @@ async def advantage_spoll_choker(bot, query):
     _, id, user = query.data.split('#')
     if int(user) != 0 and query.from_user.id != int(user):
         return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
-    movies = await get_poster(id, id=True)
-    movie = movies.get('title')
+    if id.startswith("db_"):
+        movie = id[3:].replace("_", " ")
+    else:
+        movies = await get_poster(id, id=True)
+        movie = movies.get('title') if movies else id
+    if not movie:
+        return await query.answer("Could not resolve movie title.", show_alert=True)
     movie = re.sub(r"[:-]", " ", movie)
     movie = re.sub(r"\s+", " ", movie).strip()
     await query.answer(script.TOP_ALRT_MSG)
@@ -1161,6 +1166,26 @@ async def auto_filter(client, msg, spoll=False):
         await save_group_settings(message.chat.id, 'auto_delete', True)
         pass
 
+def smart_movie_scorer(query: str, title: str) -> float:
+    q_clean = query.strip().lower()
+    t_clean = title.strip().lower()
+    
+    score_sort = fuzz.token_sort_ratio(q_clean, t_clean)
+    score_set = fuzz.token_set_ratio(q_clean, t_clean)
+    score_ratio = fuzz.ratio(q_clean, t_clean)
+    score_partial = fuzz.partial_ratio(q_clean, t_clean)
+    
+    tokens = re.findall(r'\b\w+\b', t_clean)
+    token_max = max([fuzz.ratio(q_clean, tok) for tok in tokens] or [0]) if len(q_clean) <= 5 else 0
+    acronym = "".join([tok[0] for tok in tokens if tok])
+    acronym_score = fuzz.ratio(q_clean, acronym) if len(acronym) >= 2 else 0
+
+    if len(q_clean) <= 5:
+        return float(max(score_sort, score_set, score_ratio, score_partial, token_max, acronym_score))
+    else:
+        return float(max(score_sort, (score_set * 0.7 + score_sort * 0.3)))
+
+
 async def ai_spell_check(chat_id, wrong_name):
     async def search_movie(wrong_name):
         LOGGER.info(f"[API CHECK] ai_spell_check called. Active API_PROVIDER: {API_PROVIDER.upper()}")
@@ -1198,18 +1223,89 @@ async def ai_spell_check(chat_id, wrong_name):
             except Exception as e:
                 LOGGER.error(f"Error in ai_spell_check: {e}")
                 return []
+    # 1. Fetch fuzzy candidates from local MongoDB
+    db_candidates = await get_fuzzy_db_candidates(wrong_name, limit=10)
+    LOGGER.info(f"[SPELL DEBUG] Input: '{wrong_name}' -> Local DB returned {len(db_candidates)} titles: {db_candidates}")
+
+    # 2. Fetch TMDb / external API candidates
     movie_list = await search_movie(wrong_name)
+    LOGGER.info(f"[SPELL DEBUG] Input: '{wrong_name}' -> TMDb returned {len(movie_list)} titles: {movie_list[:10]}")
     if not movie_list:
+        # Smart retry: TMDb can't handle typos in multi-word queries.
+        words = wrong_name.split()
+        if len(words) >= 2:
+            LOGGER.info(f"[SPELL DEBUG] 0 results for full query. Trying 1-word drop on {len(words)} words...")
+            seen_titles = set()
+            for i in range(len(words)):
+                partial = " ".join(words[:i] + words[i+1:])
+                if not partial.strip():
+                    continue
+                partial_results = await search_movie(partial)
+                if partial_results:
+                    for title in partial_results:
+                        if title not in seen_titles:
+                            movie_list.append(title)
+                            seen_titles.add(title)
+            # If still no results and >= 3 words, try 2-word anchor pairs (e.g. first word + other words)
+            if not movie_list and len(words) >= 3:
+                LOGGER.info(f"[SPELL DEBUG] 0 results from 1-word drop. Trying 2-word anchor pairs...")
+                for i in range(1, len(words)):
+                    pair_q = f"{words[0]} {words[i]}"
+                    pair_results = await search_movie(pair_q)
+                    if pair_results:
+                        for title in pair_results:
+                            if title not in seen_titles:
+                                movie_list.append(title)
+                                seen_titles.add(title)
+            # Also try just the longest word alone (e.g. "spiderman")
+            if not movie_list:
+                longest_word = max(words, key=len)
+                if len(longest_word) >= 3:
+                    LOGGER.info(f"[SPELL DEBUG] Trying longest word alone: '{longest_word}'")
+                    longest_results = await search_movie(longest_word)
+                    if longest_results:
+                        movie_list.extend(longest_results)
+
+    # Combine DB candidates first, followed by external API candidates (deduplicated)
+    all_candidates = []
+    seen = set()
+    for t in (db_candidates + movie_list):
+        t_clean = t.strip().lower()
+        if t_clean and t_clean not in seen:
+            all_candidates.append(t.strip())
+            seen.add(t_clean)
+
+    if not all_candidates:
+        LOGGER.info(f"[SPELL DEBUG] No candidates returned from DB or TMDb, giving up.")
         return
-    for _ in range(5):
-        closest_match = process.extractOne(wrong_name, movie_list)
-        if not closest_match or closest_match[1] <= 80:
-            return 
+
+    for i in range(5):
+        scored_candidates = [(cand, smart_movie_scorer(wrong_name, cand)) for cand in all_candidates]
+        scored_candidates.sort(key=lambda x: x[1], reverse=True)
+        
+        if not scored_candidates or scored_candidates[0][1] <= 50:
+            LOGGER.info(f"[SPELL DEBUG] Best score {scored_candidates[0][1] if scored_candidates else 'None'} is below threshold 50. Giving up.")
+            return
+            
+        closest_match = scored_candidates[0]
+        LOGGER.info(f"[SPELL DEBUG] Round {i+1}: Best match -> '{closest_match[0]}' with score {closest_match[1]}")
         movie = closest_match[0]
+        
+        # Try exact title first
         files, offset, total_results = await get_search_results(chat_id=chat_id, query=movie)
+        LOGGER.info(f"[SPELL DEBUG] DB search '{movie}' -> found {len(files)} files")
+        if not files:
+            # Try normalized version (strip special chars like : - ' etc.)
+            cleaned = re.sub(r"[:\-'()]", " ", movie)
+            cleaned = re.sub(r"\s+", " ", cleaned).strip()
+            if cleaned != movie:
+                files, offset, total_results = await get_search_results(chat_id=chat_id, query=cleaned)
+                LOGGER.info(f"[SPELL DEBUG] DB search normalized '{cleaned}' -> found {len(files)} files")
         if files:
+            LOGGER.info(f"[SPELL DEBUG] [SUCCESS] Returning corrected title: '{movie}'")
             return movie
-        movie_list.remove(movie)
+        all_candidates.remove(movie)
+        LOGGER.info(f"[SPELL DEBUG] '{movie}' not in DB, removed. Trying next...")
 
 async def advantage_spell_chok(client, message):
     mv_id = message.id
@@ -1219,12 +1315,49 @@ async def advantage_spell_chok(client, message):
     query = re.sub(
         r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
         "", message.text, flags=re.IGNORECASE)
-    query = query.strip() + " movie"
+    query = query.strip()
+    clean_search = query if query else search
+
+    class DummyMovie:
+        def __init__(self, t, i):
+            self.title = t
+            self.imdb_id = i
+
+    combined_movies = []
+    seen_titles = set()
+
+    # 1. Get fuzzy movie candidates from local MongoDB
     try:
-        movies = await get_poster(search, bulk=True)
+        db_candidates = await get_fuzzy_db_candidates(clean_search, limit=5)
+        for t in db_candidates:
+            t_lower = t.strip().lower()
+            if t_lower and t_lower not in seen_titles:
+                combined_movies.append(DummyMovie(t.strip(), f"db_{t.strip().replace(' ', '_')[:35]}"))
+                seen_titles.add(t_lower)
     except Exception as e:
-        import logging
-        logging.error(f"get_poster failed: {e}")
+        LOGGER.error(f"get_fuzzy_db_candidates failed in advantage_spell_chok: {e}")
+
+    # 2. Get movie suggestions from TMDb / OMDb (with smart word-drop intact)
+    try:
+        tmdb_movies = await get_poster(clean_search, bulk=True)
+        if tmdb_movies:
+            for m in tmdb_movies:
+                m_title = getattr(m, 'title', None) or getattr(m, 'name', None) or ""
+                m_lower = m_title.strip().lower()
+                if m_title and m_lower not in seen_titles:
+                    combined_movies.append(m)
+                    seen_titles.add(m_lower)
+    except Exception as e:
+        LOGGER.error(f"get_poster failed in advantage_spell_chok: {e}")
+
+    # Rank suggestions by smart_movie_scorer to the user's search query
+    if combined_movies:
+        combined_movies.sort(
+            key=lambda m: smart_movie_scorer(clean_search, getattr(m, 'title', '') or ''),
+            reverse=True
+        )
+        movies = combined_movies[:MAX_LIST_ELM]
+    else:
         movies = None
         
     if not movies:
