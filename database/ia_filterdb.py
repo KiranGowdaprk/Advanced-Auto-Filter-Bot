@@ -334,10 +334,13 @@ async def silentxbotz_clean_title(filename: str, is_series: bool = False) -> str
         cleaned = re.sub(r"^[\[\(\{][^\]\)\}]+[\]\)\}]\s*", "", filename)
         # 2. Clean filename standard
         cleaned = clean_filename(cleaned)
-        # 3. Strip common junk words and release tags
+        # 3. Strip common release channel names and junk tags
+        channel_pattern = r"(?i)\b(mgbm|hdhub4u|cinevood|skymovieshd|filmyzilla|filmywap|tamilyogi|isaimini|tamilblasters|bolly4u|9xmovies|khatrimaza|vegamovies|moviesflix|rarbg|yts|yify|ettv|remux|psa|galaxyrg|kiccha1|kiccha)\b"
+        cleaned = re.sub(channel_pattern, "", cleaned)
+        # 4. Strip common junk words and release tags
         junk_pattern = r"(?i)\b(1080p|720p|480p|2160p|4k|hdr|hevc|x264|x265|aac|ddp|dd5|5\.1|web-?dl|bluray|hdtv|nf|amzn|dvdrip|brrip|mkv|mp4|avi|hindi|english|tamil|telugu|malayalam|kannada|dual audio|multi audio|proper|remastered|extended|uncut|sub|dub|esub)\b"
         cleaned = re.sub(junk_pattern, "", cleaned)
-        # 4. Extract year boundary if present
+        # 5. Extract year boundary if present
         year_match = re.search(r"^(.*?)(\b(19|20)\d{2}\b)", cleaned, re.IGNORECASE)
         if year_match:
             title = year_match.group(1).strip()
@@ -348,7 +351,7 @@ async def silentxbotz_clean_title(filename: str, is_series: bool = False) -> str
                 title = season_match.group(1).strip()
                 season_num = season_match.group(2) or season_match.group(3)
                 cleaned = f"{title.strip()} S{int(season_num):02}"
-        # 5. Normalize spacing and punctuation
+        # 6. Normalize spacing and punctuation
         cleaned = re.sub(r"[\._\-]+", " ", cleaned)
         # Collapse spaced single letters e.g. "K G F" -> "KGF"
         cleaned = re.sub(r"\b([A-Za-z])\s+([A-Za-z])\s+([A-Za-z])\b", r"\1\2\3", cleaned)

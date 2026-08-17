@@ -422,7 +422,19 @@ async def advantage_spoll_choker(bot, query):
         movie = id[3:].replace("_", " ")
     else:
         movies = await get_poster(id, id=True)
-        movie = movies.get('title') if movies else id
+        movie = movies.get('title') if (movies and isinstance(movies, dict)) else None
+        if not movie and id.startswith("tmdb_"):
+            parts = id.split("_")
+            if len(parts) >= 3:
+                try:
+                    from utils import fetch_tmdb_details
+                    d = await fetch_tmdb_details(parts[1], parts[2])
+                    if d:
+                        movie = d.get('title') or d.get('name')
+                except Exception:
+                    pass
+        if not movie:
+            movie = id.replace("_", " ")
     if not movie:
         return await query.answer("Could not resolve movie title.", show_alert=True)
     movie = re.sub(r"[:-]", " ", movie)

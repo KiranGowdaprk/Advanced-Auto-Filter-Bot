@@ -309,6 +309,21 @@ async def get_poster(query, bulk=False, id=False, file=None):
             else:
                 filtered = movie_list
                 
+            if bulk:
+                # Return all suggestions returned by TMDB for user confirmation
+                class DummyMovie:
+                    def __init__(self, t, i):
+                        self.title = t
+                        self.imdb_id = i
+                
+                bulk_res = []
+                for m in movie_list[:MAX_LIST_ELM]:
+                    m_title = m.get('title') or m.get('name')
+                    if m_title:
+                        media_t = m.get('media_type', 'movie')
+                        bulk_res.append(DummyMovie(m_title, f"tmdb_{media_t}_{m.get('id')}"))
+                return bulk_res
+                
             kind_filter = ['movie', 'tv']
             filtered_kind = [m for m in filtered if m.get('media_type') in kind_filter]
             if not filtered_kind:
@@ -319,19 +334,6 @@ async def get_poster(query, bulk=False, id=False, file=None):
                 key=lambda m: fuzz.token_sort_ratio(title, m.get('title') or m.get('name') or ''),
                 reverse=True
             )
-                
-            if bulk:
-                # Need to return an object with 'title' and 'imdb_id' attributes for pm_filter.py
-                class DummyMovie:
-                    def __init__(self, t, i):
-                        self.title = t
-                        self.imdb_id = i
-                
-                bulk_res = []
-                for m in filtered_kind[:MAX_LIST_ELM]:
-                    m_title = m.get('title') or m.get('name')
-                    bulk_res.append(DummyMovie(m_title, f"tmdb_{m.get('media_type')}_{m.get('id')}"))
-                return bulk_res
                 
             if not filtered_kind:
                 return None
