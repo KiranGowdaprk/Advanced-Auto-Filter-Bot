@@ -1,52 +1,62 @@
 <!-- This Code Is Written And Modified By @NBBotz Telegram- @SilentXBotz -->
 <!-- Don't Remove Credit --> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spark X - MR Tech | {{file_name}}</title>
-    <link rel="nofollow" href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Ffonts.googleapis.com">
-    <link rel="nofollow" href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Ffonts.gstatic.com" crossorigin>
-    <link href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Ffonts.googleapis.com%2Fcss2%3Ffamily%3DInter%3Awght%40300%3B400%3B500%3B600%3B700%3B800%26amp%3Bfamily%3DJetBrains%2BMono%3Awght%40400%3B500%3B600%26amp%3Bfamily%3DPoppins%3Awght%40400%3B600%3B700%26amp%3Bdisplay%3Dswap" rel="nofollow">
-    <link rel="nofollow" href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Fcdn.plyr.io%2F3.7.8%2Fplyr.css" />
-    <link rel="nofollow" href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ffont-awesome%2F6.4.2%2Fcss%2Fall.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         :root {
             --bg-primary: #0d001a;
             --bg-secondary: #1a0033;
             --bg-glass: rgba(20, 0, 60, 0.55);
             --bg-glass-dark: rgba(8, 0, 30, 0.96);
+
             --primary-color: #c084fc;
             --accent-rose: #a78bfa;
             --accent-amber: #7c3aed;
+
             --text-primary: #f1e9ff;
             --text-secondary: #d1c4e9;
             --text-muted: #a78bfa80;
+
             --border-subtle: rgba(192, 132, 252, 0.12);
             --border-normal: rgba(192, 132, 252, 0.25);
         }
+
         .plyr__control .lucide { fill: none !important; }
-        * { 0; padding: 0; box-sizing: border-box; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f001a 0%, #1a0033 50%, #2a004d 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            1.6;
+            line-height: 1.6;
         }
+
         .header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             background: var(--bg-glass-dark); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-subtle);
         }
         .header-content {
-            max-width: 1100px; 0 auto; padding: 1rem 1.5rem;
+            max-width: 1100px; margin: 0 auto; padding: 1rem 1.5rem;
             display: flex; align-items: center; justify-content: space-between;
         }
         .logo {
-            'Poppins', sans-serif; font-weight: 700; font-size: 1.6rem;
+            font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.6rem;
             background: linear-gradient(90deg, #c084fc, #a78bfa, #7c3aed, #5b21b6);
             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
@@ -55,6 +65,7 @@
             font-size: 1.5rem; color: var(--text-primary); cursor: pointer; transition: color 0.3s;
         }
         .menu-icon:hover { color: var(--primary-color); }
+
         .menu-overlay {
             display: none; position: fixed; top: 65px; right: 10px;
             background: var(--bg-glass-dark); backdrop-filter: blur(20px);
@@ -67,14 +78,17 @@
             font-size: 0.9rem; font-weight: 500; border-radius: 8px; transition: all 0.2s;
         }
         .menu-link:hover { background: rgba(192, 132, 252, 0.15); color: var(--primary-color); }
-        .container { max-width: 1100px; 0 auto; padding: 2rem 1.5rem 3rem; padding-top: 6rem; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; padding-top: 6rem; }
+
         .intro-line {
-            text-align: center; font-size: 1.2rem; 1.5rem; font-weight: 600;
+            text-align: center; font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 600;
             background: linear-gradient(90deg, #c084fc, #a78bfa, #e879f9, #7c3aed);
             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
         }
+
         .player-wrapper {
-            1.5rem; border-radius: 16px; overflow: hidden;
+            margin-bottom: 1.5rem; border-radius: 16px; overflow: hidden;
             background: var(--bg-secondary); border: 1px solid var(--border-subtle);
             box-shadow: 0 20px 60px rgba(0,0,0,0.4);
         }
@@ -85,14 +99,16 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;
         }
         .video-container .plyr { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
         .info-box {
             background: var(--bg-secondary);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
             padding: 15px;
-            30px;
+            margin-bottom: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .hd-badge {
             background: linear-gradient(135deg, var(--primary-color), #7c3aed);
             color: #000;
@@ -103,28 +119,31 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            15px;
-            'Poppins', sans-serif;
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
             letter-spacing: 1px;
         }
         .hd-badge i { font-size: 0.9rem; }
+
         .file-name {
             font-size: 1.1rem;
             font-weight: 500;
-            20px;
+            margin-bottom: 20px;
             word-break: break-all;
-            1.5;
+            line-height: 1.5;
             color: var(--text-primary);
         }
+
         .action-buttons {
             display: flex;
             gap: 8px;
             flex-wrap: nowrap;
-            15px;
+            margin-bottom: 15px;
             overflow-x: auto;
             padding-bottom: 5px;
         }
         .action-buttons::-webkit-scrollbar { height: 0px; background: transparent; }
+
         .btn {
             flex: 1;
             padding: 10px 12px;
@@ -139,24 +158,26 @@
             gap: 6px;
             transition: all 0.3s;
             font-weight: 600;
-            'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 0.8rem;
             border: 1px solid var(--border-subtle);
             min-width: 90px;
             white-space: nowrap;
         }
+
         .btn:hover {
             background: rgba(192, 132, 252, 0.18);
             border-color: var(--primary-color);
             color: var(--primary-color);
             box-shadow: 0 5px 15px rgba(192, 132, 252, 0.25);
         }
+
         .ext-player-btn {
             width: 100%;
             background: linear-gradient(135deg, var(--primary-color), #7c3aed);
             color: #000;
             border: none;
-            10px;
+            margin-top: 10px;
             padding: 12px;
             font-size: 0.85rem;
         }
@@ -164,9 +185,10 @@
             background: linear-gradient(135deg, #d8b4fe, #a78bfa);
             box-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
         }
+
         .external-players-list {
             display: none;
-            15px;
+            margin-top: 15px;
             gap: 10px;
             flex-direction: column;
         }
@@ -175,58 +197,65 @@
             animation: slideDown 0.3s ease-out;
         }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
         .ext-option {
             background: rgba(192, 132, 252, 0.08);
             justify-content: center;
         }
+
         .audio-warning {
             background: rgba(192, 132, 252, 0.1); border: 1px solid var(--primary-color);
             border-left: 4px solid var(--primary-color); border-radius: 8px; padding: 12px;
-            1.5rem 0; display: none; align-items: flex-start; gap: 10px; font-size: 0.875rem;
+            margin: 1.5rem 0; display: none; align-items: flex-start; gap: 10px; font-size: 0.875rem;
         }
+
         .services-section {
-            3rem 0; text-align: center; background: var(--bg-glass); backdrop-filter: blur(20px);
+            margin: 3rem 0; text-align: center; background: var(--bg-glass); backdrop-filter: blur(20px);
             border-radius: 20px; padding: 30px; border: 1px solid var(--border-subtle); box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         .services-title {
-            'Poppins', sans-serif; font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif; font-size: 1.5rem;
             font-weight: 800;
             background: linear-gradient(90deg, #c084fc, #a78bfa, #e879f9, #7c3aed);
             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-            10px;
+            margin-bottom: 10px;
         }
         .services-subtitle { 
-            color: var(--text-muted); 30px; display: block; 
+            color: var(--text-muted); margin-bottom: 30px; display: block; 
         }
-        .links-container { display: flex; flex-direction: column; gap: 12px; max-width: 450px; 0 auto; }
+        .links-container { display: flex; flex-direction: column; gap: 12px; max-width: 450px; margin: 0 auto; }
         .link-item {
             background: rgba(192, 132, 252, 0.08); padding: 16px; border-radius: 14px;
             text-decoration: none; color: var(--text-primary); display: flex; justify-content: center;
             align-items: center; border: 1px solid var(--border-subtle); transition: all 0.3s;
-            font-weight: 600; gap: 10px; 'Poppins', sans-serif;
+            font-weight: 600; gap: 10px; font-family: 'Poppins', sans-serif;
         }
         .link-item:hover {
             border-color: var(--primary-color); background: rgba(192, 132, 252, 0.18);
             color: var(--primary-color); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(192, 132, 252, 0.25);
         }
+
         .disclaimer {
             background: linear-gradient(135deg, rgba(26, 0, 51, 0.8), rgba(13, 0, 26, 0.8));
             backdrop-filter: blur(20px); border: 1px solid var(--border-subtle);
-            border-radius: 20px; padding: 25px; 30px 0; text-align: center; font-size: 0.9rem;
-            color: var(--text-muted); 1.7; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border-radius: 20px; padding: 25px; margin: 30px 0; text-align: center; font-size: 0.9rem;
+            color: var(--text-muted); line-height: 1.7; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
         .disclaimer strong {
             background: linear-gradient(90deg, #c084fc, #a78bfa, #e879f9);
             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
             font-size: 1.1rem;
         }
+
         .footer {
             text-align: center; padding: 2.5rem 1.5rem; border-top: 1px solid var(--border-subtle);
             color: var(--text-muted); font-size: 0.875rem; background: var(--bg-glass-dark);
         }
+
         .plyr { --plyr-color-main: #c084fc; }
         .plyr__control { color: white; }
         .plyr__control:hover { background: rgba(192, 132, 252, 0.25); }
+
         .click-tooltip {
             position: absolute !important;
             bottom: 110%;
@@ -238,7 +267,7 @@
             border-radius: 8px;
             font-size: 13px;
             font-weight: 700;
-            'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif;
             z-index: 10000;
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             pointer-events: none;
@@ -260,10 +289,11 @@
             opacity: 1 !important;
             visibility: visible !important;
         }
+
         @media (max-width: 768px) {
             .action-buttons { gap: 8px; }
             .btn { padding: 10px; font-size: 0.8rem; min-width: auto; }
-            .services-subtitle { 25px; }
+            .services-subtitle { margin-bottom: 25px; }
             .click-tooltip { font-size: 12px; padding: 6px 12px; }
         }
     </style>
@@ -275,12 +305,15 @@
             <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
         </div>
     </div>
+
     <div class="menu-overlay" id="main-menu">
         <div class="menu-link" onclick="scrollToSection('services-section')">Explore</div>
         <div class="menu-link" onclick="scrollToSection('disclaimer')">Disclaimer</div>
     </div>
+
     <div class="container">
         <div class="intro-line">Enjoy Premium Streaming Experience</div>
+
         <section id="video-section">
             <div class="player-wrapper">
                 <div class="video-container">
@@ -290,23 +323,28 @@
                     </video>
                 </div>
             </div>
+
             <div class="info-box">
                 <div class="hd-badge"><i class="fas fa-play-circle"></i> HD STREAMING</div>
                 <div class="file-name" id="file-title">{{file_name}}</div>
+
                 <div class="action-buttons">
                     <button class="btn btn-download" onclick="downloadFile()"><i class="fas fa-download"></i> Download</button>
                     <button class="btn btn-copy" onclick="copyUrl()"><i class="fas fa-copy"></i> Copy Link</button>
                     <button class="btn btn-share" onclick="shareUrl()"><i class="fas fa-share-alt"></i> Share</button>
                 </div>
+
                 <button class="btn ext-player-btn" onclick="toggleExternalPlayers()">
                     <i class="fas fa-external-link-alt"></i> Open in External Player
                 </button>
+
                 <div id="external-players" class="external-players-list">
                     <button class="btn ext-option" onclick="openVLC()"><img src="https://i.postimg.cc/15TQ4y7B/vlc.png" width="20" alt="VLC"> VLC Player</button>
                     <button class="btn ext-option" onclick="openMX()"><img src="https://i.postimg.cc/sx4Msv4T/mx.png" width="20" alt="MX"> MX Player</button>
                     <button class="btn ext-option" onclick="openPlayIt()"><img src="https://i.postimg.cc/RVGWYJFF/playit.png" width="20" alt="PlayIt"> PlayIt</button>
                 </div>
             </div>
+
             <div class="audio-warning" id="audio-warning">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
@@ -316,38 +354,45 @@
                 <span>Browser Does Not Support EAC3 Audio. If No Sound, Please Use External Players.</span>
             </div>
         </section>
+
         <div class="services-section" id="services-section">
             <h3 class="services-title">Explore Our Services</h3>
             <span class="services-subtitle">Discover Our Channels And Movies Update</span>
             <div class="links-container">
-                <a href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Ft.me%2FMR_Tech_Officiall" class="link-item">
+                <a href="https://t.me/MR_Tech_Officiall" class="link-item">
                     <i class="fab fa-telegram-plane"></i> Join Our Channel
                 </a>
-                <a href="https://justpaste.it/redirect/ehzpc/https%3A%2F%2Ft.me%2FMR_Tech_Officiall" class="link-item">
+                <a href="https://t.me/MR_Tech_Officiall" class="link-item">
                     <i class="fas fa-robot"></i> Our Bots
                 </a>
             </div>
         </div>
+
         <div class="disclaimer" id="disclaimer">
             <p><strong>Disclaimer:</strong> Spark X - MR Tech Does Not Host Any Content. All Videos Are Provided By Third-Party Services. We Are Not Responsible For Any Legal Issues. This Service Is For Personal Use Only.</p>
         </div>
     </div>
+
     <div class="footer">
         Copyright © 2025 Spark X - MR Tech. All Rights Reserved.
     </div>
+
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/Bharathboy/utils@main/jsmkv-polyfill.js"></script>
+
     <script>
         let plyrPlayer;
         let video;
         let currentSpeedIndex = 2;
         let currentAspectIndex = 0;
+
         const silentxlink = window.location.href;
         const silentxcleanlink = silentxlink.replace('/watch/', '/dl/');
         
         const speeds = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
         const speedLabels = ['0.5x', '0.75x', '1x', '1.25x', '1.5x', '1.75x', '2x'];
+
         const aspects = [
             {label: 'Original', aspect: 'original'},
             {label: 'Fill Screen', aspect: 'cover'},
@@ -355,6 +400,7 @@
             {label: '4:3', aspect: '1.333'},
             {label: '21:9', aspect: '2.333'}
         ];
+
         function showClickTooltip(btn, text) {
             document.querySelectorAll('.click-tooltip').forEach(tooltip => tooltip.remove());
             
@@ -376,11 +422,14 @@
                 }
             }, 2000);
         }
+
         function initPlayer() {
             video = document.getElementById('player');
             if (!video) return;
+
             const url = video.querySelector('source')?.src || '';
             const ext = url.split('?')[0].split('.').pop()?.toLowerCase() || '';
+
             if (ext === 'mkv') {
                 video.classList.add('mkv-player');
                 setTimeout(() => initPlyr(video), 100);
@@ -390,16 +439,21 @@
                 setTimeout(() => initPlyr(video), 100);
             }
         }
+
         function initPlyr(videoEl) {
             if (plyrPlayer) plyrPlayer.destroy();
+
             plyrPlayer = new Plyr(videoEl, {
                 controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'airplay', 'fullscreen'],
             });
+
             setTimeout(addCustomControls, 500);
         }
+
         function addCustomControls() {
             const controls = document.querySelector(".plyr__controls");
             if (!controls || !video) return;
+
             const fullscreen = controls.querySelector('[data-plyr="fullscreen"]');
             
             const speedBtn = document.createElement("button");
@@ -436,6 +490,7 @@
                 showClickTooltip(aspectBtn, curr.label);
             });
             controls.insertBefore(aspectBtn, speedBtn);
+
             const fullscreenBtn = controls.querySelector('[data-plyr="fullscreen"]');
             if (fullscreenBtn && screen.orientation) {
                 fullscreenBtn.addEventListener("click", () => {
@@ -449,6 +504,7 @@
             }
             lucide.createIcons();
         }
+
         function applyAspect(aspect) {
             if (!video) return;
             
@@ -457,6 +513,7 @@
             video.style.top = "0";
             video.style.left = "0";
             video.style.transform = "none";
+
             if (aspect === "cover") {
                 video.style.objectFit = "cover";
             } else if (aspect === "original") {
@@ -465,6 +522,7 @@
                 const targetRatio = parseFloat(aspect);
                 const container = document.querySelector(".video-container");
                 const containerRatio = container.offsetWidth / container.offsetHeight;
+
                 if (targetRatio < containerRatio) {
                     const widthPercent = (targetRatio / containerRatio) * 100;
                     video.style.width = `${widthPercent}%`;
@@ -479,6 +537,7 @@
                 video.style.objectFit = "fill";
             }
         }
+
         function initMpegts(videoEl, url) {
             try {
                 const player = mpegts.createPlayer({ type: "flv", url, isLive: false });
@@ -489,6 +548,7 @@
                 initPlyr(videoEl);
             }
         }
+
         function downloadFile() {
             const a = document.createElement('a');
             a.href = window.location.href.replace("/watch/", "/dl/");
@@ -497,6 +557,7 @@
             a.click();
             document.body.removeChild(a);
         }
+
         function copyUrl() {
             const btn = document.querySelector('.btn-copy');
             btn?.addEventListener('click', async () => {
@@ -510,6 +571,7 @@
                         return;
                     }
                 } catch {}
+
                 try {
                     const tmp = document.createElement('textarea');
                     tmp.value = window.location.href;
@@ -530,6 +592,7 @@
                 } catch {}
             });
         }
+
         function shareUrl() {
             const btn = document.querySelector('.btn-share');
             btn?.addEventListener('click', async () => {
@@ -557,69 +620,98 @@
                 } catch {}
             });
         }
+
         function toggleMenu() {
             document.getElementById('main-menu').classList.toggle('active');
         }
+
         function scrollToSection(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             toggleMenu();
         }
+
         function toggleExternalPlayers() {
             const el = document.getElementById('external-players');
             el.classList.toggle('active');
         }
- 
+
+
+
 
         // Detect Device
 function isIOS() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
+
 function isAndroid() {
     return /Android/i.test(navigator.userAgent);
 }
+
 // Video URL
 const videoUrl = window.location.href.replace('/watch/', '/dl/');
 
+
 // VLC PLAYER
 function openVLC() {
+
     if (isIOS()) {
+
         // iPhone VLC
         window.location.href =
         "vlc-x-callback://x-callback-url/stream?url=" + encodeURIComponent(videoUrl);
+
     } else if (isAndroid()) {
+
         // Android VLC
         const clean = videoUrl.replace(/^https?:\/\//, "");
+
         const intent =
         `intent://${clean}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;end`;
+
         window.location.href = intent;
     }
 }
+
 
 // MX PLAYER
 function openMX() {
+
     if (isIOS()) {
+
         window.location.href =
         "mxplayer://play?url=" + encodeURIComponent(videoUrl);
+
     } else if (isAndroid()) {
+
         const clean = videoUrl.replace(/^https?:\/\//, "");
+
         const intent =
         `intent://${clean}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;end`;
+
         window.location.href = intent;
     }
 }
 
+
 // PLAYIT PLAYER
 function openPlayIt() {
+
     if (isIOS()) {
+
         window.location.href = "playit://" + videoUrl;
+
     } else if (isAndroid()) {
+
         const clean = videoUrl.replace(/^https?:\/\//, "");
+
         const intent =
         `intent://${clean}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
+
         window.location.href = intent;
     }
 }
         
+
         document.addEventListener("DOMContentLoaded", () => {
             copyUrl(); 
             shareUrl();
@@ -639,12 +731,15 @@ function openPlayIt() {
                            .trim();
                 titleEl.textContent = name;
             }
+
             const test = document.createElement('video');
             if (test.canPlayType('audio/mp4; codecs="ec-3"') === '') {
                 document.getElementById('audio-warning').style.display = 'flex';
             }
+
             initPlayer();
         });
+
         document.addEventListener("click", (e) => {
             if (!e.target.closest(".ext-player-btn") && !e.target.closest(".external-players-list")) {
                 document.getElementById('external-players')?.classList.remove('active');
