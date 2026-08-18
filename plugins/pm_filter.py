@@ -158,14 +158,14 @@ async def build_pagination_buttons(btn, total_results, current_offset, next_offs
          btn.append(pagination_row)
 
 async def generic_filter_handler(client, query, key, offset, search_query):
-    files, n_offset, total_results = await get_search_results(query.message.chat.id, search_query, offset=offset, filter=True)
+    chat_id = query.message.chat.id
+    # In PM, use settings ID 0 (PM Verification Settings) instead of user's chat ID
+    settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else chat_id
+    files, n_offset, total_results = await get_search_results(settings_id, search_query, offset=offset, filter=True)
     if not files:
         await query.answer("🚫 ɴᴏ ꜰɪʟᴇꜱ ᴡᴇʀᴇ ꜰᴏᴜɴᴅ 🚫", show_alert=1)
         return
     temp.GETALL[key] = files
-    chat_id = query.message.chat.id
-    # In PM, use settings ID 0 (PM Verification Settings) instead of user's chat ID
-    settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else chat_id
     settings = await get_settings(settings_id)
     req = query.from_user.id
     btn = []
@@ -442,7 +442,8 @@ async def advantage_spoll_choker(bot, query):
     movie = re.sub(r"[:-]", " ", movie)
     movie = re.sub(r"\s+", " ", movie).strip()
     await query.answer(script.TOP_ALRT_MSG)
-    files, offset, total_results = await get_search_results(query.message.chat.id, movie, offset=0, filter=True)
+    settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else query.message.chat.id
+    files, offset, total_results = await get_search_results(settings_id, movie, offset=0, filter=True)
     if files:
         k = (movie, files, offset, total_results)
         await auto_filter(bot, query, k)
@@ -538,14 +539,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
         chat_id = int(chat_id)
         
         try:
-            files, offset, total_results = await get_search_results(chat_id, keyword, offset=0, filter=True)
+            # In PM, use settings ID 0 (PM Verification Settings)
+            settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else chat_id
+            files, offset, total_results = await get_search_results(settings_id, keyword, offset=0, filter=True)
             if files:
                 key = f"{query.from_user.id}-{random.randint(10000, 99999)}"
                 FRESH[key] = keyword
                 temp.GETALL[key] = files
                 
-                # In PM, use settings ID 0 (PM Verification Settings)
-                settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else chat_id
                 settings = await get_settings(settings_id)
                 btn = []
                 
@@ -1010,9 +1011,9 @@ async def auto_filter(client, msg, spoll=False):
                 return
 
             m=await message.reply_text(f'<b>Wait {message.from_user.mention} Searching Your Query: <i>{search}...</i></b>', reply_to_message_id=message.id)
-            files, offset, total_results = await get_search_results(message.chat.id ,search, offset=0, filter=True)
             # In PM, use settings ID 0 (PM Verification Settings) for IMDB, spell_check, etc.
             settings_id = 0 if message.chat.type == enums.ChatType.PRIVATE else message.chat.id
+            files, offset, total_results = await get_search_results(settings_id ,search, offset=0, filter=True)
             settings = await get_settings(settings_id)
             if not files:
                 if settings["spell_check"]:
@@ -1311,14 +1312,14 @@ async def ai_spell_check(chat_id, wrong_name):
     movie = closest_match[0]
     
     # Try exact title first
-    files, offset, total_results = await get_search_results(chat_id=chat_id, query=movie)
+    files, offset, total_results = await get_search_results(chat_id=settings_id, query=movie)
     LOGGER.info(f"[SPELL DEBUG] DB search '{movie}' -> found {len(files)} files")
     if not files:
         # Try normalized version (strip special chars like : - ' etc.)
         cleaned = re.sub(r"[:\-'()]", " ", movie)
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         if cleaned != movie:
-            files, offset, total_results = await get_search_results(chat_id=chat_id, query=cleaned)
+            files, offset, total_results = await get_search_results(chat_id=settings_id, query=cleaned)
             LOGGER.info(f"[SPELL DEBUG] DB search normalized '{cleaned}' -> found {len(files)} files")
     if files:
         LOGGER.info(f"[SPELL DEBUG] [SUCCESS] Returning corrected title: '{movie}'")
