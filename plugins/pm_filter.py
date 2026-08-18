@@ -164,7 +164,9 @@ async def generic_filter_handler(client, query, key, offset, search_query):
         return
     temp.GETALL[key] = files
     chat_id = query.message.chat.id
-    settings = await get_settings(chat_id)
+    # In PM, use settings ID 0 (PM Verification Settings) instead of user's chat ID
+    settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else chat_id
+    settings = await get_settings(settings_id)
     req = query.from_user.id
     btn = []
     if settings.get('button'):
@@ -542,7 +544,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 FRESH[key] = keyword
                 temp.GETALL[key] = files
                 
-                settings = await get_settings(chat_id)
+                # In PM, use settings ID 0 (PM Verification Settings)
+                settings_id = 0 if query.message.chat.type == enums.ChatType.PRIVATE else chat_id
+                settings = await get_settings(settings_id)
                 btn = []
                 
                 if settings.get('button', True):
@@ -1007,7 +1011,9 @@ async def auto_filter(client, msg, spoll=False):
 
             m=await message.reply_text(f'<b>Wait {message.from_user.mention} Searching Your Query: <i>{search}...</i></b>', reply_to_message_id=message.id)
             files, offset, total_results = await get_search_results(message.chat.id ,search, offset=0, filter=True)
-            settings = await get_settings(message.chat.id)
+            # In PM, use settings ID 0 (PM Verification Settings) for IMDB, spell_check, etc.
+            settings_id = 0 if message.chat.type == enums.ChatType.PRIVATE else message.chat.id
+            settings = await get_settings(settings_id)
             if not files:
                 if settings["spell_check"]:
                     ai_sts = await m.edit('🤖 ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ, ᴀɪ ɪꜱ ᴄʜᴇᴄᴋɪɴɢ ʏᴏᴜʀ ꜱᴘᴇʟʟɪɴɢ...')
@@ -1028,7 +1034,8 @@ async def auto_filter(client, msg, spoll=False):
         message = msg.message.reply_to_message
         search, files, offset, total_results = spoll
         m=await message.reply_text(f'<b>Wait {message.from_user.mention} Searching You Query:<i>{search}...</i></b>', reply_to_message_id=message.id)
-        settings = await get_settings(message.chat.id)
+        settings_id = 0 if message.chat.type == enums.ChatType.PRIVATE else message.chat.id
+        settings = await get_settings(settings_id)
         await msg.message.delete()
     
     key = f"{message.chat.id}-{message.id}"
@@ -1325,7 +1332,9 @@ async def advantage_spell_chok(client, message):
     mv_id = message.id
     search = message.text
     chat_id = message.chat.id
-    settings = await get_settings(chat_id)
+    # In PM, use settings ID 0 (PM Verification Settings)
+    settings_id = 0 if message.chat.type == enums.ChatType.PRIVATE else chat_id
+    settings = await get_settings(settings_id)
     query = re.sub(
         r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
         "", message.text, flags=re.IGNORECASE)
