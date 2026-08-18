@@ -480,13 +480,13 @@ async def request_movie(bot, query):
     # Check if user has too many pending requests (e.g. max 5)
     pending_count = await db.get_user_pending_requests(user_id)
     if pending_count >= 5:
-        return await query.answer("You already have 5 pending requests! Please wait for them to be fulfilled.", show_alert=True)
+        return await query.answer("ʏᴏᴜ ᴀʟʀᴇᴀᴅʏ ʜᴀᴠᴇ 5 ᴘᴇɴᴅɪɴɢ ʀᴇǫᴜᴇꜱᴛꜱ! ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ ꜰᴏʀ ᴛʜᴇᴍ ᴛᴏ ʙᴇ ꜰᴜʟꜰɪʟʟᴇᴅ.", show_alert=True)
     
     added = await db.add_request(user_id, chat_id, keyword)
     if not added:
-        return await query.answer("⚠️ You have already requested this exact movie! Please wait for it to be uploaded.", show_alert=True)
+        return await query.answer("⚠️ ʏᴏᴜ ʜᴀᴠᴇ ᴀʟʀᴇᴀᴅʏ ʀᴇǫᴜᴇꜱᴛᴇᴅ ᴛʜɪꜱ ᴇxᴀᴄᴛ ᴍᴏᴠɪᴇ! ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ ꜰᴏʀ ɪᴛ ᴛᴏ ʙᴇ ᴜᴘʟᴏᴀᴅᴇᴅ.", show_alert=True)
         
-    await query.answer("✅ Your request has been logged! I will DM you as soon as it is uploaded.", show_alert=True)
+    await query.answer("✅ ʏᴏᴜʀ ʀᴇǫᴜᴇꜱᴛ ʜᴀꜱ ʙᴇᴇɴ ʟᴏɢɢᴇᴅ! ɪ ᴡɪʟʟ ᴅᴍ ʏᴏᴜ ᴀꜱ ꜱᴏᴏɴ ᴀꜱ ɪᴛ ɪꜱ ᴜᴘʟᴏᴀᴅᴇᴅ.", show_alert=True)
     
     # Log to BIN_CHANNEL
     if NO_RESULTS_MSG:
