@@ -1018,14 +1018,26 @@ async def auto_filter(client, msg, spoll=False):
             if not files:
                 if settings["spell_check"]:
                     ai_sts = await m.edit('🤖 ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ, ᴀɪ ɪꜱ ᴄʜᴇᴄᴋɪɴɢ ʏᴏᴜʀ ꜱᴘᴇʟʟɪɴɢ...')
-                    is_misspelled = await ai_spell_check(chat_id = message.chat.id,wrong_name=search)
+                    try:
+                        is_misspelled = await ai_spell_check(chat_id = message.chat.id,wrong_name=search)
+                    except Exception as e:
+                        LOGGER.error(f"Error in ai_spell_check call: {e}")
+                        is_misspelled = None
+                        
                     if is_misspelled:
-                        await ai_sts.edit(f'<b><i>✅ Aɪ Sᴜɢɢᴇsᴛᴇᴅ ᴍᴇ<code> {is_misspelled}</code> \nSᴏ Iᴍ Sᴇᴀʀᴄʜɪɴɢ ғᴏʀ <code>{is_misspelled}</code></i></b>')
-                        await asyncio.sleep(2)
+                        try:
+                            await ai_sts.edit(f'<b><i>✅ Aɪ Sᴜɢɢᴇsᴛᴇᴅ ᴍᴇ<code> {is_misspelled}</code> \nSᴏ Iᴍ Sᴇᴀʀᴄʜɪɴɢ ғᴏʀ <code>{is_misspelled}</code></i></b>')
+                            await asyncio.sleep(2)
+                            await ai_sts.delete()
+                        except:
+                            pass
                         message.text = is_misspelled
-                        await ai_sts.delete()
                         return await auto_filter(client, message)
-                    await ai_sts.delete()
+                        
+                    try:
+                        await ai_sts.delete()
+                    except:
+                        pass
                 
                 # Call advantage_spell_chok if spell_check is disabled, or if AI found no misspelling
                 return await advantage_spell_chok(client, message)
@@ -1244,7 +1256,11 @@ async def ai_spell_check(chat_id, wrong_name):
                 LOGGER.error(f"Error in ai_spell_check: {e}")
                 return []
     # 1. Fetch fuzzy candidates from local MongoDB
-    db_candidates = await get_fuzzy_db_candidates(wrong_name, limit=10)
+    try:
+        db_candidates = await get_fuzzy_db_candidates(wrong_name, limit=10)
+    except Exception as e:
+        LOGGER.error(f"Error in get_fuzzy_db_candidates: {e}")
+        db_candidates = []
     LOGGER.info(f"[SPELL DEBUG] Input: '{wrong_name}' -> Local DB returned {len(db_candidates)} titles: {db_candidates}")
 
     # 2. Fetch TMDb / external API candidates
@@ -1299,8 +1315,12 @@ async def ai_spell_check(chat_id, wrong_name):
         LOGGER.info(f"[SPELL DEBUG] No candidates returned from DB or TMDb, giving up.")
         return
 
-    scored_candidates = [(cand, smart_movie_scorer(wrong_name, cand)) for cand in all_candidates]
-    scored_candidates.sort(key=lambda x: x[1], reverse=True)
+    try:
+        scored_candidates = [(cand, smart_movie_scorer(wrong_name, cand)) for cand in all_candidates]
+        scored_candidates.sort(key=lambda x: x[1], reverse=True)
+    except Exception as e:
+        LOGGER.error(f"Error ranking candidates: {e}")
+        return None
     
     # Only auto-correct without asking if we are VERY SURE (score >= 85%)
     if not scored_candidates or scored_candidates[0][1] < 85:
@@ -1312,14 +1332,14 @@ async def ai_spell_check(chat_id, wrong_name):
     movie = closest_match[0]
     
     # Try exact title first
-    files, offset, total_results = await get_search_results(chat_id=settings_id, query=movie)
+    files, offset, total_results = await get_search_results(chat_id=chat_id, query=movie)
     LOGGER.info(f"[SPELL DEBUG] DB search '{movie}' -> found {len(files)} files")
     if not files:
         # Try normalized version (strip special chars like : - ' etc.)
         cleaned = re.sub(r"[:\-'()]", " ", movie)
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         if cleaned != movie:
-            files, offset, total_results = await get_search_results(chat_id=settings_id, query=cleaned)
+            files, offset, total_results = await get_search_results(chat_id=chat_id, query=cleaned)
             LOGGER.info(f"[SPELL DEBUG] DB search normalized '{cleaned}' -> found {len(files)} files")
     if files:
         LOGGER.info(f"[SPELL DEBUG] [SUCCESS] Returning corrected title: '{movie}'")
