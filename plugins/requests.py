@@ -45,7 +45,7 @@ async def check_and_fulfill_requests(bot, file_name, file_id, pending_reqs=None)
             try:
                 await bot.send_message(
                     chat_id=req['user_id'],
-                    text=f"🎉 **Good news!**\n\nThe movie you requested (`{keyword}`) is now available!\n\nClick below to get it.",
+                    text=f"🎉**ɢᴏᴏᴅ ɴᴇᴡꜱ!**\n\nᴛʜᴇ ᴍᴏᴠɪᴇ ʏᴏᴜ ʀᴇǫᴜᴇꜱᴛᴇᴅ ({keyword}) ɪꜱ ɴᴏᴡ ᴀᴠᴀɪʟᴀʙʟᴇ!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ɪᴛ.",
                     reply_markup=InlineKeyboardMarkup(btn)
                 )
                 fulfilled_count += 1
