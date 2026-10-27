@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spark X Bot | {{file_name}}</title>
+    <title>DreamXbotz | {{file_name}}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -910,200 +910,14 @@
             scroll-behavior: smooth;
             scroll-padding-top: 70px;
         }
-
-        /* Spark X Bot redesign layer */
-        :root {
-            --bg-primary: #070b18;
-            --bg-secondary: #111a30;
-            --bg-glass: rgba(13, 22, 43, .78);
-            --bg-glass-dark: rgba(5, 10, 24, .96);
-            --accent-rose: #38bdf8;
-            --accent-rose-light: #7dd3fc;
-            --accent-blue: #818cf8;
-            --accent-amber: #a78bfa;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-subtle: rgba(148, 163, 184, .13);
-            --border-normal: rgba(148, 163, 184, .24);
-        }
-        body {
-            background:
-              radial-gradient(ellipse at 12% 0%, rgba(56,189,248,.13), transparent 38%),
-              radial-gradient(ellipse at 90% 16%, rgba(129,140,248,.14), transparent 32%),
-              linear-gradient(180deg, #070b18 0%, #0b1020 55%, #070b18 100%);
-        }
-        .header { background: rgba(5, 10, 24, .82); border-bottom-color: rgba(125,211,252,.16); }
-        .logo { background-image: linear-gradient(120deg, #38bdf8, #a78bfa); }
-        .nav a:hover, .footer a { color: #7dd3fc; }
-        .player-wrapper {
-            border: 1px solid rgba(125,211,252,.22);
-            box-shadow: 0 24px 80px rgba(0,0,0,.42), 0 0 35px rgba(56,189,248,.06);
-        }
-        .info-card, .card {
-            border-color: rgba(148,163,184,.16);
-            box-shadow: 0 14px 45px rgba(0,0,0,.14);
-        }
-        .meta-tag { background: rgba(56,189,248,.09); border-color: rgba(56,189,248,.25); }
-        .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); }
-        .btn-primary:hover { box-shadow: 0 8px 25px rgba(56,189,248,.22); }
-        .btn:hover, .card-link:hover, .player-link:hover {
-            background: rgba(56,189,248,.09);
-            border-color: #38bdf8;
-            color: #7dd3fc;
-        }
-        .card-icon { background: rgba(129,140,248,.1); border-color: rgba(129,140,248,.25); }
-        .card-icon svg { color: #a5b4fc; }
-        .section-title, .slogan-highlight {
-            background-image: linear-gradient(120deg, #38bdf8, #a78bfa);
-        }
-        .plyr { --plyr-color-main: #38bdf8; }
-        .plyr__control--overlaid { background: rgba(2,132,199,.92); }
-        .plyr__control:hover { background: rgba(56,189,248,.18); }
-        .spark-tools {
-            display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1rem;
-        }
-        .spark-tools .btn { flex: 1 1 145px; min-height: 44px; }
-        .spark-status {
-            display: flex; align-items: center; gap: .5rem; color: #94a3b8;
-            font-size: .8rem; margin-top: 1rem;
-        }
-        .spark-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: #34d399;
-            box-shadow: 0 0 12px rgba(52,211,153,.5);
-        }
-        .spark-toast {
-            position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 18px);
-            z-index: 5000; background: rgba(8,15,32,.96); color: #f8fafc;
-            border: 1px solid rgba(125,211,252,.3); border-radius: 12px;
-            padding: 12px 16px; box-shadow: 0 12px 40px rgba(0,0,0,.4);
-            opacity: 0; visibility: hidden; transition: .22s ease;
-            max-width: calc(100vw - 32px); text-align: center; font-size: .88rem;
-        }
-        .spark-toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
-        body.theater-mode .header, body.theater-mode .slogan,
-        body.theater-mode #explore, body.theater-mode .footer { display: none; }
-        body.theater-mode .container { max-width: 1500px; padding-top: 1.2rem; }
-        body.theater-mode .info-card { margin-top: 1rem; }
-        @media (max-width: 768px) {
-            .spark-tools { display: grid; grid-template-columns: 1fr 1fr; }
-            .spark-tools .btn { min-width: 0; padding: .7rem .5rem; }
-        }
-
-    
-/* SPARK X BOT — premium streaming interface */
-:root {
-  --sx-bg: #070a12; --sx-panel: rgba(15, 21, 36, .78); --sx-line: rgba(153, 178, 255, .15);
-  --sx-text: #f4f7ff; --sx-muted: #97a4bf; --sx-cyan: #72e7ff; --sx-blue: #7d8bff;
-}
-html { scroll-behavior: smooth; background: var(--sx-bg); }
-body {
-  color: var(--sx-text); background:
-    radial-gradient(ellipse at 12% 0%, rgba(70, 86, 210, .19), transparent 36%),
-    radial-gradient(ellipse at 90% 26%, rgba(0, 204, 255, .09), transparent 30%),
-    linear-gradient(180deg,#070a12 0%,#0a0e19 48%,#070a12 100%);
-  background-attachment: fixed;
-}
-body:before { content:""; position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.13;
-  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:48px 48px; mask-image:linear-gradient(to bottom,black,transparent 75%); }
-.header { background:rgba(7,10,18,.72)!important; border-bottom:1px solid rgba(160,180,255,.12)!important;
-  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); box-shadow:0 10px 40px #0002; }
-.header-content { max-width:1440px!important; min-height:76px!important; }
-.logo { font-weight:900!important; letter-spacing:-.045em; font-size:1.28rem!important;
-  background:linear-gradient(100deg,#fff 10%,#8deaff 55%,#9a9dff); -webkit-background-clip:text; background-clip:text; color:transparent!important; }
-.logo:before { content:"SX"; display:inline-grid; place-items:center; width:34px;height:34px;margin-right:10px;border-radius:12px;
-  color:#08101b; font-size:.72rem; letter-spacing:-.04em; background:linear-gradient(135deg,#79efff,#8c8dff); box-shadow:0 0 24px #5ddfff44; vertical-align:middle; }
-.nav a { color:#aab5ce!important; font-weight:650; transition:color .2s; }
-.nav a:hover { color:white!important; }
-.slogan { max-width:1440px; margin:46px auto 28px!important; padding:0 24px; text-align:left!important;
-  font-size:clamp(2rem,5vw,4.15rem)!important; font-weight:850!important; line-height:1.02; letter-spacing:-.065em; }
-.slogan-text { color:#f5f7ff!important; }
-.slogan-highlight { background:linear-gradient(100deg,#7ceaff,#9a9aff 70%); -webkit-background-clip:text; background-clip:text; color:transparent!important; }
-.slogan:after { content:"A smarter way to watch"; display:block; margin-top:16px; color:#8592ae; font-size:clamp(.9rem,1.3vw,1.05rem); font-weight:450; letter-spacing:0; }
-.container { max-width:1440px!important; }
-.player-wrapper { padding:10px!important; border:1px solid rgba(139,161,255,.2)!important; border-radius:24px!important;
-  background:linear-gradient(135deg,rgba(115,136,255,.13),rgba(32,221,255,.035) 50%,rgba(255,255,255,.025))!important;
-  box-shadow:0 28px 90px #0008, inset 0 1px 0 #ffffff0c!important; }
-.video-container { overflow:hidden; border-radius:17px!important; background:#02040a!important; }
-video#player { border-radius:17px!important; }
-.info-card { position:relative; margin-top:18px!important; padding:clamp(20px,3vw,34px)!important; border:1px solid var(--sx-line)!important;
-  border-radius:22px!important; background:linear-gradient(135deg,rgba(17,24,42,.9),rgba(10,14,26,.88))!important;
-  box-shadow:0 20px 60px #0003!important; overflow:hidden; }
-.info-card:before { content:""; position:absolute; top:0;left:7%;width:45%;height:1px;background:linear-gradient(90deg,transparent,#7eeaffaa,transparent); }
-.file-title { font-size:clamp(1.2rem,2.2vw,1.8rem)!important; line-height:1.25; letter-spacing:-.035em; overflow-wrap:anywhere; }
-.meta-tag { border:1px solid #66e4ff35!important; background:#4edfff0e!important; color:#9fefff!important; border-radius:999px!important; padding:7px 12px!important; }
-.btn { border:1px solid rgba(154,174,230,.2)!important; border-radius:12px!important; background:rgba(255,255,255,.045)!important;
-  color:#e8eeff!important; font-weight:650!important; transition:transform .2s,border-color .2s,background .2s,box-shadow .2s!important; }
-.btn:hover { transform:translateY(-2px); border-color:#82eaff7a!important; background:rgba(113,224,255,.09)!important; box-shadow:0 8px 25px #0003!important; }
-.btn-primary { color:#07111c!important; border:0!important; background:linear-gradient(110deg,#78eaff,#9a9dff)!important; box-shadow:0 8px 26px #5fbcff25!important; }
-.spark-tools { display:flex; flex-wrap:wrap; gap:9px!important; margin-top:20px!important; padding-top:20px; border-top:1px solid var(--sx-line); }
-.spark-tools .btn { font-size:.83rem!important; padding:10px 13px!important; }
-.spark-status { display:flex; align-items:center; gap:9px; margin-top:17px!important; color:#8797b6!important; font-size:.78rem!important; }
-.spark-dot,.dock-live { width:7px;height:7px;border-radius:50%;background:#67efc2;box-shadow:0 0 12px #67efc2a0;display:inline-block;flex:0 0 auto; }
-.spark-pro-dock { margin-top:16px; padding:20px; border:1px solid var(--sx-line); border-radius:20px;
-  background:linear-gradient(135deg,rgba(20,28,48,.9),rgba(12,17,30,.88)); box-shadow:0 16px 45px #0002; }
-.dock-label { display:flex;align-items:center;gap:9px;font-size:.67rem;font-weight:850;letter-spacing:.15em;color:#7f8eae;margin-bottom:15px; }
-.dock-divider { color:#39435b; }
-.dock-controls { display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px; }
-.speed-control,.pro-tool { min-height:58px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;
-  border:1px solid rgba(154,174,230,.14);border-radius:13px;background:rgba(255,255,255,.025);color:#e4eaff;font:inherit;font-size:.78rem; }
-.speed-control { flex-direction:column;align-items:flex-start;gap:5px;color:#91a0bf; }
-.speed-control select { width:100%; color:#f4f7ff;background:#131b2d;border:0;outline:none;font-weight:800;font-size:.88rem; }
-.pro-tool { cursor:pointer; transition:all .18s; }
-.pro-tool:hover,.pro-tool.active { border-color:#78eaff70;background:#6ddfff12;transform:translateY(-2px); }
-.tool-symbol { color:var(--sx-cyan);font-size:1.05rem;font-weight:850; }
-.spark-bookmark-row,.spark-progress-row { display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;padding-top:13px;border-top:1px solid #ffffff0b;color:#8f9cb7;font-size:.78rem; }
-.spark-bookmark-row b { color:#d9e9ff; font-variant-numeric:tabular-nums; }
-.spark-bookmark-row button,.spark-progress-row button { border:0;background:transparent;color:#83e8ff;cursor:pointer;font:inherit;font-weight:700; }
-.cards-section { margin-top:76px!important; }
-.section-title { color:#f5f7ff!important; font-size:clamp(1.7rem,3vw,2.4rem)!important; letter-spacing:-.045em; }
-.section-subtitle { color:#8795b2!important; }
-.cards-grid { gap:18px!important; }
-.card { position:relative; border:1px solid var(--sx-line)!important;border-radius:20px!important;
-  background:linear-gradient(145deg,rgba(19,26,44,.9),rgba(10,14,25,.88))!important;
-  box-shadow:0 15px 40px #0002!important; transition:transform .22s,border-color .22s!important; }
-.card:hover { transform:translateY(-4px);border-color:#7ae7ff50!important; }
-.card-icon { border-radius:14px!important;background:linear-gradient(135deg,#6de6ff1c,#8e91ff24)!important;color:#83eaff!important; }
-.card h3 { color:#f0f4ff!important; }
-.card p { color:#8e9bb7!important; }
-.card-link { color:#c6d5f4!important;border-bottom-color:#ffffff0c!important; }
-.card-link:hover { color:#80eaff!important; }
-.footer { border-top:1px solid var(--sx-line)!important;color:#7f8ba5!important; }
-.spark-toast { position:fixed;z-index:99999;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
-  padding:13px 18px;border:1px solid #8deaff44;border-radius:14px;background:rgba(12,19,33,.96);color:#eafaff;
-  box-shadow:0 18px 50px #0008;backdrop-filter:blur(18px);font-size:.86rem;transition:all .25s;max-width:calc(100vw - 28px);text-align:center; }
-.spark-toast.show { opacity:1;transform:translate(-50%,0); }
-body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-right:auto; }
-@media(max-width:950px) { .dock-controls { grid-template-columns:repeat(3,minmax(0,1fr)); } }
-@media(max-width:600px) {
- .header-content { min-height:64px!important; }
- .slogan { margin-top:30px!important; }
- .player-wrapper { padding:5px!important;border-radius:17px!important; }
- .video-container,video#player { border-radius:12px!important; }
- .info-card { padding:17px!important;border-radius:17px!important; }
- .spark-pro-dock { padding:14px!important; }
- .dock-controls { grid-template-columns:repeat(2,minmax(0,1fr)); }
- .pro-tool,.speed-control { min-height:54px; }
- .spark-bookmark-row,.spark-progress-row { align-items:flex-start;flex-wrap:wrap; }
-}
-@media(prefers-reduced-motion:reduce) { *,*:before,*:after { scroll-behavior:auto!important;transition:none!important;animation:none!important; } }
-
-
-        .sx-format-notice { margin: 14px 0 0; padding: 18px; border: 1px solid rgba(251,191,36,.28); border-radius: 16px; background: rgba(120,75,10,.13); color: #dce5f8; }
-        .sx-format-notice[hidden] { display:none!important; }
-        .sx-format-notice strong { display:block; margin-bottom:7px; color:#fcd34d; }
-        .sx-format-notice span { display:block; color:#aebbd3; line-height:1.65; font-size:.9rem; }
-        .sx-format-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:13px; }
-        .sx-format-actions .btn { min-height:42px; }
-</style>
+    </style>
 </head>
 
 <body>
 
     <header class="header">
         <div class="header-content">
-            <a href="https://t.me/dreamxbotz" class="logo"> Spark X Bot </a>
+            <a href="https://t.me/dreamxbotz" class="logo"> DreamXbotz </a>
 
             <nav class="nav">
                 <a href="#video-section">Stream</a>
@@ -1123,7 +937,7 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
 
 
     <div class="slogan">
-        <span class="slogan-text">Your Stream,</span> <span class="slogan-highlight">Your Way</span>
+        <span class="slogan-text">Stream Effortlessly,</span> <span class="slogan-highlight">Anytime, Anywhere</span>
     </div>
 
 
@@ -1132,18 +946,10 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
         <section id="video-section" class="fade-in">
             <div class="player-wrapper">
                 <div class="video-container">
-                    <video id="player" playsinline controls preload="metadata"
+                    <video id="player" class="mkv-player" playsinline controls
                         data-poster="https://i.ibb.co/MxYbt8M1/x.jpg">
                         <source src="{{file_url}}" />
                     </video>
-                </div>
-                <div id="sx-format-notice" class="sx-format-notice" role="status" hidden>
-                    <strong id="sx-format-title">This video format may not play in your browser.</strong>
-                    <span id="sx-format-detail">For browser playback on iPhone, Android and computers, the stream should be MP4 (H.264/AAC) or HLS (.m3u8). MKV playback is not supported consistently by web browsers.</span>
-                    <div class="sx-format-actions">
-                        <button class="btn btn-primary" type="button" onclick="sxOpenDirectStream()">Open stream link</button>
-                        <button class="btn" type="button" onclick="sxCopyDirectStream()">Copy stream link</button>
-                    </div>
                 </div>
             </div>
 
@@ -1172,12 +978,12 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
                         Download
                     </button>
 
-                    <button type="button" class="btn" onclick="vlc_player()">
+                    <button class="btn" onclick="vlc_player()">
                         <img src="https://i.postimg.cc/15TQ4y7B/vlc.png" alt="VLC" />
                         VLC Player
                     </button>
 
-                    <button type="button" class="btn" onclick="mx_player()">
+                    <button class="btn" onclick="mx_player()">
                         <img src="https://i.postimg.cc/sx4Msv4T/mx.png" alt="MX" />
                         MX Player
                     </button>
@@ -1194,23 +1000,23 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
 
                         <div class="dropdown-menu" id="players-dropdown">
                             <div class="dropdown-grid">
-                                <a href="#" class="player-link" onclick="playit_player(); return false;">
+                                <a href="#" class="player-link" onclick="playit_player()">
                                     <img src="https://i.postimg.cc/RVGWYJFF/playit.png" alt="PLAYit" />
                                     <span>PLAYit</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="km_player(); return false;">
+                                <a href="#" class="player-link" onclick="km_player()">
                                     <img src="https://i.postimg.cc/wT9tFQ9Z/km.png" alt="KM" />
                                     <span>KMPlayer</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="s_player(); return false;">
+                                <a href="#" class="player-link" onclick="s_player()">
                                     <img src="https://i.postimg.cc/XYJr6NGg/s.png" alt="S" />
                                     <span>S Player</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="hd_player(); return false;">
+                                <a href="#" class="player-link" onclick="hd_player()">
                                     <img src="https://i.postimg.cc/rFT43LNh/hd.png" alt="HD" />
                                     <span>HD Player</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="mx_playerpro(); return false;">
+                                <a href="#" class="player-link" onclick="mx_playerpro()">
                                     <img src="https://i.postimg.cc/sx4Msv4T/mx.png" alt="MX Pro" />
                                     <span>MX Pro</span>
                                 </a>
@@ -1218,51 +1024,15 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
                         </div>
                     </div>
                 </div>
-                <div class="spark-tools" aria-label="Extra streaming tools">
-                    <button class="btn" type="button" id="spark-theater" onclick="sparkToggleTheater()">⛶ Theater Mode</button>
-                    <button class="btn" type="button" onclick="sparkCopyStreamLink()">↗ Copy Stream Link</button>
-                    <button class="btn" type="button" onclick="sparkSleepTimer()">◷ Sleep Timer</button>
-                    <button class="btn" type="button" onclick="sparkShowShortcuts()">⌨ Keyboard Help</button>
-                </div>
-                
-                <div class="spark-pro-dock" aria-label="Pro playback controls">
-                    <div class="dock-label"><span class="dock-live"></span> PLAYER LAB <span class="dock-divider">/</span> QUICK TOOLS</div>
-                    <div class="dock-controls">
-                        <label class="speed-control" for="spark-speed"><span>Playback speed</span>
-                            <select id="spark-speed" aria-label="Playback speed">
-                                <option value="0.5">0.5×</option><option value="0.75">0.75×</option>
-                                <option value="1" selected>1.0×</option><option value="1.25">1.25×</option>
-                                <option value="1.5">1.5×</option><option value="1.75">1.75×</option>
-                                <option value="2">2.0×</option>
-                            </select>
-                        </label>
-                        <button class="pro-tool" type="button" onclick="sparkToggleLoop()" id="spark-loop-btn"><span class="tool-symbol">↻</span><span>Loop</span></button>
-                        <button class="pro-tool" type="button" onclick="sparkPictureInPicture()"><span class="tool-symbol">▣</span><span>Mini player</span></button>
-                        <button class="pro-tool" type="button" onclick="sparkCaptureFrame()"><span class="tool-symbol">▧</span><span>Screenshot</span></button>
-                        <button class="pro-tool" type="button" onclick="document.getElementById('spark-subtitle-file').click()"><span class="tool-symbol">CC</span><span>Load subtitles</span></button>
-                        <input type="file" id="spark-subtitle-file" accept=".vtt,.srt,text/vtt,application/x-subrip" hidden>
-                        <button class="pro-tool" type="button" onclick="sparkSaveBookmark()"><span class="tool-symbol">◆</span><span>Save moment</span></button>
-                    </div>
-                    <div class="spark-bookmark-row" id="spark-bookmark-row" hidden>
-                        <span>Saved moment <b id="spark-bookmark-time">00:00</b></span>
-                        <button type="button" onclick="sparkJumpBookmark()">Jump back ↗</button>
-                    </div>
-                    <div class="spark-progress-row">
-                        <span id="spark-resume-label">Resume memory ready</span>
-                        <button type="button" onclick="sparkClearResume()">Clear resume</button>
-                    </div>
-                </div>
-
-                <div class="spark-status"><span class="spark-dot"></span><span id="spark-status-text">Spark X Bot player ready · Keyboard shortcuts enabled</span></div>
             </div>
         </section>
 
 
         <section id="explore" class="cards-section">
             <div class="section-header">
-                <h2 class="section-title">Explore Spark X Bot</h2>
+                <h2 class="section-title">Explore Our Universe</h2>
                 <p class="section-subtitle">
-                    Your streaming tools, channels, and helpful bots
+                    Discover our channels and intelligent bots
                 </p>
             </div>
 
@@ -1277,14 +1047,14 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </div>
-                    <h3>Important Links</h3>
+                    <h3>Our Channels</h3>
                     <p>
                         Get exclusive content and real-time notifications from our premium
                         channels
                     </p>
                     <div class="card-links">
                         <a href="https://t.me/dreamxbotz" class="card-link">
-                            <span>Spark X Bot</span>
+                            <span>DreamXbotz</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1318,13 +1088,13 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
                     </div>
-                    <h3>Useful Bots</h3>
+                    <h3>Our Bots</h3>
                     <p>
                         Intelligent bots for enhanced streaming and automated assistance
                     </p>
                     <div class="card-links">
                         <a href="https://t.me/dreamxbotz" class="card-link">
-                            <span>Spark X Bot</span>
+                            <span>DreamXbotz</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1364,106 +1134,40 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
 
     <footer class="footer">
         <p>
-            &copy; 2026 <a href="https://t.me/dreamxbotz">Spark X Bot</a>. All Rights
+            &copy; 2026 <a href="https://t.me/dreamxbotz">DreamXbotz</a>. All Rights
             Reserved.
         </p>
     </footer>
 
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/Bharathboy/utils@main/jsmkv-polyfill.js"></script>
 
     <script>
-        function sxGetStreamUrl() {
-            const source = document.querySelector("#player source");
-            return source ? (source.getAttribute("src") || source.src || "") : "";
-        }
-
-        function sxGetExtension(url) {
-            try {
-                const pathname = new URL(url, window.location.href).pathname;
-                const match = pathname.match(/\.([a-z0-9]+)$/i);
-                return match ? match[1].toLowerCase() : "";
-            } catch (_) { return ""; }
-        }
-
-        function sxShowFormatNotice(title, detail) {
-            const box = document.getElementById("sx-format-notice");
-            const titleNode = document.getElementById("sx-format-title");
-            const detailNode = document.getElementById("sx-format-detail");
-            if (box) box.hidden = false;
-            if (titleNode && title) titleNode.textContent = title;
-            if (detailNode && detail) detailNode.textContent = detail;
-            const status = document.getElementById("spark-status-text");
-            if (status) status.textContent = title || "Video format needs a compatible stream";
-        }
-
         function initPlayer() {
             const video = document.querySelector("#player");
-            if (!video) return;
-            const url = sxGetStreamUrl();
-            const ext = sxGetExtension(url);
-            const source = video.querySelector("source");
-            const mime = { mp4: "video/mp4", m4v: "video/mp4", webm: "video/webm", ogv: "video/ogg", ogg: "video/ogg", m3u8: "application/vnd.apple.mpegurl", mpd: "application/dash+xml", flv: "video/x-flv", ts: "video/mp2t" };
-            if (source && mime[ext]) source.type = mime[ext];
-
-            video.addEventListener("error", () => {
-                const mediaError = video.error;
-                if (mediaError) {
-                    const detail = mediaError.code === 4
-                        ? "Your browser cannot decode this format or the server returned a non-video page. Use an MP4 (H.264/AAC) or HLS (.m3u8) stream, and make sure the URL is a direct public media URL."
-                        : "The video could not be loaded. Check that the stream URL is reachable, allows byte-range requests/CORS where needed, and has not expired.";
-                    sxShowFormatNotice("Online playback could not start", detail);
-                }
-            });
-
-            if (ext === "m3u8") {
-                if (video.canPlayType("application/vnd.apple.mpegurl")) {
-                    video.src = url;
-                } else if (window.Hls && Hls.isSupported()) {
-                    const hls = new Hls({ enableWorker: true, capLevelToPlayerSize: true });
-                    hls.loadSource(url); hls.attachMedia(video); window.sparkHlsPlayer = hls;
-                    hls.on(Hls.Events.ERROR, (_event, data) => {
-                        if (data && data.fatal) sxShowFormatNotice("HLS stream failed", "The HLS playlist or one of its segments could not load. Verify that the .m3u8 URL and all segment URLs are publicly accessible over HTTPS.");
-                    });
-                } else {
-                    sxShowFormatNotice("HLS is not supported in this browser", "Try a current version of Safari, Chrome, Firefox or Edge, or provide an MP4 (H.264/AAC) stream.");
-                }
-            } else if (["flv", "ts"].includes(ext) && window.mpegts && mpegts.isSupported()) {
-                try {
-                    const player = mpegts.createPlayer({ type: ext, url, isLive: false });
-                    player.attachMediaElement(video); player.load(); window.mpegtsPlayer = player;
-                } catch (err) {
-                    console.error("mpegts failed:", err);
-                    sxShowFormatNotice("This stream format could not be initialized", "Use MP4 or HLS for the widest browser support.");
-                }
-            } else if (["mkv", "avi", "wmv", "mov", "mpd"].includes(ext)) {
-                // MKV/AVI/WMV and DASH are not universally supported natively; never claim a polyfill guarantees support.
-                if (ext === "mpd" && window.dashjs) {
-                    try { window.sparkDashPlayer = dashjs.MediaPlayer().create(); window.sparkDashPlayer.initialize(video, url, false); }
-                    catch (_) { sxShowFormatNotice("DASH stream could not start", "Check the MPD manifest and its media segments."); }
-                } else if (ext === "mkv") {
-                    sxShowFormatNotice("MKV cannot play in every browser", "This source is MKV. Many Android browsers, desktop browsers and especially iPhone Safari cannot decode MKV in an HTML video element. To make it play online on all devices, the server must provide MP4 (H.264/AAC) or HLS (.m3u8); an HTML-only change cannot convert the video format.");
-                } else {
-                    sxShowFormatNotice("This video format has limited browser support", "Provide an MP4 (H.264/AAC) or HLS (.m3u8) stream for reliable playback across Android, iPhone and computers.");
-                }
+            if (!video) {
+                console.error("Video element not found");
+                return;
             }
 
-            // Build Plyr controls around the native element. Playback still depends on the stream codec/format.
-            setTimeout(() => initPlyr(video), 100);
-        }
+            const source = video.querySelector("source");
+            const url = source?.src || "";
+            const cleanUrl = url.split("?")[0];
+            const ext = cleanUrl.split(".").pop()?.toLowerCase() || "";
 
-        function sxOpenDirectStream() {
-            const url = sxGetStreamUrl();
-            if (url) window.open(url, "_blank", "noopener,noreferrer");
-        }
-        async function sxCopyDirectStream() {
-            const url = sxGetStreamUrl();
-            if (!url) return sparkToast("Stream URL is unavailable.");
-            try { await navigator.clipboard.writeText(url); sparkToast("Stream link copied."); }
-            catch (_) { const field=document.createElement("textarea"); field.value=url; field.style.position="fixed"; field.style.opacity="0"; document.body.appendChild(field); field.select(); const ok=document.execCommand("copy"); field.remove(); sparkToast(ok ? "Stream link copied." : "Copy was blocked by your browser."); }
+            if (ext === "mkv" && document.querySelector('script[src*="jsmkv"]')) {
+                video.classList.add("mkv-player");
+                setTimeout(() => initPlyr(video), 100);
+            } else if (
+                ["flv", "ts"].includes(ext) &&
+                typeof mpegts !== "undefined"
+            ) {
+                initMpegts(video, url);
+            } else {
+                setTimeout(() => initPlyr(video), 100);
+            }
         }
 
         function initPlyr(video) {
@@ -1838,43 +1542,48 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
         }
 
         function buildIntentUrl(url, packageName, action = "android.intent.action.VIEW", type = "video/*") {
-            const parsed = new URL(url, window.location.href);
-            const typePart = type ? `;type=${type}` : "";
-            // Android intent URI must use the actual stream path/query and a scheme without colon.
-            return `intent://${parsed.host}${parsed.pathname}${parsed.search}#Intent;scheme=${parsed.protocol.replace(":", "")};action=${action}${typePart};package=${packageName};S.browser_fallback_url=${encodeURIComponent(url)};end`;
+            const parsed = new URL(url);
+            const intentPath = `${parsed.host}${parsed.pathname}${parsed.search}`;
+            const typePart = type ? `type=${type};` : "";
+            return `intent://${intentPath}#Intent;scheme=${parsed.protocol.replace(":", "")};action=${action};${typePart}package=${packageName};end`;
         }
 
-        function sxIsAndroid() { return /Android/i.test(navigator.userAgent); }
-        function sxIsIOS() { return /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
-        function sxOpenExternalPlayer(app) {
-            const url = sxGetStreamUrl();
-            if (!url) { sparkToast("Stream URL is unavailable."); return false; }
-            if (sxIsAndroid()) {
-                const packages = { vlc: "org.videolan.vlc", mx: "com.mxtech.videoplayer.ad", mxpro: "com.mxtech.videoplayer.pro", playit: "com.playit.videoplayer", km: "com.kmplayer", s: "com.young.simple.player", hd: "uplayer.video.player" };
-                const intent = buildIntentUrl(url, packages[app] || packages.vlc);
-                window.location.href = intent;
-                // If Android cannot resolve the app intent, leave a direct stream fallback available.
-                window.setTimeout(() => { if (!document.hidden) { sparkToast("If the app did not open, copy the stream link or install the selected player."); } }, 1300);
-                return false;
-            }
-            if (sxIsIOS() && app === "vlc") {
-                // VLC for iOS supports its x-callback stream URL scheme when installed.
-                window.location.href = "vlc-x-callback://x-callback-url/stream?url=" + encodeURIComponent(url);
-                window.setTimeout(() => { if (!document.hidden) { sparkToast("If VLC did not open, copy the stream link and open it from VLC's Network Stream option."); } }, 1200);
-                return false;
-            }
-            // Most Android-only players have no desktop/iOS URL scheme. Open the raw URL instead of a dead intent:// link.
-            window.open(url, "_blank", "noopener,noreferrer");
-            sparkToast(sxIsIOS() ? "If the video does not play, copy the link into a compatible player app." : "Opened the direct stream URL in a new tab.");
-            return false;
+        function vlc_player(event) {
+            const url = "{{file_url}}";
+            window.location.href = buildIntentUrl(url, "org.videolan.vlc");
         }
-        function vlc_player() { return sxOpenExternalPlayer("vlc"); }
-        function mx_player() { return sxOpenExternalPlayer("mx"); }
-        function mx_playerpro() { return sxOpenExternalPlayer("mxpro"); }
-        function playit_player() { return sxOpenExternalPlayer("playit"); }
-        function km_player() { return sxOpenExternalPlayer("km"); }
-        function s_player() { return sxOpenExternalPlayer("s"); }
-        function hd_player() { return sxOpenExternalPlayer("hd"); }
+
+        function mx_player() {
+            window.location.href = buildIntentUrl("{{file_url}}", "com.mxtech.videoplayer.ad");
+        }
+
+        function mx_playerpro() {
+            window.location.href = buildIntentUrl("{{file_url}}", "com.mxtech.videoplayer.pro");
+        }
+
+        function playit_player() {
+            // PLAYit works best with its native deep-link
+            window.location.href =
+                `playit://playerv2/video?url=${encodeURIComponent("{{file_url}}")}`;
+        }
+
+        function km_player() {
+            window.location.href = buildIntentUrl("{{file_url}}", "com.kmplayer");
+        }
+
+        function s_player() {
+            window.location.href = buildIntentUrl(
+                "{{file_url}}",
+                "com.young.simple.player",
+                "com.young.simple.player.playback_online",
+                ""
+            );
+        }
+
+        function hd_player() {
+            // Correct HD Player package
+            window.location.href = buildIntentUrl("{{file_url}}", "uplayer.video.player");
+        }
 
         document.addEventListener("click", (e) => {
             if (!e.target.closest(".dropdown")) {
@@ -1993,237 +1702,7 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
                 });
             }
         }
-
-        // Spark X Bot convenience features. Existing stream/player URLs are unchanged.
-        let sparkSleepTimeout = null;
-        function sparkToast(message) {
-            let toast = document.getElementById("spark-toast");
-            if (!toast) {
-                toast = document.createElement("div");
-                toast.id = "spark-toast";
-                toast.className = "spark-toast";
-                toast.setAttribute("role", "status");
-                document.body.appendChild(toast);
-            }
-            toast.textContent = message;
-            toast.classList.add("show");
-            clearTimeout(toast._hideTimer);
-            toast._hideTimer = setTimeout(() => toast.classList.remove("show"), 2800);
-        }
-        function sparkToggleTheater() {
-            document.body.classList.toggle("theater-mode");
-            const active = document.body.classList.contains("theater-mode");
-            const button = document.getElementById("spark-theater");
-            if (button) button.textContent = active ? "✕ Exit Theater" : "⛶ Theater Mode";
-            sparkToast(active ? "Theater mode enabled" : "Theater mode disabled");
-        }
-        async function sparkCopyStreamLink() {
-            const source = document.querySelector("#player source");
-            const url = source ? source.src : "";
-            if (!url) return sparkToast("Stream link is not available.");
-            try {
-                await navigator.clipboard.writeText(url);
-                sparkToast("Stream link copied.");
-            } catch (_) {
-                const field = document.createElement("textarea");
-                field.value = url;
-                field.style.position = "fixed";
-                field.style.opacity = "0";
-                document.body.appendChild(field);
-                field.select();
-                const ok = document.execCommand("copy");
-                field.remove();
-                sparkToast(ok ? "Stream link copied." : "Copy was blocked by your browser.");
-            }
-        }
-        function sparkSleepTimer() {
-            const answer = prompt("Pause playback after how many minutes? Enter 5, 10, 15, 30, 45, or 60. Enter 0 to cancel.");
-            if (answer === null) return;
-            const minutes = Number(answer);
-            if (minutes === 0) {
-                clearTimeout(sparkSleepTimeout);
-                sparkSleepTimeout = null;
-                sparkToast("Sleep timer cancelled.");
-                return;
-            }
-            if (![5, 10, 15, 30, 45, 60].includes(minutes)) {
-                sparkToast("Choose 5, 10, 15, 30, 45, or 60 minutes.");
-                return;
-            }
-            clearTimeout(sparkSleepTimeout);
-            sparkSleepTimeout = setTimeout(() => {
-                const video = document.getElementById("player");
-                if (video) video.pause();
-                sparkToast("Sleep timer finished. Playback paused.");
-                const status = document.getElementById("spark-status-text");
-                if (status) status.textContent = "Sleep timer finished";
-            }, minutes * 60 * 1000);
-            sparkToast(`Sleep timer set for ${minutes} minutes.`);
-        }
-        function sparkShowShortcuts() {
-            sparkToast("Shortcuts: Space = play/pause · ←/→ = seek 5s · ↑/↓ = volume · F = fullscreen");
-        }
-        document.addEventListener("keydown", (event) => {
-            const target = event.target;
-            if (target && (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName) || target.isContentEditable)) return;
-            const video = document.getElementById("player");
-            if (!video) return;
-            if (event.code === "Space") {
-                event.preventDefault();
-                if (video.paused) video.play().catch(() => {}); else video.pause();
-            } else if (event.key === "ArrowLeft") {
-                video.currentTime = Math.max(0, video.currentTime - 5);
-            } else if (event.key === "ArrowRight" && Number.isFinite(video.duration)) {
-                video.currentTime = Math.min(video.duration, video.currentTime + 5);
-            } else if (event.key === "ArrowUp") {
-                event.preventDefault(); video.volume = Math.min(1, video.volume + .05);
-            } else if (event.key === "ArrowDown") {
-                event.preventDefault(); video.volume = Math.max(0, video.volume - .05);
-            } else if (event.key.toLowerCase() === "f") {
-                const playerRoot = document.querySelector(".video-container");
-                if (document.fullscreenElement) document.exitFullscreen?.();
-                else playerRoot?.requestFullscreen?.();
-            }
-        });
-
     </script>
-
-<script>
-(function SparkXProFeatures() {
-  const video = document.getElementById('player');
-  if (!video) return;
-  const key = 'sparkx_resume_' + (location.pathname + location.search);
-  let toastTimer, sleepTimerId = null, bookmarkTime = null;
-  function toast(message) {
-    let el = document.getElementById('spark-toast');
-    if (!el) { el = document.createElement('div'); el.id='spark-toast'; el.className='spark-toast'; el.setAttribute('role','status'); document.body.appendChild(el); }
-    el.textContent = message; el.classList.add('show'); clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
-  }
-  function timeText(seconds) {
-    if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
-    const h = Math.floor(seconds/3600), m = Math.floor((seconds%3600)/60), s = Math.floor(seconds%60);
-    return h ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  }
-  const speed = document.getElementById('spark-speed');
-  speed?.addEventListener('change', () => { video.playbackRate = Number(speed.value) || 1; toast(`Playback speed ${speed.value}×`); });
-  window.sparkToggleLoop = function() {
-    video.loop = !video.loop;
-    const btn = document.getElementById('spark-loop-btn');
-    btn?.classList.toggle('active', video.loop);
-    toast(video.loop ? 'Loop playback enabled' : 'Loop playback disabled');
-  };
-  window.sparkPictureInPicture = async function() {
-    try {
-      if (document.pictureInPictureElement) await document.exitPictureInPicture();
-      else if (document.pictureInPictureEnabled && video.requestPictureInPicture) await video.requestPictureInPicture();
-      else { toast('Mini player is not supported by this browser'); return; }
-      toast('Mini player updated');
-    } catch(e) { toast('Start the video first, then try Mini player'); }
-  };
-  window.sparkCaptureFrame = function() {
-    try {
-      if (!video.videoWidth || !video.videoHeight) { toast('Play or load the video before taking a screenshot'); return; }
-      const canvas = document.createElement('canvas'); canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-      canvas.getContext('2d').drawImage(video,0,0);
-      canvas.toBlob(blob => {
-        if (!blob) { toast('Screenshot unavailable for this stream'); return; }
-        const url = URL.createObjectURL(blob), a = document.createElement('a');
-        a.href=url; a.download='spark-x-frame-'+timeText(video.currentTime).replaceAll(':','-')+'.png';
-        a.click(); setTimeout(()=>URL.revokeObjectURL(url),1500); toast('Frame screenshot saved');
-      },'image/png');
-    } catch(e) { toast('This stream blocks screenshots in the browser'); }
-  };
-  document.getElementById('spark-subtitle-file')?.addEventListener('change', e => {
-    const file=e.target.files?.[0]; if(!file) return;
-    if (file.size > 5*1024*1024) { toast('Subtitle file must be under 5 MB'); e.target.value=''; return; }
-    const reader=new FileReader();
-    reader.onload=()=>{
-      try {
-        let text=String(reader.result||'');
-        if (/\.srt$/i.test(file.name)) {
-          text=text.replace(/\r/g,'').replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g,'$1.$2');
-          text='WEBVTT\n\n'+text;
-        }
-        const blob=new Blob([text],{type:'text/vtt'}), url=URL.createObjectURL(blob);
-        video.querySelectorAll('track[data-spark-subtitle]').forEach(t=>t.remove());
-        const track=document.createElement('track'); track.kind='subtitles'; track.label=file.name; track.srclang='en'; track.src=url; track.default=true; track.dataset.sparkSubtitle='1'; video.appendChild(track);
-        track.track.mode='showing'; toast('Subtitle track loaded');
-      } catch(err) { toast('Could not read this subtitle file'); }
-    };
-    reader.readAsText(file);
-  });
-  window.sparkSaveBookmark = function() {
-    if (!Number.isFinite(video.currentTime) || video.currentTime <= 0) { toast('Start playback to save a moment'); return; }
-    bookmarkTime=video.currentTime;
-    document.getElementById('spark-bookmark-time').textContent=timeText(bookmarkTime);
-    document.getElementById('spark-bookmark-row').hidden=false;
-    try { localStorage.setItem(key+'_bookmark', String(bookmarkTime)); } catch(e) {}
-    toast('Moment saved at '+timeText(bookmarkTime));
-  };
-  window.sparkJumpBookmark = function() {
-    const saved=bookmarkTime ?? Number(localStorage.getItem(key+'_bookmark'));
-    if (Number.isFinite(saved) && saved >= 0) { video.currentTime=saved; video.play().catch(()=>{}); toast('Jumped to saved moment'); }
-    else toast('No saved moment yet');
-  };
-  window.sparkClearResume = function() {
-    try { localStorage.removeItem(key); } catch(e) {}
-    const label=document.getElementById('spark-resume-label'); if(label) label.textContent='Resume memory cleared';
-    toast('Saved resume position cleared');
-  };
-  // Remember progress locally on this browser; never sends viewing data to a server.
-  let lastSaved=0, resumeApplied=false;
-  video.addEventListener('timeupdate', () => {
-    if (!Number.isFinite(video.currentTime) || video.currentTime < 2 || Date.now()-lastSaved < 5000) return;
-    lastSaved=Date.now();
-    try { localStorage.setItem(key, JSON.stringify({time:video.currentTime,duration:video.duration||0})); } catch(e) {}
-  });
-  video.addEventListener('loadedmetadata', () => {
-    if (resumeApplied) return; resumeApplied=true;
-    try {
-      const saved=JSON.parse(localStorage.getItem(key)||'null');
-      if (saved && Number.isFinite(saved.time) && saved.time > 10 && (!video.duration || saved.time < video.duration-8)) {
-        const label=document.getElementById('spark-resume-label');
-        if(label) label.innerHTML='Resume available · <b>'+timeText(saved.time)+'</b>';
-        const row=document.querySelector('.spark-progress-row');
-        if(row && !document.getElementById('spark-resume-btn')) {
-          const b=document.createElement('button'); b.id='spark-resume-btn'; b.type='button'; b.textContent='Resume ↗';
-          b.addEventListener('click',()=>{video.currentTime=saved.time;video.play().catch(()=>{});toast('Resumed from '+timeText(saved.time));});
-          row.insertBefore(b,row.lastElementChild);
-        }
-      }
-    } catch(e) {}
-    try {
-      const b=Number(localStorage.getItem(key+'_bookmark'));
-      if(Number.isFinite(b)&&b>0) { bookmarkTime=b; document.getElementById('spark-bookmark-time').textContent=timeText(b); document.getElementById('spark-bookmark-row').hidden=false; }
-    } catch(e) {}
-  });
-  video.addEventListener('ended',()=>{try{localStorage.removeItem(key)}catch(e){}});
-  // Clear sleep timers before starting a new one.
-  window.sparkSleepTimer = function() {
-    const raw=prompt('Sleep timer in minutes: 5, 10, 15, 30, 45, 60. Enter 0 to cancel.','30');
-    if(raw===null) return;
-    const mins=Number(raw);
-    if(!Number.isInteger(mins)||mins<0||mins>60||(mins!==0&&![5,10,15,30,45,60].includes(mins))) { toast('Choose 5, 10, 15, 30, 45, 60 or 0'); return; }
-    if(sleepTimerId) clearTimeout(sleepTimerId); sleepTimerId=null;
-    if(mins===0) { toast('Sleep timer cancelled'); return; }
-    sleepTimerId=setTimeout(()=>{video.pause(); if(document.pictureInPictureElement) document.exitPictureInPicture().catch(()=>{}); toast('Sleep timer paused playback'); sleepTimerId=null;},mins*60*1000);
-    toast(`Sleep timer set for ${mins} minutes`);
-  };
-  // Keyboard shortcuts, excluding text fields and native video controls where possible.
-  document.addEventListener('keydown', e => {
-    if (e.altKey||e.ctrlKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')) return;
-    if (e.code==='Space') { e.preventDefault(); video.paused?video.play().catch(()=>{}):video.pause(); }
-    else if(e.code==='ArrowRight') { video.currentTime=Math.min(video.duration||Infinity,video.currentTime+5); }
-    else if(e.code==='ArrowLeft') { video.currentTime=Math.max(0,video.currentTime-5); }
-    else if(e.code==='ArrowUp') { e.preventDefault(); video.volume=Math.min(1,video.volume+.05); toast('Volume '+Math.round(video.volume*100)+'%'); }
-    else if(e.code==='ArrowDown') { e.preventDefault(); video.volume=Math.max(0,video.volume-.05); toast('Volume '+Math.round(video.volume*100)+'%'); }
-    else if(e.key.toLowerCase()==='m') video.muted=!video.muted;
-    else if(e.key.toLowerCase()==='f') { if(!document.fullscreenElement) (video.requestFullscreen||video.webkitRequestFullscreen)?.call(video); else document.exitFullscreen?.(); }
-  });
-})();
-</script>
-
 </body>
 
 </html>
