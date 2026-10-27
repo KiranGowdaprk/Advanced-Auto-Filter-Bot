@@ -15,14 +15,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsmkv@0.4.2/dist/jsmkv.min.js"></script>
 
-
-      <meta name="monetag" content="2ba07f97efd8d0b0b09fc2a122939060">
-    
-    <script src="https://5gvci.com/act/files/tag.min.js?z=11602341" data-cfasync="false" async></script>
-    <script>(function (s) { s.dataset.zone = '11602353', s.src = 'https://nap5k.com/tag.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <script>(function (s) { s.dataset.zone = '11602413', s.src = 'https://n6wxm.com/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <script src="https://5gvci.com/act/files/tag.min.js?z=11602449" data-cfasync="false" async></script>
-
     <style>
         :root {
             --bg-primary: rgb(2, 6, 23);
@@ -1097,6 +1089,13 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
 }
 @media(prefers-reduced-motion:reduce) { *,*:before,*:after { scroll-behavior:auto!important;transition:none!important;animation:none!important; } }
 
+
+        .sx-format-notice { margin: 14px 0 0; padding: 18px; border: 1px solid rgba(251,191,36,.28); border-radius: 16px; background: rgba(120,75,10,.13); color: #dce5f8; }
+        .sx-format-notice[hidden] { display:none!important; }
+        .sx-format-notice strong { display:block; margin-bottom:7px; color:#fcd34d; }
+        .sx-format-notice span { display:block; color:#aebbd3; line-height:1.65; font-size:.9rem; }
+        .sx-format-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:13px; }
+        .sx-format-actions .btn { min-height:42px; }
 </style>
 </head>
 
@@ -1122,22 +1121,29 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
         </div>
     </header>
 
-    <br><br>
 
     <div class="slogan">
         <span class="slogan-text">Your Stream,</span> <span class="slogan-highlight">Your Way</span>
     </div>
-  
+
 
     <div class="container">
 
         <section id="video-section" class="fade-in">
             <div class="player-wrapper">
                 <div class="video-container">
-                    <video id="player" class="mkv-player" playsinline controls
+                    <video id="player" playsinline controls preload="metadata"
                         data-poster="https://i.ibb.co/MxYbt8M1/x.jpg">
                         <source src="{{file_url}}" />
                     </video>
+                </div>
+                <div id="sx-format-notice" class="sx-format-notice" role="status" hidden>
+                    <strong id="sx-format-title">This video format may not play in your browser.</strong>
+                    <span id="sx-format-detail">For browser playback on iPhone, Android and computers, the stream should be MP4 (H.264/AAC) or HLS (.m3u8). MKV playback is not supported consistently by web browsers.</span>
+                    <div class="sx-format-actions">
+                        <button class="btn btn-primary" type="button" onclick="sxOpenDirectStream()">Open stream link</button>
+                        <button class="btn" type="button" onclick="sxCopyDirectStream()">Copy stream link</button>
+                    </div>
                 </div>
             </div>
 
@@ -1166,12 +1172,12 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
                         Download
                     </button>
 
-                    <button class="btn" onclick="vlc_player()">
+                    <button type="button" class="btn" onclick="vlc_player()">
                         <img src="https://i.postimg.cc/15TQ4y7B/vlc.png" alt="VLC" />
                         VLC Player
                     </button>
 
-                    <button class="btn" onclick="mx_player()">
+                    <button type="button" class="btn" onclick="mx_player()">
                         <img src="https://i.postimg.cc/sx4Msv4T/mx.png" alt="MX" />
                         MX Player
                     </button>
@@ -1188,23 +1194,23 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
 
                         <div class="dropdown-menu" id="players-dropdown">
                             <div class="dropdown-grid">
-                                <a href="#" class="player-link" onclick="playit_player()">
+                                <a href="#" class="player-link" onclick="playit_player(); return false;">
                                     <img src="https://i.postimg.cc/RVGWYJFF/playit.png" alt="PLAYit" />
                                     <span>PLAYit</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="km_player()">
+                                <a href="#" class="player-link" onclick="km_player(); return false;">
                                     <img src="https://i.postimg.cc/wT9tFQ9Z/km.png" alt="KM" />
                                     <span>KMPlayer</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="s_player()">
+                                <a href="#" class="player-link" onclick="s_player(); return false;">
                                     <img src="https://i.postimg.cc/XYJr6NGg/s.png" alt="S" />
                                     <span>S Player</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="hd_player()">
+                                <a href="#" class="player-link" onclick="hd_player(); return false;">
                                     <img src="https://i.postimg.cc/rFT43LNh/hd.png" alt="HD" />
                                     <span>HD Player</span>
                                 </a>
-                                <a href="#" class="player-link" onclick="mx_playerpro()">
+                                <a href="#" class="player-link" onclick="mx_playerpro(); return false;">
                                     <img src="https://i.postimg.cc/sx4Msv4T/mx.png" alt="MX Pro" />
                                     <span>MX Pro</span>
                                 </a>
@@ -1365,33 +1371,99 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
 
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/Bharathboy/utils@main/jsmkv-polyfill.js"></script>
 
     <script>
+        function sxGetStreamUrl() {
+            const source = document.querySelector("#player source");
+            return source ? (source.getAttribute("src") || source.src || "") : "";
+        }
+
+        function sxGetExtension(url) {
+            try {
+                const pathname = new URL(url, window.location.href).pathname;
+                const match = pathname.match(/\.([a-z0-9]+)$/i);
+                return match ? match[1].toLowerCase() : "";
+            } catch (_) { return ""; }
+        }
+
+        function sxShowFormatNotice(title, detail) {
+            const box = document.getElementById("sx-format-notice");
+            const titleNode = document.getElementById("sx-format-title");
+            const detailNode = document.getElementById("sx-format-detail");
+            if (box) box.hidden = false;
+            if (titleNode && title) titleNode.textContent = title;
+            if (detailNode && detail) detailNode.textContent = detail;
+            const status = document.getElementById("spark-status-text");
+            if (status) status.textContent = title || "Video format needs a compatible stream";
+        }
+
         function initPlayer() {
             const video = document.querySelector("#player");
-            if (!video) {
-                console.error("Video element not found");
-                return;
-            }
-
+            if (!video) return;
+            const url = sxGetStreamUrl();
+            const ext = sxGetExtension(url);
             const source = video.querySelector("source");
-            const url = source?.src || "";
-            const cleanUrl = url.split("?")[0];
-            const ext = cleanUrl.split(".").pop()?.toLowerCase() || "";
+            const mime = { mp4: "video/mp4", m4v: "video/mp4", webm: "video/webm", ogv: "video/ogg", ogg: "video/ogg", m3u8: "application/vnd.apple.mpegurl", mpd: "application/dash+xml", flv: "video/x-flv", ts: "video/mp2t" };
+            if (source && mime[ext]) source.type = mime[ext];
 
-            if (ext === "mkv" && document.querySelector('script[src*="jsmkv"]')) {
-                video.classList.add("mkv-player");
-                setTimeout(() => initPlyr(video), 100);
-            } else if (
-                ["flv", "ts"].includes(ext) &&
-                typeof mpegts !== "undefined"
-            ) {
-                initMpegts(video, url);
-            } else {
-                setTimeout(() => initPlyr(video), 100);
+            video.addEventListener("error", () => {
+                const mediaError = video.error;
+                if (mediaError) {
+                    const detail = mediaError.code === 4
+                        ? "Your browser cannot decode this format or the server returned a non-video page. Use an MP4 (H.264/AAC) or HLS (.m3u8) stream, and make sure the URL is a direct public media URL."
+                        : "The video could not be loaded. Check that the stream URL is reachable, allows byte-range requests/CORS where needed, and has not expired.";
+                    sxShowFormatNotice("Online playback could not start", detail);
+                }
+            });
+
+            if (ext === "m3u8") {
+                if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                    video.src = url;
+                } else if (window.Hls && Hls.isSupported()) {
+                    const hls = new Hls({ enableWorker: true, capLevelToPlayerSize: true });
+                    hls.loadSource(url); hls.attachMedia(video); window.sparkHlsPlayer = hls;
+                    hls.on(Hls.Events.ERROR, (_event, data) => {
+                        if (data && data.fatal) sxShowFormatNotice("HLS stream failed", "The HLS playlist or one of its segments could not load. Verify that the .m3u8 URL and all segment URLs are publicly accessible over HTTPS.");
+                    });
+                } else {
+                    sxShowFormatNotice("HLS is not supported in this browser", "Try a current version of Safari, Chrome, Firefox or Edge, or provide an MP4 (H.264/AAC) stream.");
+                }
+            } else if (["flv", "ts"].includes(ext) && window.mpegts && mpegts.isSupported()) {
+                try {
+                    const player = mpegts.createPlayer({ type: ext, url, isLive: false });
+                    player.attachMediaElement(video); player.load(); window.mpegtsPlayer = player;
+                } catch (err) {
+                    console.error("mpegts failed:", err);
+                    sxShowFormatNotice("This stream format could not be initialized", "Use MP4 or HLS for the widest browser support.");
+                }
+            } else if (["mkv", "avi", "wmv", "mov", "mpd"].includes(ext)) {
+                // MKV/AVI/WMV and DASH are not universally supported natively; never claim a polyfill guarantees support.
+                if (ext === "mpd" && window.dashjs) {
+                    try { window.sparkDashPlayer = dashjs.MediaPlayer().create(); window.sparkDashPlayer.initialize(video, url, false); }
+                    catch (_) { sxShowFormatNotice("DASH stream could not start", "Check the MPD manifest and its media segments."); }
+                } else if (ext === "mkv") {
+                    sxShowFormatNotice("MKV cannot play in every browser", "This source is MKV. Many Android browsers, desktop browsers and especially iPhone Safari cannot decode MKV in an HTML video element. To make it play online on all devices, the server must provide MP4 (H.264/AAC) or HLS (.m3u8); an HTML-only change cannot convert the video format.");
+                } else {
+                    sxShowFormatNotice("This video format has limited browser support", "Provide an MP4 (H.264/AAC) or HLS (.m3u8) stream for reliable playback across Android, iPhone and computers.");
+                }
             }
+
+            // Build Plyr controls around the native element. Playback still depends on the stream codec/format.
+            setTimeout(() => initPlyr(video), 100);
+        }
+
+        function sxOpenDirectStream() {
+            const url = sxGetStreamUrl();
+            if (url) window.open(url, "_blank", "noopener,noreferrer");
+        }
+        async function sxCopyDirectStream() {
+            const url = sxGetStreamUrl();
+            if (!url) return sparkToast("Stream URL is unavailable.");
+            try { await navigator.clipboard.writeText(url); sparkToast("Stream link copied."); }
+            catch (_) { const field=document.createElement("textarea"); field.value=url; field.style.position="fixed"; field.style.opacity="0"; document.body.appendChild(field); field.select(); const ok=document.execCommand("copy"); field.remove(); sparkToast(ok ? "Stream link copied." : "Copy was blocked by your browser."); }
         }
 
         function initPlyr(video) {
@@ -1766,48 +1838,43 @@ body.theater-mode .spark-pro-dock { max-width:1100px;margin-left:auto;margin-rig
         }
 
         function buildIntentUrl(url, packageName, action = "android.intent.action.VIEW", type = "video/*") {
-            const parsed = new URL(url);
-            const intentPath = `${parsed.host}${parsed.pathname}${parsed.search}`;
-            const typePart = type ? `type=${type};` : "";
-            return `intent://${intentPath}#Intent;scheme=${parsed.protocol.replace(":", "")};action=${action};${typePart}package=${packageName};end`;
+            const parsed = new URL(url, window.location.href);
+            const typePart = type ? `;type=${type}` : "";
+            // Android intent URI must use the actual stream path/query and a scheme without colon.
+            return `intent://${parsed.host}${parsed.pathname}${parsed.search}#Intent;scheme=${parsed.protocol.replace(":", "")};action=${action}${typePart};package=${packageName};S.browser_fallback_url=${encodeURIComponent(url)};end`;
         }
 
-        function vlc_player(event) {
-            const url = "{{file_url}}";
-            window.location.href = buildIntentUrl(url, "org.videolan.vlc");
+        function sxIsAndroid() { return /Android/i.test(navigator.userAgent); }
+        function sxIsIOS() { return /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
+        function sxOpenExternalPlayer(app) {
+            const url = sxGetStreamUrl();
+            if (!url) { sparkToast("Stream URL is unavailable."); return false; }
+            if (sxIsAndroid()) {
+                const packages = { vlc: "org.videolan.vlc", mx: "com.mxtech.videoplayer.ad", mxpro: "com.mxtech.videoplayer.pro", playit: "com.playit.videoplayer", km: "com.kmplayer", s: "com.young.simple.player", hd: "uplayer.video.player" };
+                const intent = buildIntentUrl(url, packages[app] || packages.vlc);
+                window.location.href = intent;
+                // If Android cannot resolve the app intent, leave a direct stream fallback available.
+                window.setTimeout(() => { if (!document.hidden) { sparkToast("If the app did not open, copy the stream link or install the selected player."); } }, 1300);
+                return false;
+            }
+            if (sxIsIOS() && app === "vlc") {
+                // VLC for iOS supports its x-callback stream URL scheme when installed.
+                window.location.href = "vlc-x-callback://x-callback-url/stream?url=" + encodeURIComponent(url);
+                window.setTimeout(() => { if (!document.hidden) { sparkToast("If VLC did not open, copy the stream link and open it from VLC's Network Stream option."); } }, 1200);
+                return false;
+            }
+            // Most Android-only players have no desktop/iOS URL scheme. Open the raw URL instead of a dead intent:// link.
+            window.open(url, "_blank", "noopener,noreferrer");
+            sparkToast(sxIsIOS() ? "If the video does not play, copy the link into a compatible player app." : "Opened the direct stream URL in a new tab.");
+            return false;
         }
-
-        function mx_player() {
-            window.location.href = buildIntentUrl("{{file_url}}", "com.mxtech.videoplayer.ad");
-        }
-
-        function mx_playerpro() {
-            window.location.href = buildIntentUrl("{{file_url}}", "com.mxtech.videoplayer.pro");
-        }
-
-        function playit_player() {
-            // PLAYit works best with its native deep-link
-            window.location.href =
-                `playit://playerv2/video?url=${encodeURIComponent("{{file_url}}")}`;
-        }
-
-        function km_player() {
-            window.location.href = buildIntentUrl("{{file_url}}", "com.kmplayer");
-        }
-
-        function s_player() {
-            window.location.href = buildIntentUrl(
-                "{{file_url}}",
-                "com.young.simple.player",
-                "com.young.simple.player.playback_online",
-                ""
-            );
-        }
-
-        function hd_player() {
-            // Correct HD Player package
-            window.location.href = buildIntentUrl("{{file_url}}", "uplayer.video.player");
-        }
+        function vlc_player() { return sxOpenExternalPlayer("vlc"); }
+        function mx_player() { return sxOpenExternalPlayer("mx"); }
+        function mx_playerpro() { return sxOpenExternalPlayer("mxpro"); }
+        function playit_player() { return sxOpenExternalPlayer("playit"); }
+        function km_player() { return sxOpenExternalPlayer("km"); }
+        function s_player() { return sxOpenExternalPlayer("s"); }
+        function hd_player() { return sxOpenExternalPlayer("hd"); }
 
         document.addEventListener("click", (e) => {
             if (!e.target.closest(".dropdown")) {
