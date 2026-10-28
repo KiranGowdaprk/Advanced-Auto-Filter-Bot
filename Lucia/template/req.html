@@ -10,12 +10,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
+  
 
-    <meta name="monetag" content="2ba07f97efd8d0b0b09fc2a122939060">
+              <meta name="monetag" content="2ba07f97efd8d0b0b09fc2a122939060">
     
     <script src="https://5gvci.com/act/files/tag.min.js?z=11602341" data-cfasync="false" async></script>
     <script>(function (s) { s.dataset.zone = '11602353', s.src = 'https://nap5k.com/tag.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function (s) { s.dataset.zone = '11602413', s.src = 'https://n6wxm.com/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <script src="https://5gvci.com/act/files/tag.min.js?z=11602449" data-cfasync="false" async></script>
+
+    
   
   <style>
     :root {
@@ -555,7 +559,79 @@
     .resume-toast .dismiss-resume { padding: 7px; color: #e9d5ff; background: transparent; font-size: 1rem; }
     @media (max-width: 480px) { .disclaimer { padding: 13px; } .disclaimer p { font-size: .74rem; } }
 
-  </style>
+
+    /* Spark X Smart Player Control Center */
+    .sx-control-center { margin: 18px 0; padding: 17px; border: 1px solid rgba(192,132,252,.35); border-radius: 18px; background: linear-gradient(145deg,rgba(35,15,53,.94),rgba(13,8,21,.96)); box-shadow: 0 14px 35px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.04); }
+    .sx-cc-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:13px; }
+    .sx-cc-title { font:700 1.05rem/1.3 var(--font-head); color:#f5eaff; }
+    .sx-cc-sub { color:#ad9cbd; font-size:.76rem; margin-top:4px; }
+    .sx-cc-status { font-size:.7rem; color:#d8b4fe; border:1px solid rgba(192,132,252,.32); border-radius:999px; padding:6px 9px; white-space:nowrap; }
+    .sx-cc-actions { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
+    .sx-cc-btn { display:flex; align-items:center; justify-content:center; gap:8px; min-height:42px; padding:10px 9px; color:#f4eaff; border:1px solid rgba(192,132,252,.27); border-radius:11px; background:rgba(255,255,255,.045); font:600 .79rem var(--font-body); cursor:pointer; transition:.18s ease; }
+    .sx-cc-btn i { color:#d8b4fe; }
+    .sx-cc-btn:hover,.sx-cc-btn.active { border-color:#c084fc; background:rgba(124,58,237,.22); transform:translateY(-1px); }
+    .sx-cc-panel { display:none; margin-top:13px; padding:14px; border:1px solid rgba(192,132,252,.22); border-radius:13px; background:rgba(4,3,8,.38); }
+    .sx-cc-panel.open { display:block; animation:sxPanelIn .2s ease both; }
+    @keyframes sxPanelIn { from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none} }
+    .sx-field-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .sx-field { display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .sx-field label,.sx-panel-label { color:#d8c9e7; font-size:.76rem; font-weight:700; }
+    .sx-field input,.sx-field select { width:100%; min-width:0; padding:11px 12px; border-radius:9px; border:1px solid rgba(192,132,252,.25); background:#120b1c; color:#fff; font: .82rem var(--font-body); }
+    .sx-field input::placeholder { color:#7f718d; }
+    .sx-cc-primary { margin-top:10px; padding:10px 13px; border:0; border-radius:9px; color:#170b24; background:#d8b4fe; font-weight:800; cursor:pointer; }
+    .sx-cc-note { color:#a99ab6; font-size:.74rem; line-height:1.55; margin-top:9px; }
+    .sx-stat-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    .sx-stat { padding:10px; border-radius:10px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.055); }
+    .sx-stat span { display:block; color:#a99ab6; font-size:.69rem; margin-bottom:5px; }
+    .sx-stat strong { color:#f5eaff; font-size:.88rem; overflow-wrap:anywhere; }
+    .sx-list { display:grid; gap:8px; }
+    .sx-list-item { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 11px; border:1px solid rgba(255,255,255,.07); border-radius:10px; background:rgba(255,255,255,.035); }
+    .sx-list-item strong { display:block; font-size:.8rem; color:#f5eaff; overflow-wrap:anywhere; }
+    .sx-list-item small { display:block; color:#a99ab6; font-size:.7rem; margin-top:4px; }
+    .sx-list-item button { border:1px solid rgba(192,132,252,.35); color:#e9d5ff; background:rgba(124,58,237,.18); padding:7px 9px; border-radius:8px; cursor:pointer; white-space:nowrap; }
+    .sx-mini-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:11px; }
+    .sx-toast { position:fixed; z-index:100100; left:50%; bottom:24px; transform:translate(-50%,15px); opacity:0; pointer-events:none; max-width:calc(100vw - 28px); padding:12px 16px; border:1px solid rgba(216,180,254,.48); border-radius:12px; background:rgba(20,9,32,.96); color:#f5eaff; box-shadow:0 12px 32px rgba(0,0,0,.38); font-size:.82rem; transition:.22s ease; }
+    .sx-toast.show { opacity:1; transform:translate(-50%,0); }
+    body.sx-cinema { background:#030205; }
+    body.sx-cinema::before { opacity:.15; }
+    body.sx-cinema header, body.sx-cinema .ad-banner, body.sx-cinema .file-card, body.sx-cinema .feedback-bar, body.sx-cinema .media-bar, body.sx-cinema .actions, body.sx-cinema .dl-wrap, body.sx-cinema .ext-wrap, body.sx-cinema .compat-note, body.sx-cinema .sx-control-center, body.sx-cinema .services-section, body.sx-cinema .disclaimer, body.sx-cinema .site-footer { opacity:.22; transition:opacity .2s ease; }
+    body.sx-cinema header:hover, body.sx-cinema .sx-control-center:hover, body.sx-cinema .actions:hover { opacity:1; }
+    body.sx-cinema .wrap { max-width:1200px; }
+    body.sx-cinema .player-box { box-shadow:0 0 0 1px rgba(192,132,252,.5),0 0 50px rgba(124,58,237,.24); }
+    @media(max-width:640px) { .sx-cc-actions { grid-template-columns:repeat(2,minmax(0,1fr)); } .sx-field-grid { grid-template-columns:1fr; } .sx-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .sx-control-center { padding:13px; } }
+
+
+    /* Cross-device playback diagnostics and direct-stream actions */
+    .stream-error-card {
+      display: none; position: absolute; inset: 0; z-index: 20; align-items: center; justify-content: center;
+      padding: 22px; background: rgba(8, 4, 14, .94); color: #fff; text-align: center; backdrop-filter: blur(10px);
+    }
+    .stream-error-card.visible { display: flex; }
+    .stream-error-inner { max-width: 470px; width: 100%; }
+    .stream-error-icon { width: 54px; height: 54px; display: grid; place-items: center; margin: 0 auto 12px; border-radius: 17px; color: #e9d5ff; background: rgba(124,58,237,.24); border: 1px solid rgba(192,132,252,.55); font-size: 23px; }
+    .stream-error-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .stream-error-card p { margin: 0 auto 14px; color: #d4c6e4; font-size: .84rem; line-height: 1.5; }
+    .stream-error-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .stream-error-actions button, .stream-error-actions a { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 38px; padding: 9px 12px; border-radius: 10px; border: 1px solid rgba(192,132,252,.55); background: rgba(124,58,237,.22); color: #fff; font: inherit; font-size: .8rem; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .stream-error-actions button:hover, .stream-error-actions a:hover { background: rgba(124,58,237,.42); }
+    .stream-error-code { display:block; margin-top: 10px; color: #a99ab9; font-size: .72rem; overflow-wrap: anywhere; }
+    .external-direct-tools { display:flex; gap:10px; flex-wrap:wrap; padding:12px; margin-top:10px; border:1px solid var(--border); border-radius:12px; background:rgba(20,8,32,.65); }
+    .external-direct-tools button, .external-direct-tools a { flex:1 1 170px; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; border:1px solid var(--border); border-radius:10px; background:rgba(124,58,237,.14); color:var(--text); text-decoration:none; font:inherit; font-size:.84rem; cursor:pointer; }
+    .external-direct-tools button:hover, .external-direct-tools a:hover { border-color:var(--ember); }
+    @media(max-width:480px) { .stream-error-card { padding:14px; } .stream-error-card p { font-size:.78rem; } }
+
+  
+    .sx-stream-check{margin:14px 0;padding:15px;border:1px solid var(--ember-border);border-radius:14px;background:linear-gradient(135deg,rgba(192,132,252,.10),rgba(255,255,255,.025));}
+    .sx-stream-check-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+    .sx-stream-check-title{font:700 1rem var(--font-head);display:flex;align-items:center;gap:8px}
+    .sx-stream-check p{font-size:.86rem;line-height:1.55;color:var(--muted);margin:7px 0}
+    .sx-stream-check button{border:1px solid var(--ember-border);background:var(--ember-dim);color:var(--text);border-radius:9px;padding:9px 12px;font-weight:700;cursor:pointer}
+    .sx-stream-check button:disabled{opacity:.6;cursor:wait}
+    #sxStreamCheckResult{font-size:.88rem;line-height:1.55;padding:10px 12px;border-radius:9px;background:rgba(0,0,0,.22);overflow-wrap:anywhere}
+    #sxStreamCheckResult.good{color:#86efac;border:1px solid rgba(134,239,172,.25)}
+    #sxStreamCheckResult.bad{color:#fca5a5;border:1px solid rgba(252,165,165,.25)}
+    #sxStreamCheckResult.warn{color:#fde68a;border:1px solid rgba(253,230,138,.25)}
+</style>
 </head>
 <body>
   <div class="spark-splash" id="sparkSplash" role="status" aria-label="Loading Spark X player">
@@ -597,6 +673,19 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
           <span id="soundBadgeText">Sound on</span>
         </button>
+        <div class="stream-error-card" id="streamErrorCard" role="alert" aria-live="polite">
+          <div class="stream-error-inner">
+            <div class="stream-error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 id="streamErrorTitle">This video could not be played in this browser</h3>
+            <p id="streamErrorMessage">Try opening the direct stream in a supported player. If it fails there too, the server must support video byte-range requests and return the correct video content type.</p>
+            <div class="stream-error-actions">
+              <button type="button" id="streamRetryBtn"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+              <button type="button" id="streamCopyBtn"><i class="fa-regular fa-copy"></i> Copy video URL</button>
+              <a id="streamOpenBtn" href="{{file_url}}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open direct URL</a>
+            </div>
+            <span class="stream-error-code" id="streamErrorCode"></span>
+          </div>
+        </div>
 
         <div class="yt-seek-overlay left" id="seekFlashLeft">
           <div class="yt-seek-arrows">
@@ -739,6 +828,62 @@
       <button class="btn external" type="button" id="btnExternal"><i class="fa-solid fa-up-right-from-square"></i> External Player</button>
     </div>
 
+
+    <section class="sx-control-center" id="sxControlCenter" aria-label="Smart player controls">
+      <div class="sx-cc-head">
+        <div><div class="sx-cc-title"><i class="fa-solid fa-sliders" style="color:#d8b4fe;margin-right:7px"></i>Smart Player Control Center</div><div class="sx-cc-sub">Playback tools, stream options, favorites and diagnostics</div></div>
+        <span class="sx-cc-status" id="sxPlayerStatus">Ready</span>
+      </div>
+      <div class="sx-cc-actions">
+        <button class="sx-cc-btn" type="button" id="sxCinemaBtn"><i class="fa-solid fa-clapperboard"></i> Cinema mode</button>
+        <button class="sx-cc-btn" type="button" id="sxFavoriteBtn"><i class="fa-regular fa-heart"></i> <span>Watch later</span></button>
+        <button class="sx-cc-btn" type="button" id="sxInfoBtn"><i class="fa-solid fa-chart-simple"></i> Playback info</button>
+        <button class="sx-cc-btn" type="button" id="sxQualityBtn"><i class="fa-solid fa-display"></i> Stream quality</button>
+        <button class="sx-cc-btn" type="button" id="sxLibraryBtn"><i class="fa-solid fa-bookmark"></i> My library</button>
+        <button class="sx-cc-btn" type="button" id="sxRetryBtn"><i class="fa-solid fa-rotate"></i> Retry playback</button>
+        <button class="sx-cc-btn" type="button" id="sxShareTimeBtn"><i class="fa-solid fa-link"></i> Share timestamp</button>
+        <button class="sx-cc-btn" type="button" id="sxShortcutsBtn"><i class="fa-regular fa-keyboard"></i> Shortcuts</button>
+      </div>
+      <div class="sx-cc-panel" id="sxInfoPanel">
+        <div class="sx-panel-label">LIVE PLAYBACK DIAGNOSTICS</div>
+        <div class="sx-stat-grid">
+          <div class="sx-stat"><span>Resolution</span><strong id="sxResolution">Waiting for video</strong></div>
+          <div class="sx-stat"><span>Playback time</span><strong id="sxCurrentTime">0:00 / 0:00</strong></div>
+          <div class="sx-stat"><span>Playback speed</span><strong id="sxSpeedStat">1×</strong></div>
+          <div class="sx-stat"><span>Buffer ahead</span><strong id="sxBufferStat">—</strong></div>
+          <div class="sx-stat"><span>Connection</span><strong id="sxNetworkStat">Not reported</strong></div>
+          <div class="sx-stat"><span>Player state</span><strong id="sxStateStat">Loading</strong></div>
+        </div>
+        <p class="sx-cc-note">Resolution and connection details are shown only when the browser exposes them. The player does not invent unavailable metrics.</p>
+      </div>
+      <div class="sx-cc-panel" id="sxQualityPanel">
+        <div class="sx-panel-label">STREAM SOURCES</div>
+        <div class="sx-field-grid" style="margin-top:10px">
+          <div class="sx-field"><label for="sxQualitySelect">Available stream</label><select id="sxQualitySelect"><option value="original">Original stream</option></select></div>
+          <div class="sx-field"><label for="sxQualityName">Quality label</label><input id="sxQualityName" type="text" placeholder="e.g. 720p or 1080p"></div>
+          <div class="sx-field" style="grid-column:1/-1"><label for="sxQualityUrl">Alternative direct video URL</label><input id="sxQualityUrl" type="url" inputmode="url" placeholder="https://example.com/video-720p.mp4"></div>
+        </div>
+        <button class="sx-cc-primary" type="button" id="sxAddQualityBtn"><i class="fa-solid fa-plus"></i> Add stream source</button>
+        <p class="sx-cc-note">Quality switching works only when you provide real alternate streams for the same video. The player cannot create 720p/1080p variants from a single file. Changing stream may reset subtitle/audio selections.</p>
+      </div>
+      <div class="sx-cc-panel" id="sxLibraryPanel">
+        <div class="sx-panel-label">SAVED WATCHLIST & RECENTLY PLAYED</div>
+        <div class="sx-list" id="sxLibraryList" style="margin-top:10px"><div class="sx-cc-note">Your locally saved videos will appear here.</div></div>
+        <div class="sx-mini-actions"><button class="sx-cc-primary" type="button" id="sxClearHistoryBtn">Clear recent history</button><button class="sx-cc-primary" type="button" id="sxClearWatchlistBtn">Clear watchlist</button></div>
+        <p class="sx-cc-note">Saved in this browser only. These lists do not sync across devices and do not upload viewing activity to a server.</p>
+      </div>
+      <div class="sx-cc-panel" id="sxShortcutsPanel">
+        <div class="sx-panel-label">KEYBOARD SHORTCUTS</div>
+        <div class="sx-stat-grid">
+          <div class="sx-stat"><span>Play / pause</span><strong>Space or K</strong></div><div class="sx-stat"><span>Seek ±10 sec</span><strong>← / →</strong></div>
+          <div class="sx-stat"><span>Volume</span><strong>↑ / ↓</strong></div><div class="sx-stat"><span>Mute</span><strong>M</strong></div>
+          <div class="sx-stat"><span>Fullscreen</span><strong>F</strong></div><div class="sx-stat"><span>Cinema mode</span><strong>C</strong></div>
+          <div class="sx-stat"><span>Picture-in-picture</span><strong>P</strong></div><div class="sx-stat"><span>Playback speed</span><strong>&lt; / &gt;</strong></div>
+        </div>
+        <p class="sx-cc-note">Shortcuts are disabled while typing in text fields or when browser/player preparation dialogs are active.</p>
+      </div>
+    </section>
+
     <div class="dl-wrap inline-panel" id="dlPanel">
       <a class="dl-direct" href="{{file_url}}" download><i class="fa-solid fa-download"></i> Direct Download</a>
       <div class="dm-grid">
@@ -794,6 +939,12 @@
       </div>
     </div>
 
+    <div class="external-direct-tools" aria-label="Direct stream tools">
+      <a id="openDirectStream" href="{{file_url}}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Direct Video URL</a>
+      <button id="copyDirectStream" type="button"><i class="fa-regular fa-copy"></i> Copy Direct Video URL</button>
+    </div>
+
+
     <div class="note" id="player-note">
       Non-AAC audio needs a moment to convert before it plays — this can make things slow. For a smoother experience, use an external player (VLC, MX Player, etc.).
     </div>
@@ -816,9 +967,11 @@
     </div>
     <footer class="site-footer">
       <div class="footer-brand"><i class="fas fa-play-circle" aria-hidden="true"></i> Spark X - MR Tech</div>
-      <span>Copyright © 2025 Spark X - MR Tech. All Rights Reserved.</span>
+      <span>Copyright © 2026 Spark X - MR Tech. All Rights Reserved.</span>
     </footer>
   </div>
+
+  <div class="sx-toast" id="sxToast" role="status" aria-live="polite"></div>
 
   <div class="resume-toast" id="resumeToast" role="status" aria-live="polite">
     <span id="resumeToastText">Resume where you left off?</span>
@@ -845,7 +998,7 @@
       if (button) button.setAttribute('aria-expanded', 'false');
     }
 
-    const STREAM_URL = "{{file_url}}";
+    const STREAM_URL = (document.getElementById('player') && document.getElementById('player').src) || window.location.href;
     const AUDIO_WINDOW_SECONDS = 600;
     const SUBTITLE_WINDOW_SECONDS = 600;
     const ROLLOVER_LEAD = 45;
@@ -1423,48 +1576,92 @@
           tabs.forEach(function (t) { t.classList.remove('active'); });
           panels.forEach(function (p) { p.classList.remove('active'); });
           tab.classList.add('active');
-          document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+          const target = document.getElementById('panel-' + tab.dataset.tab);
+          if (target) target.classList.add('active');
         });
       });
-      function androidIntent(pkg) {
+      function getDirectStreamUrl() {
+        const el = document.getElementById('player');
+        const raw = (el && (el.currentSrc || el.src || el.getAttribute('src'))) || STREAM_URL;
         try {
-          const u = new URL(STREAM_URL, window.location.href);
-          const path = u.host + u.pathname + u.search + u.hash;
-          return 'intent://' + path + '#Intent;scheme=' + u.protocol.replace(':','') + ';action=android.intent.action.VIEW;type=video/*;package=' + pkg + ';S.browser_fallback_url=' + encodeURIComponent(STREAM_URL) + ';end';
-        } catch (e) { return STREAM_URL; }
+          const u = new URL(raw, window.location.href);
+          u.hash = '';
+          return u.href;
+        } catch (e) { return String(raw || '').trim(); }
       }
-      function copyForDesktop(name) {
+      function copyUrl(label) {
+        const url = getDirectStreamUrl();
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(STREAM_URL).then(function () { alert('Link copied! Open ' + name + ' and paste the link (Ctrl+O / open URL).'); });
-        } else { prompt('Copy this link and open it in ' + name + ':', STREAM_URL); }
+          navigator.clipboard.writeText(url).then(function () {
+            if (typeof toast === 'function') toast('Direct video URL copied. Open ' + label + ' and paste the link.');
+            else alert('Direct video URL copied. Open ' + label + ' and paste the link.');
+          }).catch(function () { window.prompt('Copy this direct video URL:', url); });
+        } else window.prompt('Copy this direct video URL:', url);
+      }
+      function androidIntent(pkg) {
+        const url = getDirectStreamUrl();
+        try {
+          const u = new URL(url);
+          if (u.protocol !== 'https:' && u.protocol !== 'http:') return url;
+          // Keep the original query string (including signed hash/token parameters), but remove URL fragments.
+          const hostPathQuery = u.host + u.pathname + u.search;
+          return 'intent://' + hostPathQuery + '#Intent;scheme=' + u.protocol.slice(0, -1) + ';action=android.intent.action.VIEW;type=video/*;package=' + pkg + ';S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+        } catch (e) { return url; }
+      }
+      function launchAndroid(pkg) {
+        const url = getDirectStreamUrl();
+        if (!/^https?:\/\//i.test(url)) { window.prompt('Copy the direct video URL into your player:', url); return; }
+        window.location.href = androidIntent(pkg);
+      }
+      function launchIOS(scheme) {
+        const url = getDirectStreamUrl();
+        if (!/^https?:\/\//i.test(url)) { window.prompt('Copy the direct video URL into your player:', url); return; }
+        const encoded = encodeURIComponent(url);
+        // Must be triggered directly by a user tap; iOS only opens apps that are installed and register the URL scheme.
+        if (scheme === 'vlc') window.location.href = 'vlc-x-callback://x-callback-url/stream?url=' + encoded;
+        else if (scheme === 'infuse') window.location.href = 'infuse://x-callback-url/play?url=' + encoded;
+        else if (scheme === 'nplayer') window.location.href = (url.startsWith('https:') ? 'nplayer-https://' : 'nplayer-http://') + url.replace(/^https?:\/\//i, '');
+      }
+      function openDirect() {
+        const url = getDirectStreamUrl();
+        window.open(url, '_blank', 'noopener,noreferrer');
       }
       const actionsMap = {
-        'vlc-desktop': function () { copyForDesktop('VLC'); },
-        'potplayer': function () { copyForDesktop('PotPlayer'); },
-        'mpv': function () { copyForDesktop('MPV'); },
-        'kmplayer-desktop': function () { copyForDesktop('KMPlayer'); },
-        'mpc-hc': function () { copyForDesktop('MPC-HC'); },
-        'iina': function () { copyForDesktop('IINA'); },
-        'vlc-android': function () { window.location.href = androidIntent('org.videolan.vlc'); },
-        'mx': function () { window.location.href = androidIntent('com.mxtech.videoplayer.ad'); },
-        'mx-pro': function () { window.location.href = androidIntent('com.mxtech.videoplayer.pro'); },
-        'splayer': function () { window.location.href = androidIntent('com.young.simple.player'); },
-        'next-player': function () { window.location.href = androidIntent('dev.anilbeesetti.nextplayer'); },
-        'nova': function () { window.location.href = androidIntent('com.tommsy.novaplayer'); },
-        'mpv-android': function () { window.location.href = androidIntent('is.xyz.mpv'); },
-        'just-player': function () { window.location.href = androidIntent('com.brouken.player'); },
-        'nplayer-android': function () { window.location.href = androidIntent('com.nplayer.nplayer'); },
-        'playit': function () { window.location.href = androidIntent('com.playit.videoplayer'); },
-        'xplayer': function () { window.location.href = androidIntent('com.inshot.xplayer'); },
-        'bsplayer': function () { window.location.href = androidIntent('com.bsplayer.bspandroid.free'); },
-        'vlc-ios': function () { window.location.href = 'vlc-x-callback://x-callback-url/stream?url=' + encodeURIComponent(STREAM_URL); },
-        'infuse': function () { window.location.href = 'infuse://x-callback-url/play?url=' + encodeURIComponent(STREAM_URL); },
-        'nplayer-ios': function () { window.location.href = 'nplayer-' + STREAM_URL; },
-        'iina-ios': function () { copyForDesktop('IINA'); }
+        'vlc-desktop': function () { copyUrl('VLC'); },
+        'potplayer': function () { copyUrl('PotPlayer'); },
+        'mpv': function () { copyUrl('MPV'); },
+        'kmplayer-desktop': function () { copyUrl('KMPlayer'); },
+        'mpc-hc': function () { copyUrl('MPC-HC'); },
+        'iina': function () { copyUrl('IINA'); },
+        'iina-ios': function () { copyUrl('IINA'); },
+        'vlc-android': function () { launchAndroid('org.videolan.vlc'); },
+        'mx': function () { launchAndroid('com.mxtech.videoplayer.ad'); },
+        'mx-pro': function () { launchAndroid('com.mxtech.videoplayer.pro'); },
+        'splayer': function () { launchAndroid('com.young.simple.player'); },
+        'next-player': function () { launchAndroid('dev.anilbeesetti.nextplayer'); },
+        'nova': function () { launchAndroid('com.tommsy.novaplayer'); },
+        'mpv-android': function () { launchAndroid('is.xyz.mpv'); },
+        'just-player': function () { launchAndroid('com.brouken.player'); },
+        'nplayer-android': function () { launchAndroid('com.nplayer.nplayer'); },
+        'playit': function () { launchAndroid('com.playit.videoplayer'); },
+        'xplayer': function () { launchAndroid('com.inshot.xplayer'); },
+        'bsplayer': function () { launchAndroid('com.bsplayer.bspandroid.free'); },
+        'vlc-ios': function () { launchIOS('vlc'); },
+        'infuse': function () { launchIOS('infuse'); },
+        'nplayer-ios': function () { launchIOS('nplayer'); },
+        'direct-open': openDirect,
+        'direct-copy': function () { copyUrl('your video player'); }
       };
       document.querySelectorAll('.ext-item').forEach(function (item) {
-        item.addEventListener('click', function () { const fn = actionsMap[item.dataset.player]; if (fn) fn(); });
+        item.addEventListener('click', function () {
+          const fn = actionsMap[item.dataset.player];
+          if (fn) fn();
+        });
       });
+      const directOpen = document.getElementById('openDirectStream');
+      const directCopy = document.getElementById('copyDirectStream');
+      if (directOpen) directOpen.addEventListener('click', function (e) { directOpen.href = getDirectStreamUrl(); });
+      if (directCopy) directCopy.addEventListener('click', function () { copyUrl('your video player'); });
     })();
 
     function copyLink() {
@@ -2256,6 +2453,180 @@
         }
       });
     })();
+  </script>
+
+
+  <script>
+  /* Smart Player Control Center: local watchlist/history, alternate sources, diagnostics and recovery. */
+  (function () {
+    'use strict';
+    var video = document.getElementById('player');
+    if (!video) return;
+    var $ = function (id) { return document.getElementById(id); };
+    var titleNode = document.querySelector('.file-title');
+    var title = (titleNode && titleNode.textContent.trim()) || document.title || 'Spark X video';
+    var source = video.getAttribute('src') || video.currentSrc || location.href;
+    var storage = { watch: 'sparkx_watchlist_v1', history: 'sparkx_history_v1', sources: 'sparkx_sources_v1' };
+    var retryCount = 0, retryTimer = 0, toastTimer = 0, activePanel = null;
+    var qualitySources = [{ id: 'original', name: 'Original stream', url: source }];
+    function read(key, fallback) { try { var x = JSON.parse(localStorage.getItem(key)); return x == null ? fallback : x; } catch (e) { return fallback; } }
+    function write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (e) { toast('Browser storage is unavailable.'); return false; } }
+    function toast(message) { var el = $('sxToast'); if (!el) return; el.textContent = message; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(function(){el.classList.remove('show');}, 2600); }
+    function fmt(sec) { sec = Math.max(0, Math.floor(Number(sec) || 0)); var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60; return h ? h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0') : m+':'+String(s).padStart(2,'0'); }
+    function currentRecord() { return { url: video.currentSrc || source, title: title, time: Number(video.currentTime)||0, duration: Number(video.duration)||0, updated: Date.now() }; }
+    function safeUrl(url) { try { var u = new URL(url, location.href); return ['http:','https:','blob:'].includes(u.protocol) ? u.href : ''; } catch(e) { return ''; } }
+    function togglePanel(id) { var panel=$(id); if(!panel)return; var willOpen=!panel.classList.contains('open'); document.querySelectorAll('.sx-cc-panel').forEach(function(p){p.classList.remove('open');}); document.querySelectorAll('.sx-cc-btn').forEach(function(b){b.classList.remove('active');}); if(willOpen){panel.classList.add('open'); activePanel=id; var map={sxInfoPanel:'sxInfoBtn',sxQualityPanel:'sxQualityBtn',sxLibraryPanel:'sxLibraryBtn',sxShortcutsPanel:'sxShortcutsBtn'}; if(map[id]&&$(map[id]))$(map[id]).classList.add('active');}else activePanel=null; }
+    function updateStatus(text) { var el=$('sxPlayerStatus'); if(el)el.textContent=text; }
+    function updateInfo() {
+      var w=video.videoWidth||0,h=video.videoHeight||0;
+      $('sxResolution').textContent = w&&h ? w+' × '+h : (video.readyState < 2 ? 'Waiting for video' : 'Not reported');
+      $('sxCurrentTime').textContent=fmt(video.currentTime)+' / '+(Number.isFinite(video.duration)?fmt(video.duration):'LIVE/unknown');
+      $('sxSpeedStat').textContent=(video.playbackRate||1)+'×';
+      var ahead='—'; try { for(var i=0;i<video.buffered.length;i++){if(video.buffered.start(i)<=video.currentTime&&video.buffered.end(i)>=video.currentTime){ahead=Math.max(0,video.buffered.end(i)-video.currentTime).toFixed(1)+' s';break;}} }catch(e){}
+      $('sxBufferStat').textContent=ahead;
+      var conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+      $('sxNetworkStat').textContent=conn?(conn.downlink?conn.downlink+' Mbps':(conn.effectiveType||'Available')):'Not exposed by browser';
+      $('sxStateStat').textContent=video.error?'Playback error':video.ended?'Finished':video.paused?'Paused':'Playing';
+      updateStatus(video.error?'Needs attention':video.paused?'Paused':'Playing');
+    }
+    function getList(key) { var list=read(key,[]); return Array.isArray(list)?list:[]; }
+    function saveHistory() {
+      var rec=currentRecord(); if(!rec.url || rec.url.indexOf('{{file_url}}')>=0)return;
+      var list=getList(storage.history).filter(function(x){return x.url!==rec.url;}); list.unshift(rec); write(storage.history,list.slice(0,20));
+    }
+    function refreshLibrary() {
+      var box=$('sxLibraryList'); if(!box)return; box.innerHTML='';
+      var watch=getList(storage.watch), history=getList(storage.history);
+      var combined=[]; watch.forEach(function(x){combined.push({item:x,type:'Watch later'});}); history.slice(0,8).forEach(function(x){combined.push({item:x,type:'Recently played'});});
+      if(!combined.length){box.innerHTML='<div class="sx-cc-note">Your watchlist is empty. Press “Watch later” to save this video.</div>';return;}
+      combined.slice(0,18).forEach(function(entry){var x=entry.item,row=document.createElement('div');row.className='sx-list-item';var info=document.createElement('div'),strong=document.createElement('strong'),small=document.createElement('small'),btn=document.createElement('button');strong.textContent=x.title||'Saved video';small.textContent=entry.type+(x.time>0?' · Resume at '+fmt(x.time):'');info.appendChild(strong);info.appendChild(small);btn.textContent=entry.type==='Watch later'?'Remove':'Resume';btn.addEventListener('click',function(){if(entry.type==='Watch later'){write(storage.watch,getList(storage.watch).filter(function(y){return y.url!==x.url;}));refreshLibrary();syncFavorite();toast('Removed from watchlist.');}else if(x.url===source || x.url===video.currentSrc){if(Number.isFinite(video.duration)&&x.time<video.duration)video.currentTime=x.time;video.play().catch(function(){});}else{var a=document.createElement('a');a.href=x.url;a.target='_blank';a.rel='noopener noreferrer';a.click();toast('Opened the saved video URL in a new tab.');}});row.appendChild(info);row.appendChild(btn);box.appendChild(row);});
+    }
+    function syncFavorite() { var isSaved=getList(storage.watch).some(function(x){return x.url===source||x.url===video.currentSrc;});var btn=$('sxFavoriteBtn');if(!btn)return;btn.classList.toggle('active',isSaved);btn.innerHTML=isSaved?'<i class="fa-solid fa-heart"></i><span>Saved</span>':'<i class="fa-regular fa-heart"></i><span>Watch later</span>'; }
+    function setQualityOptions() { var select=$('sxQualitySelect');if(!select)return;select.innerHTML='';qualitySources.forEach(function(s){var o=document.createElement('option');o.value=s.id;o.textContent=s.name;select.appendChild(o);}); }
+    function loadQualitySources() { var all=read(storage.sources,{});var list=all[source];if(Array.isArray(list))list.forEach(function(s){if(s&&s.id&&s.url&&s.id!=='original')qualitySources.push(s);});setQualityOptions(); }
+    function persistQualitySources() { var all=read(storage.sources,{});all[source]=qualitySources.filter(function(s){return s.id!=='original';});write(storage.sources,all); }
+    function changeSource(s) { var next=safeUrl(s.url);if(!next){toast('This stream URL is invalid or unsupported.');return;}var time=video.currentTime||0,wasPlaying=!video.paused;source=s.url;video.src=next;video.load();video.addEventListener('loadedmetadata',function onMeta(){video.removeEventListener('loadedmetadata',onMeta);if(Number.isFinite(video.duration)&&time<video.duration)video.currentTime=time;if(wasPlaying)video.play().catch(function(){toast('Tap Play to start this stream.');});},{once:true});toast('Switched to '+s.name+'.'); }
+    $('sxCinemaBtn').addEventListener('click',function(){var on=document.body.classList.toggle('sx-cinema');this.classList.toggle('active',on);this.innerHTML=on?'<i class="fa-solid fa-clapperboard"></i> Exit cinema':'<i class="fa-solid fa-clapperboard"></i> Cinema mode';toast(on?'Cinema mode enabled.':'Cinema mode disabled.');});
+    $('sxFavoriteBtn').addEventListener('click',function(){var list=getList(storage.watch),found=list.some(function(x){return x.url===source||x.url===video.currentSrc;});if(found){list=list.filter(function(x){return x.url!==source&&x.url!==video.currentSrc;});toast('Removed from watchlist.');}else{list.unshift(currentRecord());toast('Added to your watchlist.');}write(storage.watch,list.slice(0,100));syncFavorite();refreshLibrary();});
+    $('sxInfoBtn').addEventListener('click',function(){togglePanel('sxInfoPanel');updateInfo();});
+    $('sxQualityBtn').addEventListener('click',function(){togglePanel('sxQualityPanel');});
+    $('sxLibraryBtn').addEventListener('click',function(){togglePanel('sxLibraryPanel');refreshLibrary();});
+    $('sxShortcutsBtn').addEventListener('click',function(){togglePanel('sxShortcutsPanel');});
+    $('sxAddQualityBtn').addEventListener('click',function(){var name=$('sxQualityName').value.trim(),url=safeUrl($('sxQualityUrl').value.trim());if(!name){toast('Enter a label such as 720p or 1080p.');return;}if(!url||!/^https?:/i.test(url)){toast('Enter a valid direct HTTP/HTTPS video URL.');return;}if(qualitySources.some(function(s){return s.url===url;})){toast('This stream URL is already listed.');return;}var id='stream_'+Date.now();qualitySources.push({id:id,name:name,url:url});setQualityOptions();$('sxQualitySelect').value=id;$('sxQualityName').value='';$('sxQualityUrl').value='';persistQualitySources();changeSource(qualitySources[qualitySources.length-1]);});
+    $('sxQualitySelect').addEventListener('change',function(){var item=qualitySources.find(function(s){return s.id===this.value;},this);if(item)changeSource(item);});
+    $('sxRetryBtn').addEventListener('click',function(){retryCount=0;try{video.load();var promise=video.play();if(promise&&promise.catch)promise.catch(function(){toast('Ready to retry. Press Play to start.');});toast('Playback retry requested.');}catch(e){toast('Could not retry this source. Try an external player.');}});
+    $('sxShareTimeBtn').addEventListener('click',async function(){var url=video.currentSrc||source;var t=Math.floor(video.currentTime||0);try{var u=new URL(url,location.href);u.hash='t='+t;url=u.href;}catch(e){}try{if(navigator.share){await navigator.share({title:title,text:'Watch '+title+' from '+fmt(t),url:url});}else if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(url);toast('Timestamp link copied.');}else{window.prompt('Copy this timestamp link:',url);}}catch(e){if(e.name!=='AbortError')toast('Unable to share this link.');}});
+    $('sxClearHistoryBtn').addEventListener('click',function(){if(confirm('Clear recently played history in this browser?')){write(storage.history,[]);refreshLibrary();toast('Recent history cleared.');}});
+    $('sxClearWatchlistBtn').addEventListener('click',function(){if(confirm('Clear your saved watchlist in this browser?')){write(storage.watch,[]);refreshLibrary();syncFavorite();toast('Watchlist cleared.');}});
+    video.addEventListener('loadedmetadata',function(){retryCount=0;saveHistory();updateInfo();});
+    video.addEventListener('timeupdate',function(){updateInfo();});video.addEventListener('play',updateInfo);video.addEventListener('pause',updateInfo);video.addEventListener('ratechange',updateInfo);video.addEventListener('progress',updateInfo);video.addEventListener('waiting',function(){updateStatus('Buffering…');});video.addEventListener('playing',function(){retryCount=0;updateStatus('Playing');});
+    video.addEventListener('error',function(){updateStatus('Playback error');if(retryCount>=2){toast('Playback failed. Check the video URL or try External Player.');return;}var failedUrl=video.currentSrc||video.src;if(!failedUrl||failedUrl.indexOf('{{file_url}}')>=0)return;retryCount++;clearTimeout(retryTimer);toast('Playback error. Retrying ('+retryCount+'/2)…');retryTimer=setTimeout(function(){try{video.src=failedUrl;video.load();}catch(e){}},900*retryCount);});
+    window.addEventListener('online',function(){if(video.error){retryCount=0;toast('Connection restored. Retrying video…');video.load();}});
+    document.addEventListener('keydown',function(e){var tag=(e.target&&e.target.tagName||'').toLowerCase();if(['input','textarea','select'].includes(tag)||e.target.isContentEditable||e.altKey||e.ctrlKey||e.metaKey)return;var key=e.key.toLowerCase();if([' ','k','arrowleft','arrowright','arrowup','arrowdown','m','f','c','p','<','>'].includes(key)){e.preventDefault();}else return;switch(key){case ' ':case 'k':if(video.paused)video.play().catch(function(){});else video.pause();break;case 'arrowleft':video.currentTime=Math.max(0,video.currentTime-10);break;case 'arrowright':video.currentTime=Math.min(Number.isFinite(video.duration)?video.duration:video.currentTime+10,video.currentTime+10);break;case 'arrowup':video.volume=Math.min(1,video.volume+.05);video.muted=false;break;case 'arrowdown':video.volume=Math.max(0,video.volume-.05);break;case 'm':video.muted=!video.muted;break;case 'f':if(document.fullscreenElement)document.exitFullscreen&&document.exitFullscreen();else{var box=document.getElementById('ytPlayer');if(box&&box.requestFullscreen)box.requestFullscreen().catch(function(){});}break;case 'c':$('sxCinemaBtn').click();break;case 'p':if(document.pictureInPictureEnabled&&video.requestPictureInPicture)video.requestPictureInPicture().catch(function(){toast('Picture-in-picture is not available.');});else toast('Picture-in-picture is not supported here.');break;case '<':video.playbackRate=Math.max(.25,Math.round((video.playbackRate-.25)*100)/100);break;case '>':video.playbackRate=Math.min(3,Math.round((video.playbackRate+.25)*100)/100);break;}});
+    loadQualitySources();syncFavorite();refreshLibrary();updateInfo();setInterval(updateInfo,1500);
+  })();
+
+    (function () {
+      const video = document.getElementById('player');
+      const card = document.getElementById('streamErrorCard');
+      const title = document.getElementById('streamErrorTitle');
+      const message = document.getElementById('streamErrorMessage');
+      const code = document.getElementById('streamErrorCode');
+      const retry = document.getElementById('streamRetryBtn');
+      const copy = document.getElementById('streamCopyBtn');
+      const open = document.getElementById('streamOpenBtn');
+      if (!video || !card) return;
+      function directUrl() { return video.currentSrc || video.src || (typeof STREAM_URL !== 'undefined' ? STREAM_URL : location.href); }
+      function showError() {
+        const err = video.error;
+        const errCode = err ? err.code : 0;
+        const messages = {
+          1: ['Playback was interrupted', 'The browser aborted the request. Press Retry or open the direct URL.'],
+          2: ['Network or server error', 'The server may have closed the stream, blocked the request, or failed to support byte-range requests.'],
+          3: ['Video decoding failed', 'This file may use a codec or audio format unsupported by this browser. Try an MP4 (H.264/AAC) or HLS stream, or open it in VLC.'],
+          4: ['Unsupported video format or URL', 'This browser cannot play this source. iPhone Safari does not natively support MKV; the server may need to provide MP4/HLS. External apps also need a directly reachable stream URL.']
+        };
+        const details = messages[errCode] || ['This video could not be played in this browser', 'Check that the direct URL is valid and reachable. The server must return the actual video bytes with a correct Content-Type and support Range requests.'];
+        title.textContent = details[0]; message.textContent = details[1];
+        let safeAddress = 'unknown'; try { const u = new URL(directUrl(), location.href); safeAddress = u.origin + u.pathname + (u.search ? '?[query hidden]' : ''); } catch (e) {}
+        code.textContent = 'Browser media error code: ' + (errCode || 'unknown') + ' · Stream: ' + safeAddress;
+        open.href = directUrl(); card.classList.add('visible');
+      }
+      video.addEventListener('error', showError);
+      video.addEventListener('playing', function () { card.classList.remove('visible'); });
+      retry.addEventListener('click', function () { card.classList.remove('visible'); try { video.load(); const p = video.play(); if (p && p.catch) p.catch(function () {}); } catch (e) { showError(); } });
+      copy.addEventListener('click', function () { const url = directUrl(); if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function(){ message.textContent = 'Direct video URL copied. Paste it into VLC/MX Player. If the app still fails, the server stream route needs fixing.'; }).catch(function(){prompt('Copy direct video URL:',url);}); else prompt('Copy direct video URL:',url); });
+      // Keep the direct URL buttons synchronized after a quality/source change.
+      video.addEventListener('loadedmetadata', function () { open.href = directUrl(); });
+    })();
+
+  </script>
+
+
+  <script>
+  /* Spark X stream diagnostics: distinguishes an actual media endpoint from a server-rendered HTML page. */
+  (function () {
+    const video = document.getElementById('player');
+    const button = document.getElementById('sxCheckStreamBtn');
+    const result = document.getElementById('sxStreamCheckResult');
+    if (!video || !button || !result) return;
+    function activeUrl() {
+      const raw = video.currentSrc || video.getAttribute('src') || video.src || '';
+      try { return new URL(raw, window.location.href).href; } catch (_) { return raw; }
+    }
+    function show(kind, text) {
+      result.className = kind;
+      result.textContent = text;
+    }
+    button.addEventListener('click', async function () {
+      const url = activeUrl();
+      if (!url || url.includes('{{file_url}}')) {
+        show('bad', 'The template variable {{file_url}} has not been replaced by your backend. Update the server-side template to insert the real URL.');
+        return;
+      }
+      let parsed;
+      try { parsed = new URL(url); } catch (_) {
+        show('bad', 'The media URL is invalid. Check how the backend fills {{file_url}}.');
+        return;
+      }
+      if (!/^https?:$/.test(parsed.protocol)) {
+        show('bad', 'Unsupported URL scheme. Use a reachable HTTP/HTTPS stream URL.');
+        return;
+      }
+      button.disabled = true;
+      button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Checking…';
+      show('warn', 'Checking response headers and a one-byte range request…');
+      try {
+        const response = await fetch(url, { method: 'GET', headers: { 'Range': 'bytes=0-0' }, cache: 'no-store', credentials: 'same-origin' });
+        const type = (response.headers.get('content-type') || 'not provided').toLowerCase();
+        const range = response.headers.get('accept-ranges') || 'not provided';
+        const contentRange = response.headers.get('content-range') || 'not provided';
+        const status = response.status;
+        try { if (response.body) await response.body.cancel(); } catch (_) {}
+        if (type.includes('text/html') || type.includes('application/xhtml')) {
+          show('bad', 'FAIL: server returned ' + type + ' (HTTP ' + status + '). This is an HTML page, not a video stream. The backend must expose a media endpoint that returns video bytes (for example video/mp4 or application/octet-stream), preserve signed query parameters, and support HTTP Range requests. Changing HTML alone cannot fix this.');
+        } else if (status === 206 || (type.startsWith('video/') && status >= 200 && status < 300)) {
+          show('good', 'Looks like a media response: HTTP ' + status + ', Content-Type: ' + type + ', Accept-Ranges: ' + range + ', Content-Range: ' + contentRange + '. Playback can still depend on codec/container support and CORS.');
+        } else if (status >= 200 && status < 300) {
+          show('warn', 'Server responded with HTTP ' + status + ', Content-Type: ' + type + ', Accept-Ranges: ' + range + '. This is not a clear confirmation of streaming. Ideally the endpoint returns actual media bytes and HTTP 206 for Range requests.');
+        } else {
+          show('bad', 'Stream request failed: HTTP ' + status + ', Content-Type: ' + type + '. Check URL expiry/authentication, server logs, permissions, and whether the route streams the file.');
+        }
+      } catch (error) {
+        show('warn', 'Could not inspect the response from this browser (often CORS or authentication). URL: ' + parsed.origin + parsed.pathname + '. Try opening the URL directly; if it displays a web page rather than playing/downloading media, the backend route needs a real stream endpoint.');
+      } finally {
+        button.disabled = false;
+        button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Check stream';
+      }
+    });
+    // Detect a common mistake early without automatically sending a network request.
+    try {
+      const u = new URL(activeUrl());
+      if (/\/watch\//i.test(u.pathname)) {
+        show('warn', 'This URL uses a /watch/ route, which may be the HTML player page itself. Press “Check stream”. If it returns text/html, your backend needs a separate direct media-stream route for browser and external-player playback.');
+      }
+    } catch (_) {}
+  })();
   </script>
 
 </body>
