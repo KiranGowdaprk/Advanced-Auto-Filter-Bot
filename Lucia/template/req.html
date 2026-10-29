@@ -667,8 +667,13 @@
     </a>
     <div class="player-box">
       <div class="yt-player paused show-ui" id="ytPlayer">
-        <video id="player" playsinline webkit-playsinline preload="metadata" poster="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1280&q=85"
-          src="{{file_url}}"></video>
+        <!--
+          The backend may replace {{file_url}} with the real media URL.  When this
+          page is opened as a static file, pass a direct HTTP(S) URL as ?url=... or
+          set window.__STREAM_URL__ before this document's scripts run.
+        -->
+        <video id="player" playsinline webkit-playsinline preload="auto" fetchpriority="high" poster="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1280&q=85"
+          data-template-stream-url="{{file_url}}"></video>
         <button class="sound-badge" id="soundBadge" type="button" aria-label="Mute video" title="Mute / unmute video">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
           <span id="soundBadgeText">Sound on</span>
@@ -681,7 +686,7 @@
             <div class="stream-error-actions">
               <button type="button" id="streamRetryBtn"><i class="fa-solid fa-rotate-right"></i> Retry</button>
               <button type="button" id="streamCopyBtn"><i class="fa-regular fa-copy"></i> Copy video URL</button>
-              <a id="streamOpenBtn" href="{{file_url}}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open direct URL</a>
+              <a id="streamOpenBtn" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open direct URL</a>
             </div>
             <span class="stream-error-code" id="streamErrorCode"></span>
           </div>
@@ -885,7 +890,7 @@
     </section>
 
     <div class="dl-wrap inline-panel" id="dlPanel">
-      <a class="dl-direct" href="{{file_url}}" download><i class="fa-solid fa-download"></i> Direct Download</a>
+      <a class="dl-direct" id="directDownloadLink" href="#" download><i class="fa-solid fa-download"></i> Direct Download</a>
       <div class="dm-grid">
         <div class="ext-item" data-dm="1dm"><span class="ext-badge" style="background:#f97316">1</span>1DM</div>
         <div class="ext-item" data-dm="adm"><span class="ext-badge" style="background:#22c55e">A</span>ADM</div>
@@ -940,7 +945,7 @@
     </div>
 
     <div class="external-direct-tools" aria-label="Direct stream tools">
-      <a id="openDirectStream" href="{{file_url}}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Direct Video URL</a>
+      <a id="openDirectStream" href="#" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Direct Video URL</a>
       <button id="copyDirectStream" type="button"><i class="fa-regular fa-copy"></i> Copy Direct Video URL</button>
     </div>
 
@@ -998,7 +1003,55 @@
       if (button) button.setAttribute('aria-expanded', 'false');
     }
 
-    const STREAM_URL = (document.getElementById('player') && document.getElementById('player').src) || window.location.href;
+    /*
+     * A player page and a video stream are different resources.  The old code
+     * assigned the literal template value "{{file_url}}" to <video>, so browsers
+     * and external players could be sent to an HTML page rather than media bytes.
+     *
+     * Supported inputs (first valid value wins):
+     *   1. a server-rendered {{file_url}} value,
+     *   2. window.__STREAM_URL__ (set before this script),
+     *   3. ?url=https%3A%2F%2Fmedia.example%2Fmovie.mp4
+     *   4. data-stream-url on #player or <body>.
+     */
+    function isUnresolvedTemplate(value) {
+      return !value || /{{\s*[^}]+\s*}}/.test(String(value));
+    }
+    function toDirectHttpUrl(value) {
+      if (isUnresolvedTemplate(value)) return '';
+      try {
+        const url = new URL(String(value).trim(), window.location.href);
+        return /^https?:$/.test(url.protocol) ? url.href : '';
+      } catch (e) {
+        return '';
+      }
+    }
+    function resolveStreamUrl() {
+      const videoElement = document.getElementById('player');
+      const queryUrl = new URLSearchParams(window.location.search).get('url');
+      const candidates = [
+        videoElement && videoElement.dataset.templateStreamUrl,
+        window.__STREAM_URL__,
+        queryUrl,
+        videoElement && videoElement.dataset.streamUrl,
+        document.body && document.body.dataset.streamUrl
+      ];
+      for (const candidate of candidates) {
+        const resolved = toDirectHttpUrl(candidate);
+        if (resolved) return resolved;
+      }
+      return '';
+    }
+    const STREAM_URL = resolveStreamUrl();
+    const initialVideo = document.getElementById('player');
+    if (initialVideo && STREAM_URL) {
+      initialVideo.src = STREAM_URL;
+      initialVideo.setAttribute('data-stream-url', STREAM_URL);
+    }
+    ['streamOpenBtn', 'openDirectStream', 'directDownloadLink'].forEach(function (id) {
+      const link = document.getElementById(id);
+      if (link && STREAM_URL) link.href = STREAM_URL;
+    });
     const AUDIO_WINDOW_SECONDS = 600;
     const SUBTITLE_WINDOW_SECONDS = 600;
     const ROLLOVER_LEAD = 45;
@@ -1871,6 +1924,21 @@
     document.addEventListener('DOMContentLoaded', function () {
       showLoadingUI(true, 'Loading…');
 
+      // Do not try to play the player page itself when a server did not inject a
+      // direct stream URL.  This is also why an external player previously failed.
+      if (!STREAM_URL) {
+        showLoadingUI(false);
+        const card = document.getElementById('streamErrorCard');
+        const title = document.getElementById('streamErrorTitle');
+        const message = document.getElementById('streamErrorMessage');
+        const code = document.getElementById('streamErrorCode');
+        if (title) title.textContent = 'A direct video stream URL is required';
+        if (message) message.textContent = 'Replace {{file_url}} on the server with a public HTTP/HTTPS video URL, or open this page with ?url=<encoded-direct-video-url>. The URL must return video bytes, not this player HTML page.';
+        if (code) code.textContent = 'No valid media URL was supplied. A correct stream endpoint returns video/mp4 or application/vnd.apple.mpegurl and supports HTTP byte ranges.';
+        if (card) card.classList.add('visible');
+        return;
+      }
+
       // Initialize Cast (button stays hidden unless a working route is confirmed)
       initCast();
       // Initialize AirPlay (button stays hidden unless Safari confirms a nearby device)
@@ -2253,18 +2321,27 @@
         if (key === 'arrowleft' || key === 'arrowright' || key === 'j' || key === 'l') { e.preventDefault(); e.stopPropagation(); }
       }, true);
 
-      fetch(buildTracksUrl())
-        .then(function (r) { return r.json(); })
-        .then(function (tracks) { renderAudioList(tracks); })
-        .catch(function () { renderAudioList([]); });
-
-      fetch(buildSubtitleTracksUrl())
-        .then(function (r) { return r.json(); })
-        .then(function (tracks) { renderSubtitleList(tracks); })
-        .catch(function () { renderSubtitleList([]); });
-
       const vid = getVideo();
       if (!vid) return;
+
+      // These optional API calls used to compete with the video request at page
+      // startup.  Start them only after the first playable video data arrives.
+      // This improves the initial load without changing the direct stream URL
+      // used by Android and iPhone external players.
+      let supplementalTracksLoaded = false;
+      function loadSupplementalTracks() {
+        if (supplementalTracksLoaded) return;
+        supplementalTracksLoaded = true;
+        fetch(buildTracksUrl())
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .then(function (tracks) { renderAudioList(tracks); })
+          .catch(function () { renderAudioList([]); });
+        fetch(buildSubtitleTracksUrl())
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .then(function (tracks) { renderSubtitleList(tracks); })
+          .catch(function () { renderSubtitleList([]); });
+      }
+      vid.addEventListener('canplay', loadSupplementalTracks, { once: true });
 
       // Load a user-provided VTT/SRT subtitle URL. The URL must be directly fetchable with CORS enabled.
       const loadSubUrlBtn = document.getElementById('loadSubtitleUrlBtn');
